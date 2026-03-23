@@ -1,0 +1,336 @@
+{
+  "version": "1.0.0",
+  "timestamp": "2026-03-23T08:29:13.351374470Z",
+  "probeBinary": {
+    "goVersion": "go1.25.6",
+    "os": "linux",
+    "arch": "amd64",
+    "binaryVersion": "unknown",
+    "commit": "unknown",
+    "buildDate": "unknown"
+  },
+  "metadata": {},
+  "findings": [
+    {
+      "findingType": "writeable_paths",
+      "task": "baseline_filesystem_enumerator",
+      "description": "Writeable paths",
+      "value": [
+        "/etc",
+        "/boot",
+        "/usr",
+        "/usr/bin",
+        "/usr/sbin",
+        "/usr/lib",
+        "/bin",
+        "/sbin",
+        "/lib",
+        "/lib64",
+        "/proc",
+        "/dev",
+        "/var",
+        "/var/log",
+        "/var/lib",
+        "/opt"
+      ]
+    },
+    {
+      "findingType": "sensitive_readable_paths",
+      "task": "baseline_filesystem_enumerator",
+      "description": "Readable sensitive paths",
+      "value": [
+        "/etc/passwd",
+        "/etc/shadow",
+        "/etc/group",
+        "/etc/gshadow",
+        "/etc/hostname",
+        "/etc/hosts",
+        "/etc/resolv.conf",
+        "/proc/self/cgroup",
+        "/proc/self/mountinfo",
+        "/proc/self/status",
+        "/proc/1/cgroup",
+        "/proc/1/environ",
+        "/.dockerenv",
+        "/var/run/docker.sock",
+        "/root",
+        "/etc/ssl/private"
+      ]
+    },
+    {
+      "findingType": "external_host_dns_resolution",
+      "task": "baseline_network_scanner",
+      "description": "External host DNS resolution",
+      "value": [
+        "142.251.45.14",
+        "2607:f8b0:4007:803::200e"
+      ]
+    },
+    {
+      "findingType": "external_host_connectivity",
+      "task": "baseline_network_scanner",
+      "description": "External host connectivity",
+      "value": [
+        "google.com"
+      ]
+    },
+    {
+      "findingType": "proxy_detection",
+      "task": "baseline_proxy_detector",
+      "description": "Proxy configuration",
+      "value": {
+        "all_proxy": "",
+        "http_proxy": "",
+        "https_proxy": "",
+        "no_proxy": "",
+        "pac_url": "",
+        "socks_proxy": ""
+      }
+    },
+    {
+      "findingType": "unix_socket_detection",
+      "task": "baseline_socket_scanner",
+      "description": "Unix sockets detected",
+      "value": [
+        "/run/docker.sock"
+      ]
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "tail -f /dev/null",
+        "namespaces": [
+          {
+            "inode": 4026531837,
+            "type": "user"
+          },
+          {
+            "inode": 4026532254,
+            "type": "cgroup"
+          },
+          {
+            "inode": 4026531834,
+            "type": "time"
+          },
+          {
+            "inode": 4026531834,
+            "type": "time"
+          },
+          {
+            "inode": 4026532255,
+            "type": "net"
+          },
+          {
+            "inode": 4026532250,
+            "type": "uts"
+          },
+          {
+            "inode": 4026532253,
+            "type": "pid"
+          },
+          {
+            "inode": 4026532249,
+            "type": "mnt"
+          },
+          {
+            "inode": 4026532252,
+            "type": "ipc"
+          },
+          {
+            "inode": 4026532253,
+            "type": "pid"
+          }
+        ],
+        "pid": 1,
+        "ppid": 0
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "sh -e /__w/_temp/641d9266-6d40-48f7-bde6-734246701d9d.sh",
+        "namespaces": [
+          {
+            "inode": 4026532250,
+            "type": "uts"
+          },
+          {
+            "inode": 4026532252,
+            "type": "ipc"
+          },
+          {
+            "inode": 4026532255,
+            "type": "net"
+          },
+          {
+            "inode": 4026532253,
+            "type": "pid"
+          },
+          {
+            "inode": 4026532253,
+            "type": "pid"
+          },
+          {
+            "inode": 4026531837,
+            "type": "user"
+          },
+          {
+            "inode": 4026532249,
+            "type": "mnt"
+          },
+          {
+            "inode": 4026532254,
+            "type": "cgroup"
+          },
+          {
+            "inode": 4026531834,
+            "type": "time"
+          },
+          {
+            "inode": 4026531834,
+            "type": "time"
+          }
+        ],
+        "pid": 23,
+        "ppid": 0
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "./artifacts/sandbox-probe scan --tasksets baseline",
+        "namespaces": [
+          {
+            "inode": 4026532250,
+            "type": "uts"
+          },
+          {
+            "inode": 4026532252,
+            "type": "ipc"
+          },
+          {
+            "inode": 4026532253,
+            "type": "pid"
+          },
+          {
+            "inode": 4026531837,
+            "type": "user"
+          },
+          {
+            "inode": 4026532249,
+            "type": "mnt"
+          },
+          {
+            "inode": 4026532254,
+            "type": "cgroup"
+          },
+          {
+            "inode": 4026532255,
+            "type": "net"
+          },
+          {
+            "inode": 4026532253,
+            "type": "pid"
+          },
+          {
+            "inode": 4026531834,
+            "type": "time"
+          },
+          {
+            "inode": 4026531834,
+            "type": "time"
+          }
+        ],
+        "pid": 31,
+        "ppid": 23
+      }
+    },
+    {
+      "findingType": "parent_process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Parent process",
+      "value": {
+        "command": "sh -e /__w/_temp/641d9266-6d40-48f7-bde6-734246701d9d.sh",
+        "namespaces": [
+          {
+            "inode": 4026532254,
+            "type": "cgroup"
+          },
+          {
+            "inode": 4026532255,
+            "type": "net"
+          },
+          {
+            "inode": 4026532250,
+            "type": "uts"
+          },
+          {
+            "inode": 4026532253,
+            "type": "pid"
+          },
+          {
+            "inode": 4026532253,
+            "type": "pid"
+          },
+          {
+            "inode": 4026531837,
+            "type": "user"
+          },
+          {
+            "inode": 4026532249,
+            "type": "mnt"
+          },
+          {
+            "inode": 4026531834,
+            "type": "time"
+          },
+          {
+            "inode": 4026531834,
+            "type": "time"
+          },
+          {
+            "inode": 4026532252,
+            "type": "ipc"
+          }
+        ],
+        "pid": 23,
+        "ppid": 0
+      }
+    },
+    {
+      "findingType": "hostname_detection",
+      "task": "baseline_hostname",
+      "description": "Hostname",
+      "value": "1ca6c9b4f97b"
+    },
+    {
+      "findingType": "sandbox_detection",
+      "task": "baseline_sandbox_detector",
+      "description": "Sandbox/container runtime",
+      "value": "docker"
+    },
+    {
+      "findingType": "mounted_volumes_detections",
+      "task": "baseline_mount_scanner",
+      "description": "Host-mounted volumes",
+      "value": [
+        "/dev/root -> /__t (ext4)",
+        "/dev/root -> /__w (ext4)",
+        "/dev/root -> /__e (ext4)",
+        "/dev/root -> /github/home (ext4)",
+        "/dev/root -> /github/workflow (ext4)",
+        "/dev/root -> /__w/_temp (ext4)",
+        "/dev/root -> /__w/_actions (ext4)",
+        "/dev/root -> /etc/resolv.conf (ext4)",
+        "/dev/root -> /etc/hostname (ext4)",
+        "/dev/root -> /etc/hosts (ext4)"
+      ]
+    }
+  ]
+}
