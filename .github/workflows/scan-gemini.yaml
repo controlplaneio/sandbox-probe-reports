@@ -69,7 +69,7 @@ jobs:
       - name: Build binary
         # From the module pinned in go.mod, not from a checkout of the probe.
         # if: steps.check-existing.outputs.should_scan == 'true'
-        run: go build -o sandbox-probe github.com/chrisns/sandbox-probe/v6
+        run: go build -o sandbox-probe github.com/controlplaneio/sandbox-probe/v6
 
       - name: Publish binary
         # if: steps.check-existing.outputs.should_scan == 'true'

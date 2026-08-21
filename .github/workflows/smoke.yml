@@ -55,10 +55,10 @@ jobs:
         run: |
           go mod tidy
           git diff --exit-code go.mod go.sum
-          grep -qx 'tool github.com/chrisns/sandbox-probe/v6' go.mod
+          grep -qx 'tool github.com/controlplaneio/sandbox-probe/v6' go.mod
 
       - name: build the probe from the pinned version
-        run: go build -o bin/sandbox-probe github.com/chrisns/sandbox-probe/v6
+        run: go build -o bin/sandbox-probe github.com/controlplaneio/sandbox-probe/v6
 
       # Reads list-targets across the repo boundary. A registry schema change
       # in the probe that the seeder cannot parse fails here, in minutes,

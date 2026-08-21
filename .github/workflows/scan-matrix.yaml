@@ -48,7 +48,7 @@ jobs:
       # probe cannot silently produce a binary that will not run on its own target.
       - if: steps.cache.outputs.cache-hit != 'true'
         shell: bash
-        run: GOOS=${{ matrix.goos }} GOARCH=${{ matrix.goarch }} go build -o sandbox-probe${{ matrix.ext }} github.com/chrisns/sandbox-probe/v6
+        run: GOOS=${{ matrix.goos }} GOARCH=${{ matrix.goarch }} go build -o sandbox-probe${{ matrix.ext }} github.com/controlplaneio/sandbox-probe/v6
       - uses: actions/upload-artifact@v7
         with:
           name: sandbox-probe-${{ matrix.goos }}-${{ matrix.goarch }}
