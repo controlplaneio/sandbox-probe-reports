@@ -1,0 +1,13 @@
+version: 2
+updates:
+  # The point of the go.mod pin: a probe release raises a version-bump PR here
+  # without anyone remembering. gomod resolves off git tags directly.
+  - package-ecosystem: gomod
+    directory: /
+    schedule:
+      interval: weekly
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly

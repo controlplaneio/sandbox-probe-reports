@@ -1,0 +1,5 @@
+bin/
+report.json
+
+# Added by ggshield
+.cache_ggshield

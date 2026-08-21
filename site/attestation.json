@@ -1,0 +1,257 @@
+{
+  "source": "tests/fixtures/attestation — checked-in documents, not an observed run",
+  "profile": {
+    "id": "nolabs-ai/codex",
+    "version": "0.4.1",
+    "manifestVersion": "0.1.0"
+  },
+  "verdicts": [
+    {
+      "id": "filesystem.read:~/.ssh",
+      "category": "filesystem",
+      "kind": "path",
+      "access": "read",
+      "declaredPath": "~/.ssh",
+      "path": "/home/runner/.ssh",
+      "type": "directory",
+      "declares": "sensitive_readable_paths",
+      "findingType": "sensitive_readable_paths",
+      "class": "match"
+    },
+    {
+      "id": "filesystem.read:~/.aws/credentials",
+      "category": "filesystem",
+      "kind": "path",
+      "access": "read",
+      "declaredPath": "~/.aws/credentials",
+      "path": "/home/runner/.aws/credentials",
+      "type": "file",
+      "declares": "sensitive_readable_paths",
+      "findingType": "sensitive_readable_paths",
+      "class": "overclaim"
+    },
+    {
+      "id": "filesystem.read:~/.kube/config",
+      "category": "filesystem",
+      "kind": "path",
+      "access": "read",
+      "declaredPath": "~/.kube/config",
+      "path": "/home/runner/.kube/config",
+      "type": "file",
+      "declares": "sensitive_readable_paths",
+      "findingType": "sensitive_readable_paths",
+      "class": "unprovable"
+    },
+    {
+      "id": "filesystem.read:/tmp/workspace",
+      "category": "filesystem",
+      "kind": "path",
+      "access": "read",
+      "declaredPath": "/tmp/workspace",
+      "path": "/tmp/workspace",
+      "type": "directory",
+      "declares": "sensitive_readable_paths",
+      "findingType": "sensitive_readable_paths",
+      "class": "unprovable"
+    },
+    {
+      "id": "filesystem.write:/tmp/workspace",
+      "category": "filesystem",
+      "kind": "path",
+      "access": "write",
+      "declaredPath": "/tmp/workspace",
+      "path": "/tmp/workspace",
+      "type": "directory",
+      "declares": "writeable_paths",
+      "findingType": "writeable_paths",
+      "class": "match"
+    },
+    {
+      "id": "network.mode",
+      "category": "network",
+      "reason": "not yet mapped in this layer",
+      "class": "unattested"
+    },
+    {
+      "id": "network.allow_domains:api.openai.com",
+      "category": "network",
+      "kind": "domain",
+      "domain": "api.openai.com",
+      "declares": "external_host_connectivity",
+      "findingType": "external_host_connectivity",
+      "class": "match"
+    },
+    {
+      "id": "network.allow_domains:.githubusercontent.com",
+      "category": "network",
+      "kind": "domain",
+      "domain": ".githubusercontent.com",
+      "declares": "external_host_connectivity",
+      "findingType": "external_host_connectivity",
+      "class": "overclaim"
+    },
+    {
+      "id": "network.allow_domains:registry.npmjs.org",
+      "category": "network",
+      "kind": "domain",
+      "domain": "registry.npmjs.org",
+      "declares": "external_host_connectivity",
+      "findingType": "external_host_connectivity",
+      "class": "unprovable"
+    },
+    {
+      "id": "network.endpoints:api.github.com:443",
+      "category": "network",
+      "kind": "domain",
+      "domain": "api.github.com",
+      "declares": "external_host_connectivity",
+      "reason": "no probe finding observes this category",
+      "class": "unattested"
+    },
+    {
+      "id": "network.ports.localhost:8080",
+      "category": "network",
+      "kind": "port",
+      "port": 8080,
+      "declares": "tcp_ports_open",
+      "findingType": "tcp_ports_open",
+      "class": "match"
+    },
+    {
+      "id": "network.ports.listen:9229",
+      "category": "network",
+      "kind": "port",
+      "port": 9229,
+      "declares": "tcp_ports_open",
+      "findingType": "tcp_ports_open",
+      "class": "overclaim"
+    },
+    {
+      "id": "credentials:openai",
+      "category": "credentials",
+      "kind": "env",
+      "env": "OPENAI_API_KEY",
+      "declares": "env_secret_detection",
+      "findingType": "env_secret_detection",
+      "class": "match"
+    },
+    {
+      "id": "credentials:github",
+      "category": "credentials",
+      "kind": "env",
+      "env": "GITHUB_TOKEN",
+      "declares": "env_secret_detection",
+      "findingType": "env_secret_detection",
+      "class": "overclaim"
+    },
+    {
+      "id": "credentials:anthropic",
+      "category": "credentials",
+      "kind": "env",
+      "env": "ANTHROPIC_API_KEY",
+      "declares": "env_secret_detection",
+      "findingType": "env_secret_detection",
+      "class": "unprovable"
+    },
+    {
+      "id": "process.process_info_mode",
+      "category": "process",
+      "kind": "any",
+      "mode": "isolated",
+      "polarity": "absent",
+      "declares": "process_detection",
+      "findingType": "process_detection",
+      "class": "match"
+    },
+    {
+      "id": "process.signal_mode",
+      "category": "process",
+      "reason": "no probe finding observes this category",
+      "class": "unattested"
+    },
+    {
+      "id": "process.ipc_mode",
+      "category": "process",
+      "reason": "no probe finding observes this category",
+      "class": "unattested"
+    },
+    {
+      "id": "resources.max_processes",
+      "category": "resources",
+      "reason": "no probe finding observes this category",
+      "class": "unattested"
+    }
+  ],
+  "gaps": [
+    {
+      "class": "gap",
+      "findingType": "sensitive_readable_paths",
+      "path": "/etc/passwd"
+    },
+    {
+      "class": "gap",
+      "findingType": "writeable_paths",
+      "path": "/var/tmp"
+    },
+    {
+      "class": "gap",
+      "findingType": "external_host_connectivity",
+      "host": "telemetry.example.net"
+    },
+    {
+      "class": "gap",
+      "findingType": "env_secret_detection",
+      "envKey": "NPM_TOKEN"
+    }
+  ],
+  "modifiers": {
+    "socketMediation": "off"
+  },
+  "caveats": [
+    {
+      "id": "runtime-capability-elevation",
+      "reason": "process.exec_strategy is 'supervised' — a supervisor may elevate capabilities mid-run, so a point-in-time scan may under-report what was reachable"
+    }
+  ],
+  "unmediated": [
+    {
+      "class": "unattested",
+      "findingType": "unix_socket_detection",
+      "path": "/run/user/1000/bus",
+      "modifier": "socket-mediation-disabled",
+      "reason": "linux.af_unix_mediation is off — socket grants are not enforced, so nothing observed here reads as policy"
+    },
+    {
+      "class": "unattested",
+      "findingType": "unix_socket_detection",
+      "path": "/run/user/1000/nono/agent.sock",
+      "modifier": "socket-mediation-disabled",
+      "reason": "linux.af_unix_mediation is off — socket grants are not enforced, so nothing observed here reads as policy"
+    },
+    {
+      "class": "unattested",
+      "findingType": "unix_socket_detection",
+      "path": "/run/user/1000/nono/deep/nested.sock",
+      "modifier": "socket-mediation-disabled",
+      "reason": "linux.af_unix_mediation is off — socket grants are not enforced, so nothing observed here reads as policy"
+    },
+    {
+      "class": "unattested",
+      "findingType": "unix_socket_detection",
+      "path": "/run/docker.sock",
+      "modifier": "socket-mediation-disabled",
+      "reason": "linux.af_unix_mediation is off — socket grants are not enforced, so nothing observed here reads as policy"
+    }
+  ],
+  "excluded": [
+    "mounted_volumes_detections",
+    "hostname_detection",
+    "user_context_detection"
+  ],
+  "coverage": {
+    "declared": 19,
+    "attested": 14,
+    "unattested": 5,
+    "attestedFraction": 0.7368421052631579
+  }
+}

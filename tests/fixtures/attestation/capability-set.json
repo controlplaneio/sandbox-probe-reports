@@ -1,0 +1,50 @@
+{
+  "$schema": "https://nono.sh/schemas/capability-manifest.schema.json",
+  "version": "0.1.0",
+  "filesystem": {
+    "grants": [
+      { "path": "~/.ssh", "access": "read", "type": "directory" },
+      { "path": "~/.aws/credentials", "access": "read", "type": "file" },
+      { "path": "~/.kube/config", "access": "read", "type": "file" },
+      { "path": "/tmp/workspace", "access": "readwrite", "type": "directory" }
+    ],
+    "deny": [{ "path": "~/.ssh/id_ed25519" }]
+  },
+  "network": {
+    "mode": "proxy",
+    "allow_domains": ["api.openai.com", ".githubusercontent.com", "registry.npmjs.org"],
+    "endpoints": [
+      { "host": "api.github.com:443", "rules": [{ "method": "GET", "path": "/repos/**" }] }
+    ],
+    "ports": { "localhost": [8080], "listen": [9229] },
+    "dns": true
+  },
+  "credentials": [
+    {
+      "name": "openai",
+      "upstream": "https://api.openai.com",
+      "source": "env://OPENAI_API_KEY",
+      "inject": { "mode": "header", "header": "Authorization", "format": "Bearer {}" }
+    },
+    {
+      "name": "github",
+      "upstream": "https://api.github.com",
+      "source": "env://GITHUB_TOKEN",
+      "inject": { "mode": "header", "header": "Authorization", "format": "Bearer {}" }
+    },
+    {
+      "name": "anthropic",
+      "upstream": "https://api.anthropic.com",
+      "source": "env://ANTHROPIC_API_KEY",
+      "inject": { "mode": "header", "header": "x-api-key", "format": "{}" }
+    }
+  ],
+  "process": {
+    "signal_mode": "isolated",
+    "process_info_mode": "isolated",
+    "ipc_mode": "shared_memory_only",
+    "exec_strategy": "supervised"
+  },
+  "rollback": { "enabled": true, "exclude_globs": ["**/node_modules/**"] },
+  "resources": { "max_processes": 512 }
+}

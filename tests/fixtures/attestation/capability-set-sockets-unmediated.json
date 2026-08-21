@@ -1,0 +1,11 @@
+{
+  "$schema": "https://nono.sh/schemas/capability-manifest.schema.json",
+  "version": "0.1.0",
+  "filesystem": {
+    "unix_socket": ["/run/user/1000/bus"],
+    "unix_socket_bind": ["/run/user/1000/gpg-agent.sock"],
+    "unix_socket_dir": ["/run/user/1000/nono"],
+    "unix_socket_subtree_bind": ["/run/tmux-1000"]
+  },
+  "linux": { "af_unix_mediation": "off" }
+}

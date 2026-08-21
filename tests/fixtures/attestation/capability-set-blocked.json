@@ -1,0 +1,14 @@
+{
+  "$schema": "https://nono.sh/schemas/capability-manifest.schema.json",
+  "version": "0.1.0",
+  "filesystem": {
+    "grants": [{ "path": "/tmp/workspace", "access": "readwrite", "type": "directory" }]
+  },
+  "network": {
+    "mode": "blocked",
+    "dns": false
+  },
+  "process": {
+    "exec_strategy": "supervised"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "version": "1.0.0",
+  "timestamp": "2026-07-07T15:59:51.165307Z",
+  "probeBinary": {
+    "goVersion": "go1.26.1",
+    "os": "darwin",
+    "arch": "arm64",
+    "binaryVersion": "dev",
+    "commit": "acfc1c7466715e522ea1c6d1c87188b52b5dc55c",
+    "buildDate": "2026-07-07T11:08:39Z"
+  },
+  "metadata": {
+    "tags": [
+      "runner=Darwin",
+      "harness=claude",
+      "sandbox=on",
+      "claude=2.1.202",
+      "mode=via-claude-stub"
+    ]
+  },
+  "findings": [
+    {
+      "findingType": "sandbox_detection",
+      "task": "baseline_sandbox_detector",
+      "description": "Container/wrapper runtime",
+      "value": "seatbelt"
+    }
+  ]
+}
