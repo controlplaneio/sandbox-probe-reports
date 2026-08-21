@@ -52,15 +52,17 @@ assert.equal(staying[1].states.fs_read, "blocked");
 assert.deepEqual(staying.map((p) => p.exposure), [1, 0]);
 assert.ok("linux/direct" in model, "the baseline row stays");
 
-// -- a latest run that collapses onto an existing fingerprint point (same probe
-//    commit, same versions) keeps its first-seen timestamp, so retirement must
-//    read the run timestamps rather than the point ones --
+// -- a re-run carrying the same fingerprint as an earlier one (same probe
+//    version, same harness version) is now its own point rather than being
+//    collapsed onto the earlier one, so retirement reads a real run timestamp
+//    either way --
 const reRun = build([
   ...rows,
   row("direct", NEXT, readable),
   row("staying", NEXT, blocked, NEW),   // same fingerprint as the NEW point
 ]);
-assert.ok("linux/staying" in reRun, "a re-run collapsing to an existing point must not read as retired");
+assert.ok("linux/staying" in reRun, "a re-run at an existing fingerprint must not read as retired");
+assert.equal(reRun["linux/staying"].length, 3, "a same-fingerprint re-run is its own point, not a merge");
 assert.ok(!("linux/newcomer" in reRun), "an identity that stops receiving runs retires");
 
 console.log("ok - retired identities leave the matrix and charts; arrivals still join");
