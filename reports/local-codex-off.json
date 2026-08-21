@@ -1,0 +1,20 @@
+{
+  "version": "1.0.0",
+  "timestamp": "2026-07-07T13:05:41.039375Z",
+  "probeBinary": {
+    "goVersion": "go1.26.1",
+    "os": "darwin",
+    "arch": "arm64",
+    "binaryVersion": "dev",
+    "commit": "acfc1c7466715e522ea1c6d1c87188b52b5dc55c",
+    "buildDate": "2026-07-07T11:08:39Z"
+  },
+  "metadata": {
+    "tags": [
+      "runner=local",
+      "harness=codex",
+      "sandbox=off",
+      "codex=codex-cli"
+    ]
+  }
+}

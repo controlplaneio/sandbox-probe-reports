@@ -1,0 +1,113 @@
+{
+  "version": "1.0",
+  "timestamp": "2026-07-30T09:12:44Z",
+  "probeBinary": {
+    "version": "v5.3.3",
+    "commit": "ed35a09",
+    "buildTime": "2026-07-21T10:04:12Z"
+  },
+  "metadata": {
+    "tags": ["os=ubuntu-latest", "harness=direct", "runner=github"]
+  },
+  "findings": [
+    {
+      "findingType": "sensitive_readable_paths",
+      "task": "baseline_filesystem_enumerator",
+      "description": "Readable sensitive paths",
+      "value": [
+        "/etc/passwd",
+        "/home/runner/.ssh/id_rsa",
+        "/home/runner/.aws/credentials"
+      ]
+    },
+    {
+      "findingType": "writeable_paths",
+      "task": "baseline_path_task",
+      "description": "Writable system/home paths",
+      "value": ["/tmp/workspace", "/var/tmp"]
+    },
+    {
+      "findingType": "external_host_dns_resolution",
+      "task": "baseline_network_scanner",
+      "description": "External host DNS resolution",
+      "value": ["140.82.121.6", "104.18.32.47"]
+    },
+    {
+      "findingType": "external_host_connectivity",
+      "task": "baseline_network_scanner",
+      "description": "External host connectivity",
+      "value": [
+        "api.openai.com",
+        "raw.githubusercontent.com",
+        "api.github.com",
+        "telemetry.example.net"
+      ]
+    },
+    {
+      "findingType": "tcp_ports_open",
+      "task": "baseline_network_scanner",
+      "description": "Open TCP ports",
+      "value": [8080, 9229, 5432]
+    },
+    {
+      "findingType": "unix_socket_detection",
+      "task": "baseline_socket_task",
+      "description": "Unix sockets",
+      "value": [
+        "/run/user/1000/bus",
+        "/run/user/1000/nono/agent.sock",
+        "/run/user/1000/nono/deep/nested.sock",
+        "/run/docker.sock",
+        "/run/tmux-1000/default"
+      ]
+    },
+    {
+      "findingType": "env_secret_detection",
+      "task": "baseline_env_secrets",
+      "description": "Secret-shaped environment variable",
+      "value": { "env_key": "OPENAI_API_KEY", "description": "Generic API Key" }
+    },
+    {
+      "findingType": "env_secret_detection",
+      "task": "baseline_env_secrets",
+      "description": "Secret-shaped environment variable",
+      "value": { "env_key": "GITHUB_TOKEN", "description": "GitHub Personal Access Token" }
+    },
+    {
+      "findingType": "env_secret_detection",
+      "task": "baseline_env_secrets",
+      "description": "Secret-shaped environment variable",
+      "value": { "env_key": "NPM_TOKEN", "description": "npm access token" }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_task",
+      "description": "Visible process",
+      "value": { "pid": 4211, "name": "sandbox-probe-decoy" }
+    },
+    {
+      "findingType": "parent_process_detection",
+      "task": "baseline_process_task",
+      "description": "Parent process",
+      "value": { "pid": 991, "name": "bash" }
+    },
+    {
+      "findingType": "mounted_volumes_detections",
+      "task": "baseline_mount_task",
+      "description": "Mounted volumes",
+      "value": ["/", "/home", "/proc"]
+    },
+    {
+      "findingType": "hostname_detection",
+      "task": "baseline_hostname_task",
+      "description": "System hostname",
+      "value": "runner-a3f21"
+    },
+    {
+      "findingType": "user_context_detection",
+      "task": "baseline_user_context_task",
+      "description": "User identity",
+      "value": { "uid": 1001, "gid": 1001, "euid": 1001, "egid": 1001 }
+    }
+  ]
+}

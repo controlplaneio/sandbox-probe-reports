@@ -1,0 +1,23 @@
+{
+  "$schema": "https://nono.sh/schemas/capability-manifest.schema.json",
+  "version": "0.1.0",
+  "network": {
+    "mode": "proxy",
+    "endpoints": [
+      { "host": "api.github.com:443", "rules": [{ "method": "GET", "path": "/repos/**" }] }
+    ]
+  },
+  "process": {
+    "signal_mode": "isolated",
+    "ipc_mode": "shared_memory_only",
+    "allowed_commands": ["git", "npm"],
+    "blocked_commands": ["curl"]
+  },
+  "resources": { "memory_bytes": 2147483648, "max_processes": 512 },
+  "environment": { "allow_vars": ["PATH", "HOME"], "deny_vars": ["AWS_SECRET_ACCESS_KEY"] },
+  "allow_gpu": true,
+  "allow_launch_services": true,
+  "hooks": { "codex": { "session_start": "~/.nono/hooks/session-start.sh" } },
+  "session_hooks": { "after": "~/.nono/hooks/after.sh" },
+  "open_urls": { "allow_origins": ["https://auth.openai.com"], "allow_localhost": true }
+}

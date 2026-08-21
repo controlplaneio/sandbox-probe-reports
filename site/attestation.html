@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>sandbox-probe — profile attestation</title>
+  <link rel="icon" href="assets/logo-mark.png" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <img class="logo" src="assets/logo-horizontal-trimmed.png" alt="controlplane" />
+    <div class="header-copy">
+      <h1>Profile attestation</h1>
+      <p class="tagline">Declared versus actual: what a published profile claims, against what the probe
+        could actually reach under it. A different comparison from the
+        <a href="index.html">baseline-normalised matrix</a> — no drift class is a capability category,
+        and nothing here moves the 0–8 exposure count.</p>
+      <div id="meta" class="meta"></div>
+    </div>
+  </header>
+
+  <section id="gaps-section">
+    <h2>Gaps — reachable, undeclared</h2>
+    <p class="hint">The security-relevant direction: the sandbox is looser than its published claim.
+      Kept apart from the declared-side verdicts, never pooled with them.</p>
+    <div id="gaps"></div>
+  </section>
+
+  <section id="verdicts-section">
+    <h2>Declared grants</h2>
+    <p class="hint">One drift class per declared unit. <span class="k-blocked">match</span> = delivered;
+      <span class="k-unprovable">overclaim</span> = declared, unreachable, and the baseline could reach it;
+      unprovable = nothing was there to reach; unattested = nothing here observes it.</p>
+    <div id="verdicts"></div>
+  </section>
+
+  <section id="unmediated-section" class="hidden">
+    <h2>Observed under a disabled modifier</h2>
+    <p class="hint">Reported, never as gaps: an unenforced surface is not a policy failure.</p>
+    <div id="unmediated"></div>
+  </section>
+
+  <script src="attestation.js"></script>
+</body>
+</html>

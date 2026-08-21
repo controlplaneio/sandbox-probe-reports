@@ -1,0 +1,82 @@
+name: smoke
+
+# Proves the boundary with sandbox-probe on every push, including from forks:
+# no agent CLI, no API key, no model access, no sandbox runtime.
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  # The client-side logic tests for site/app.js, plus the vendor-default flag
+  # guard over scripts/run-probe-in-sandbox.sh — the guard reads the launcher,
+  # so it needs no sandbox runtime installed and fails in the pull request that
+  # adds an undeclared flag. No probe binary, no network, no agent CLI —
+  # independent of the smoke job below (tracked separately as #14).
+  node-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - run: node --test
+
+  # Its own job on purpose: the attestation diff is a pure function over
+  # checked-in documents, so it must not wait on — or fail with — the probe
+  # build, the seeder or a scan.
+  attest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with: { node-version: "22" }
+      - name: drift classification is what the fixtures say it is
+        run: node --test 'scripts/**/*.test.mjs'
+
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      # The pin exists so Dependabot's gomod ecosystem raises a PR when the
+      # probe releases. This repo imports no probe package — it runs the
+      # binary — so a bare `require` is dropped by tidy as unused and that
+      # coverage dies silently. The `tool` directive is what keeps it. This
+      # step is what notices if it ever stops working.
+      - name: probe pin survives go mod tidy
+        run: |
+          go mod tidy
+          git diff --exit-code go.mod go.sum
+          grep -qx 'tool github.com/chrisns/sandbox-probe/v6' go.mod
+
+      - name: build the probe from the pinned version
+        run: go build -o bin/sandbox-probe github.com/chrisns/sandbox-probe/v6
+
+      # Reads list-targets across the repo boundary. A registry schema change
+      # in the probe that the seeder cannot parse fails here, in minutes,
+      # rather than in the next weekly matrix run.
+      - name: seed decoys from the probe's target registry
+        run: scripts/seed-decoys.sh bin/sandbox-probe
+
+      - name: baseline scan
+        run: bin/sandbox-probe scan --fast --output_path report.json
+
+      - name: report parses and carries an expected finding type
+        run: |
+          jq -e . report.json > /dev/null
+          jq -e 'any(.findings[]; .findingType == "sensitive_readable_paths")' report.json
+
+      # The other half of the same contract: seeding plants live artifacts (a
+      # process, and a pipe server on Windows), so the cleanup path is exercised
+      # here on every push rather than only in the weekly matrix.
+      - name: cleanup removes what seeding planted
+        if: always()
+        run: scripts/seed-decoys.sh --cleanup bin/sandbox-probe

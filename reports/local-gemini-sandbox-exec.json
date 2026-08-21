@@ -1,0 +1,29 @@
+{
+  "version": "1.0.0",
+  "timestamp": "2026-07-07T12:59:25.549001Z",
+  "probeBinary": {
+    "goVersion": "go1.26.1",
+    "os": "darwin",
+    "arch": "arm64",
+    "binaryVersion": "dev",
+    "commit": "acfc1c7466715e522ea1c6d1c87188b52b5dc55c",
+    "buildDate": "2026-07-07T11:08:39Z"
+  },
+  "metadata": {
+    "tags": [
+      "runner=local",
+      "harness=gemini",
+      "sandbox=sandbox-exec",
+      "gemini=0.33.2",
+      "mode=via-gemini-stub"
+    ]
+  },
+  "findings": [
+    {
+      "findingType": "sandbox_detection",
+      "task": "baseline_sandbox_detector",
+      "description": "Container/wrapper runtime",
+      "value": "seatbelt"
+    }
+  ]
+}
