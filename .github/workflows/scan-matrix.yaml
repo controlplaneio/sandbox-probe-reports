@@ -31,7 +31,7 @@ jobs:
           - { runner: windows-latest, goos: windows, goarch: amd64, ext: ".exe" }
     runs-on: ${{ matrix.runner }}
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7.0.1
       # Cache the built binary keyed on the pin; workflow/script/doc-only changes then
       # reuse it instead of recompiling every run. The pin is go.mod's `tool` directive,
       # so go.mod/go.sum are the only inputs that can change the binary.
@@ -145,7 +145,7 @@ jobs:
       PROBE: ./sandbox-probe${{ matrix.ext }}
       REPORT: reports/${{ matrix.os }}-${{ matrix.harness }}.json
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7.0.1
       - uses: actions/download-artifact@v7
         with:
           name: sandbox-probe-${{ matrix.arch }}
@@ -439,7 +439,7 @@ jobs:
       PROBE: ./sandbox-probe
       PROFILE: ${{ inputs.profile || 'nolabs-ai/codex' }}
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7.0.1
       - uses: actions/download-artifact@v7
         with: { name: sandbox-probe-linux-amd64 }
       - run: chmod +x sandbox-probe
@@ -529,7 +529,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deploy.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v7 # main: site/ + scripts/
+      - uses: actions/checkout@v7.0.1 # main: site/ + scripts/
       - uses: actions/setup-node@v7
         with: { node-version: "22" }
       - uses: actions/download-artifact@v7
