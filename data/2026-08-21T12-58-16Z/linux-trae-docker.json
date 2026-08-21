@@ -1,0 +1,374 @@
+{
+  "version":  "1.0.0",
+  "timestamp":  "2026-08-21T12:56:23.372784922Z",
+  "probeBinary":  {
+    "goVersion":  "go1.25.6",
+    "os":  "linux",
+    "arch":  "amd64",
+    "binaryVersion":  "unknown",
+    "commit":  "unknown",
+    "buildDate":  "unknown"
+  },
+  "metadata":  {
+    "tags":  [
+      "runner=ubuntu-latest",
+      "harness=trae-docker",
+      "trae=0.1.0",
+      "mode=via-trae-stub"
+    ]
+  },
+  "findings":  [
+    {
+      "findingType":  "writeable_paths",
+      "task":  "baseline_filesystem_enumerator",
+      "description":  "Writeable paths",
+      "value":  [
+        "/etc",
+        "/boot",
+        "/usr",
+        "/usr/bin",
+        "/usr/sbin",
+        "/usr/lib",
+        "/bin",
+        "/sbin",
+        "/lib",
+        "/lib64",
+        "/proc",
+        "/dev",
+        "/var",
+        "/var/log",
+        "/var/lib",
+        "/opt"
+      ]
+    },
+    {
+      "findingType":  "sensitive_readable_paths",
+      "task":  "baseline_filesystem_enumerator",
+      "description":  "Readable sensitive paths",
+      "value":  [
+        "/etc/passwd",
+        "/etc/shadow",
+        "/etc/group",
+        "/etc/gshadow",
+        "/etc/hostname",
+        "/etc/hosts",
+        "/etc/resolv.conf",
+        "/proc/self/cgroup",
+        "/proc/self/mountinfo",
+        "/proc/self/status",
+        "/proc/1/cgroup",
+        "/proc/1/environ",
+        "/.dockerenv",
+        "/root"
+      ]
+    },
+    {
+      "findingType":  "external_host_dns_resolution",
+      "task":  "baseline_network_scanner",
+      "description":  "External host DNS resolution",
+      "value":  [
+        "142.251.218.110",
+        "2607:f8b0:4005:816::200e"
+      ]
+    },
+    {
+      "findingType":  "external_host_connectivity",
+      "task":  "baseline_network_scanner",
+      "description":  "External host connectivity",
+      "value":  [
+        "google.com"
+      ]
+    },
+    {
+      "findingType":  "proxy_detection",
+      "task":  "baseline_proxy_detector",
+      "description":  "Proxy configuration",
+      "value":  {
+        "all_proxy":  "",
+        "http_proxy":  "",
+        "https_proxy":  "",
+        "no_proxy":  "",
+        "pac_url":  "",
+        "socks_proxy":  ""
+      }
+    },
+    {
+      "findingType":  "unix_socket_detection",
+      "task":  "baseline_socket_scanner",
+      "description":  "Unix sockets detected",
+      "value":  []
+    },
+    {
+      "findingType":  "process_detection",
+      "task":  "baseline_process_scanner",
+      "description":  "Running processes",
+      "value":  {
+        "command":  "sleep infinity",
+        "namespaces":  [
+          {
+            "inode":  4026532270,
+            "type":  "ipc"
+          },
+          {
+            "inode":  4026532271,
+            "type":  "pid"
+          },
+          {
+            "inode":  4026532271,
+            "type":  "pid"
+          },
+          {
+            "inode":  4026531837,
+            "type":  "user"
+          },
+          {
+            "inode":  4026532268,
+            "type":  "mnt"
+          },
+          {
+            "inode":  4026532272,
+            "type":  "cgroup"
+          },
+          {
+            "inode":  4026531834,
+            "type":  "time"
+          },
+          {
+            "inode":  4026531834,
+            "type":  "time"
+          },
+          {
+            "inode":  4026532273,
+            "type":  "net"
+          },
+          {
+            "inode":  4026532269,
+            "type":  "uts"
+          }
+        ],
+        "pid":  1,
+        "ppid":  0
+      }
+    },
+    {
+      "findingType":  "process_detection",
+      "task":  "baseline_process_scanner",
+      "description":  "Running processes",
+      "value":  {
+        "command":  "/bin/bash",
+        "namespaces":  [
+          {
+            "inode":  4026532271,
+            "type":  "pid"
+          },
+          {
+            "inode":  4026531837,
+            "type":  "user"
+          },
+          {
+            "inode":  4026532272,
+            "type":  "cgroup"
+          },
+          {
+            "inode":  4026531834,
+            "type":  "time"
+          },
+          {
+            "inode":  4026532269,
+            "type":  "uts"
+          },
+          {
+            "inode":  4026532268,
+            "type":  "mnt"
+          },
+          {
+            "inode":  4026531834,
+            "type":  "time"
+          },
+          {
+            "inode":  4026532273,
+            "type":  "net"
+          },
+          {
+            "inode":  4026532270,
+            "type":  "ipc"
+          },
+          {
+            "inode":  4026532271,
+            "type":  "pid"
+          }
+        ],
+        "pid":  7,
+        "ppid":  0
+      }
+    },
+    {
+      "findingType":  "process_detection",
+      "task":  "baseline_process_scanner",
+      "description":  "Running processes",
+      "value":  {
+        "command":  "/workspace/probe scan --tasksets baseline --tags runner=ubuntu-latest,harness=trae-docker,trae=0.1.0,mode=via-trae-stub --output_path /workspace/report.json",
+        "namespaces":  [
+          {
+            "inode":  4026532273,
+            "type":  "net"
+          },
+          {
+            "inode":  4026532269,
+            "type":  "uts"
+          },
+          {
+            "inode":  4026532271,
+            "type":  "pid"
+          },
+          {
+            "inode":  4026532271,
+            "type":  "pid"
+          },
+          {
+            "inode":  4026532272,
+            "type":  "cgroup"
+          },
+          {
+            "inode":  4026531834,
+            "type":  "time"
+          },
+          {
+            "inode":  4026532270,
+            "type":  "ipc"
+          },
+          {
+            "inode":  4026531837,
+            "type":  "user"
+          },
+          {
+            "inode":  4026532268,
+            "type":  "mnt"
+          },
+          {
+            "inode":  4026531834,
+            "type":  "time"
+          }
+        ],
+        "pid":  14,
+        "ppid":  7
+      }
+    },
+    {
+      "findingType":  "parent_process_detection",
+      "task":  "baseline_process_scanner",
+      "description":  "Parent process",
+      "value":  {
+        "command":  "/bin/bash",
+        "namespaces":  [
+          {
+            "inode":  4026532270,
+            "type":  "ipc"
+          },
+          {
+            "inode":  4026532271,
+            "type":  "pid"
+          },
+          {
+            "inode":  4026531837,
+            "type":  "user"
+          },
+          {
+            "inode":  4026532268,
+            "type":  "mnt"
+          },
+          {
+            "inode":  4026532272,
+            "type":  "cgroup"
+          },
+          {
+            "inode":  4026531834,
+            "type":  "time"
+          },
+          {
+            "inode":  4026532273,
+            "type":  "net"
+          },
+          {
+            "inode":  4026532269,
+            "type":  "uts"
+          },
+          {
+            "inode":  4026532271,
+            "type":  "pid"
+          },
+          {
+            "inode":  4026531834,
+            "type":  "time"
+          }
+        ],
+        "pid":  7,
+        "ppid":  0
+      }
+    },
+    {
+      "findingType":  "user_context_detection",
+      "task":  "baseline_user_context",
+      "description":  "User context information",
+      "value":  {
+        "egid":  0,
+        "euid":  0,
+        "gid":  0,
+        "groups":  [
+          0
+        ],
+        "uid":  0
+      }
+    },
+    {
+      "findingType":  "hostname_detection",
+      "task":  "baseline_hostname",
+      "description":  "Hostname",
+      "value":  "0aa59d0d54a2"
+    },
+    {
+      "findingType":  "environment_detection",
+      "task":  "baseline_environment",
+      "description":  "Host kernel and OS release",
+      "value":  {
+        "kernel_release":  "6.17.0-1022-azure",
+        "kernel_version":  "Linux version 6.17.0-1022-azure (buildd@lcy02-amd64-020) (x86_64-linux-gnu-gcc-13 (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, GNU ld (GNU Binutils for Ubuntu) 2.42) #22-Ubuntu SMP Mon Jul 27 17:24:03 UTC 2026",
+        "os_release":  "Ubuntu 26.04 LTS"
+      }
+    },
+    {
+      "findingType":  "sandbox_detection",
+      "task":  "baseline_sandbox_detector",
+      "description":  "Container/wrapper runtime",
+      "value":  "docker"
+    },
+    {
+      "findingType":  "sandbox_detection",
+      "task":  "baseline_sandbox_detector",
+      "description":  "Active kernel enforcement mechanism",
+      "value":  "seccomp-filter"
+    },
+    {
+      "findingType":  "mounted_volumes_detections",
+      "task":  "baseline_mount_scanner",
+      "description":  "Host-mounted volumes",
+      "value":  [
+        "overlay -> / (overlay, root=/)",
+        "tmpfs -> /dev (tmpfs, root=/)",
+        "shm -> /dev/shm (tmpfs, root=/)",
+        "/dev/root -> /workspace (ext4, root=/tmp/tmp.fJmhzOv4qk)",
+        "/dev/root -> /etc/resolv.conf (ext4, root=/var/lib/docker/containers/0aa59d0d54a29aeff4f920d89079d3db3e1c2c504a320b11249125a9cb4da2c7/resolv.conf)",
+        "/dev/root -> /etc/hostname (ext4, root=/var/lib/docker/containers/0aa59d0d54a29aeff4f920d89079d3db3e1c2c504a320b11249125a9cb4da2c7/hostname)",
+        "/dev/root -> /etc/hosts (ext4, root=/var/lib/docker/containers/0aa59d0d54a29aeff4f920d89079d3db3e1c2c504a320b11249125a9cb4da2c7/hosts)",
+        "tmpfs -> /proc/acpi (tmpfs, root=/)",
+        "tmpfs -> /proc/interrupts (tmpfs, root=/null)",
+        "tmpfs -> /proc/kcore (tmpfs, root=/null)",
+        "tmpfs -> /proc/keys (tmpfs, root=/null)",
+        "tmpfs -> /proc/latency_stats (tmpfs, root=/null)",
+        "tmpfs -> /proc/timer_list (tmpfs, root=/null)",
+        "tmpfs -> /proc/scsi (tmpfs, root=/)",
+        "tmpfs -> /sys/firmware (tmpfs, root=/)"
+      ]
+    }
+  ]
+}
