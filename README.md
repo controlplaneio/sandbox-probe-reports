@@ -9,13 +9,6 @@ This repository is the other half: everything that turns many probe reports
 into a comparison — the scan matrix, the seeder, the per-runtime launchers,
 the agent stubs, the baseline-normalised methodology, and the reporting site.
 
-> **Status: the pin still points at a fork.** The comparison layer has landed
-> here in full. The one loose end is the probe dependency: it is pinned to
-> `github.com/chrisns/sandbox-probe/v6` because, until
-> [controlplaneio/sandbox-probe#52](https://github.com/controlplaneio/sandbox-probe/pull/52)
-> merges and a `v6.x` tag is cut, no upstream tag resolves as a Go module.
-> See [The pin](#the-pin).
-
 ## Why this is a separate repo
 
 Comparing sandboxes is a different piece of software with a much harder
@@ -54,31 +47,28 @@ asserts the pin survives a tidy so it cannot rot back.
 Build the pinned probe with:
 
 ```sh
-go build -o bin/sandbox-probe github.com/chrisns/sandbox-probe/v6
+go build -o bin/sandbox-probe github.com/controlplaneio/sandbox-probe/v6
 ```
 
-### The pin
+### Why the pin carries a `/v6`
 
-It points at **`github.com/chrisns/sandbox-probe/v6 v6.1.2`** — a fork, not
-`controlplaneio`. That is deliberate and temporary.
+The probe's module path is `github.com/controlplaneio/sandbox-probe/v6`, and it
+has to be. A Go module whose major version is 2 or above must carry the suffix,
+or the proxy refuses it outright with *"module path must match major version"*.
 
-No `controlplaneio/sandbox-probe` tag resolves as a Go module. Its `go.mod`
-declares `github.com/controlplaneio/sandbox-probe` with no major-version
-suffix while its newest tag is `v5.2.1`, so the proxy rejects every tag from
-`v4.8.2` onward (*"module path must match major version"*). `go get` returns
-`v1.1.0` from May, which predates `list-targets`, `seed` and `cleanup`. The
-fork fixed its own module path and cut `v6.1.2`, so it is the only build of
-the probe that both resolves and carries the registry this repository needs.
+That was broken for a long time. The path had no suffix while the tags had
+climbed to `v5.2.1`, so every tag from `v4.8.2` onward was unresolvable and
+`go get` returned `v1.1.0` from May 2026 — a build predating `list-targets`,
+`seed` and `cleanup`, which is to say predating everything this repository
+needs. It was fixed in
+[controlplaneio/sandbox-probe#52](https://github.com/controlplaneio/sandbox-probe/pull/52)
+and first released as `v6.2.1`.
 
-This clears in two steps:
+If the probe ever takes a `v7`, the path and the tag move together. They cannot
+move apart: `semver.yaml` in that repository carries a `force.major` floor for
+exactly this reason.
 
-1. [controlplaneio/sandbox-probe#52](https://github.com/controlplaneio/sandbox-probe/pull/52)
-   merges, which brings the fork's work upstream and renames the module path
-   to `github.com/controlplaneio/sandbox-probe/v6`.
-2. A `v6.x.y` tag is cut there.
-
-Then this is a one-line bump in `go.mod` plus the four build invocations in
-`.github/workflows/`, and Dependabot keeps it current from then on.
+Dependabot keeps the version current from here.
 
 ## The smoke job
 
