@@ -23,7 +23,7 @@ jobs:
         with:
           fetch-depth: 2
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@4e828ff8d448a8a6e532957b1811f387a63867e8 # v3.30.0
+        uses: github/codeql-action/init@ff2f1c621b7f889edc0d3c761ac2e6a3f8cdb0dd # v3.30.0
         continue-on-error: true
         id: initcodeql
       - name: Autobuild
