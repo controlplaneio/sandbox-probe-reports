@@ -41,7 +41,11 @@ const MECHANISMS = new Set([
 ]);
 
 const find = (r, ft) => r.report.findings.find((f) => f.findingType === ft);
-const kernelOf = (r) => (find(r, "environment_detection")?.value?.kernelRelease) || "?";
+// snake_case: the probe emits "kernel_release" (pkg/tasks/baseline.go). This read was
+// camelCase and so returned "?" for every report ever published, which silently reduced
+// the fingerprint to harnessVersion|os and made "harness X→Y" the only cause a flip
+// could ever be attributed to.
+const kernelOf = (r) => (find(r, "environment_detection")?.value?.kernel_release) || "?";
 const sandboxValues = (r) =>
   r.report.findings.filter((f) => f.findingType === "sandbox_detection")
     .map((f) => f.value).filter((v) => typeof v === "string" && v !== "");
@@ -57,7 +61,11 @@ function harnessVersion(r) {
   }
   return "";
 }
-const fingerprint = (r) => [harnessVersion(r), r.report.probeBinary.commit, kernelOf(r), r.os].join("|");
+// The matrix builds the probe with plain `go build`, so ldflags never run and .commit is
+// the literal string "unknown" in every published report. binaryVersion is populated from
+// runtime/debug.ReadBuildInfo, which does carry the real module version. Prefer it.
+const probeOf = (r) => r.report.probeBinary?.binaryVersion || r.report.probeBinary?.commit || "unknown";
+const fingerprint = (r) => [harnessVersion(r), probeOf(r), kernelOf(r), r.os].join("|");
 
 // Mount entries come in two shapes: a plain path string (pre spec-7 probe), or
 // an object carrying source/target/fsType and the mount root (post spec-7
@@ -95,14 +103,50 @@ function leakedCats(r) {
   return s;
 }
 
+// Which categories this report actually MEASURED — at least one of their finding types is
+// present, whatever its value. Absent is not the same as empty, and conflating them is
+// what made a failed scan render as a security improvement: a task that never ran emits
+// no finding, leakedCats() then sees no leak, and the cell scored "blocked".
+//
+// Empty still counts as measured. `writeable_paths: []` is a task that ran and found
+// nothing, which is a real negative and the whole point of the baseline comparison.
+function measuredCats(r) {
+  const s = new Set();
+  for (const f of r.report.findings) {
+    const cat = FT2CAT[f.findingType];
+    if (cat) s.add(cat);
+  }
+  return s;
+}
+
 // state per category for one harness row, normalized against its same-run same-os baseline.
+//
+// Three things have to be true before a cell can say "blocked", and each has its own
+// failure state, because collapsing them is how an unmeasured cell became a security
+// claim:
+//   1. a baseline exists at all                     -> else unprovable
+//   2. the baseline measured this category          -> else unprovable (achievability
+//      cannot be established from a scan that never ran)
+//   3. this row measured it too                     -> else unprovable
+// Only then does the baseline's result decide between "na" (the baseline could not do it
+// either, so there is nothing to block) and the scored leaked/blocked pair.
 function cellStates(row, baseline) {
   const leaks = leakedCats(row);
+  const measured = measuredCats(row);
   const achievable = baseline ? leakedCats(baseline) : new Set();
+  const baseMeasured = baseline ? measuredCats(baseline) : new Set();
   const out = {};
   for (const { key } of CATEGORIES) {
-    if (key === "privileged") { out[key] = isRoot(row) ? "leaked" : "blocked"; continue; }
+    if (key === "privileged") {
+      // euid comes from user_context_detection; absent means unmeasured, not non-root.
+      out[key] = find(row, "user_context_detection") === undefined
+        ? "unprovable"
+        : (isRoot(row) ? "leaked" : "blocked");
+      continue;
+    }
     if (!baseline) out[key] = "unprovable";
+    else if (!baseMeasured.has(key)) out[key] = "unprovable";
+    else if (!measured.has(key)) out[key] = "unprovable";
     else if (!achievable.has(key)) out[key] = "na";
     else out[key] = leaks.has(key) ? "leaked" : "blocked";
   }
@@ -110,7 +154,7 @@ function cellStates(row, baseline) {
   return out;
 }
 
-// ── build model: identities -> ordered collapsed points ────────────────────────
+// ── build model: identities -> one ordered point per run ───────────────────────
 function build(rows) {
   // index baselines by os|runTimestamp
   const baselines = {};
@@ -135,21 +179,23 @@ function build(rows) {
   for (const [id, list] of Object.entries(byIdentity)) {
     list.sort((a, b) => a.runTimestamp.localeCompare(b.runTimestamp));
     if (list.at(-1).runTimestamp < latestScan[list[0].os]) continue;
-    // collapse by fingerprint: one point per distinct fingerprint, latest run wins, first-seen ts.
-    const points = new Map(); // fp -> point
-    for (const r of list) {
-      const fp = fingerprint(r);
+    // One point per run. This used to collapse runs sharing a fingerprint, keeping the
+    // latest and discarding the rest — which threw away the disagreements that prove a
+    // measurement is unstable. It cost real data: macos/claude-sandbox observed tcp
+    // [49173] at 12:58 on 2026-08-21 and the 13:06 run overwrote it silently. Two runs
+    // that disagree are a finding, not a duplicate.
+    //
+    // fingerprint() is still what flips() attributes a change to, so it stays; it is no
+    // longer a deduplication key.
+    const arr = list.map((r) => {
       const base = baselines[`${r.os}|${r.runTimestamp}`];
-      const pt = {
-        fp, ts: r.runTimestamp, harnessVersion: harnessVersion(r),
-        probe: r.report.probeBinary.commit, kernel: kernelOf(r), os: r.os,
+      return {
+        fp: fingerprint(r), ts: r.runTimestamp, harnessVersion: harnessVersion(r),
+        probe: probeOf(r), kernel: kernelOf(r), os: r.os,
         sandbox: sandboxOf(r), mechanisms: mechanismsOf(r), root: isRoot(r), row: r,
         states: cellStates(r, base), hasBaseline: !!base, baselineRow: base,
       };
-      if (!points.has(fp)) points.set(fp, pt);
-      else { const p = points.get(fp); p.states = pt.states; p.row = r; } // latest wins, keep first ts
-    }
-    const arr = [...points.values()].sort((a, b) => a.ts.localeCompare(b.ts));
+    });
     for (const p of arr) p.exposure = CATEGORIES.filter((c) => p.states[c.key] === "leaked").length;
     identities[id] = arr;
   }
