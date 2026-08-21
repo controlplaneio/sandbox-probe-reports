@@ -22,6 +22,7 @@ cat > "$WORK/bin/nono" <<'STUB'
 case "$1" in
   pull)
     mkdir -p "$HOME/.codex/plugins/nono" "$NONO_CONFIG/packages/nolabs-ai/codex"
+    mkdir -p "$HOME/.codex/plugins/cache/nolabs-ai/nono" "$HOME/.codex/plugins/marketplaces/nolabs-ai"
     echo 'plugin' > "$HOME/.codex/plugins/nono/plugin.json"
     echo '{"version":"9.9.9"}' > "$NONO_CONFIG/packages/nolabs-ai/codex/package.json"
     printf '# nono:nolabs-ai-codex\ninstructions = "..."\n' >> "$HOME/.codex/config.toml"
@@ -29,8 +30,14 @@ case "$1" in
   remove)
     rm -rf "$NONO_CONFIG/packages/nolabs-ai/codex"
     [ "${NONO_STUB_LEAK:-}" = "1" ] && exit 0   # the bug: wiring left spliced in
-    rm -rf "$HOME/.codex/plugins"
+    rm -rf "$HOME/.codex/plugins/nono"
     sed -i.bak '/# nono:nolabs-ai-codex/,+1d' "$HOME/.codex/config.toml"; rm -f "$HOME/.codex/config.toml.bak"
+    # NONO_STUB_CACHE reproduces what real nono does, seen in the gated attest
+    # job against 0.69.0: the pack's own files go and the plugin cache under the
+    # installing namespace stays, along with the empty parent husks. The
+    # unflagged path is the hypothetical where nono cleans up after itself.
+    [ "${NONO_STUB_CACHE:-}" = "1" ] && exit 0
+    rm -rf "$HOME/.codex/plugins"
     ;;
 esac
 exit 0
@@ -83,7 +90,32 @@ faulted="$(NONO_PACK_FAIL_AFTER_INSTALL=1 run_case faulted "" || true)"
 grep -q 'nono-pack: verified' <<<"$faulted" || fail "cleanup must run after a mid-run failure: $faulted"
 grep -q 'status=9' <<<"$faulted" || fail "the injected failure must still fail the run: $faulted"
 
-# 4. off CI, an unacknowledged install refuses rather than mutating anything.
+# 4. the real nono behaviour: `nono remove` leaves its plugin cache under the installing
+#    namespace. The sweep in nono_pack_restore finishes the job, so the run still verifies
+#    rather than reporting the machine as permanently mutated on every single run.
+cached="$(NONO_STUB_CACHE=1 run_case cached "" || true)"
+grep -q 'nono-pack: verified' <<<"$cached" || fail "the plugin-cache residue must be swept so restore verifies: $cached"
+grep -q 'plugin tree(s) behind' <<<"$cached" || fail "the sweep must say nono left residue rather than hiding it: $cached"
+grep -q 'status=0' <<<"$cached" || fail "a swept run should not fail: $cached"
+
+# 5. the sweep must not touch a namespace the machine already had. Same residue shape,
+#    but present BEFORE the install, so it belongs to whoever put it there.
+home="$(new_home preexisting)"
+mkdir -p "$home/.codex/plugins/cache/nolabs-ai/theirs"
+printf 'theirs\n' > "$home/.codex/plugins/cache/nolabs-ai/theirs/keep.json"
+HOME="$home" NONO_CONFIG="$home/.config/nono" NONO_STUB_CACHE=1 CI=true \
+  bash -c '
+    set -eo pipefail
+    source "'"$ROOT"'/scripts/nono-pack.sh"
+    nono_pack_warn nolabs-ai/codex
+    nono_pack_arm nolabs-ai/codex
+    trap nono_pack_restore EXIT
+    nono_pack_install nolabs-ai/codex
+  ' >/dev/null 2>&1 || true
+[ -f "$home/.codex/plugins/cache/nolabs-ai/theirs/keep.json" ] \
+  || fail "the sweep removed a namespace that existed before the install"
+
+# 6. off CI, an unacknowledged install refuses rather than mutating anything.
 home="$(new_home refuse)"
 if HOME="$home" NONO_CONFIG="$home/.config/nono" CI="" NONO_PACK_ACK="" \
    bash -c 'set -eo pipefail; source "'"$ROOT"'/scripts/nono-pack.sh"; nono_pack_warn nolabs-ai/codex' >/dev/null 2>&1

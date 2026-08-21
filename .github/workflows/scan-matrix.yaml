@@ -135,7 +135,14 @@ jobs:
           # to start, srt keeps its deny-by-default settings widened for writes. Network egress is
           # open on all three, as it is out of the box, so their rows read more exposed than before.
           # spec #6: as for claude-sandbox — same bwrap engine, wrapper name now resolves.
-          - { os: linux, runner: ubuntu-latest, arch: linux-amd64,  ext: "", family: sandbox, harness: srt,      runtime: srt,      expect: '["bubblewrap"]' }
+          # srt on Linux has never reported the wrapper name: all six published runs say
+          # "unknown" plus user-namespace, seccomp-filter and no-new-privs. That is the
+          # limitation ADR 0002 describes — the wrapper name is an INFERENCE from the
+          # process ancestry, while the mechanisms are kernel-attested — and it is the
+          # same shape as upstream sandbox-probe#38. srt does engage a sandbox, provably;
+          # the probe simply cannot name it. Accept the kernel-enforcement signals, as
+          # codex-sandbox already does on this runner.
+          - { os: linux, runner: ubuntu-latest, arch: linux-amd64,  ext: "", family: sandbox, harness: srt,      runtime: srt,      expect: '["bubblewrap","user-namespace","seccomp-filter","no-new-privs"]' }
           - { os: macos, runner: macos-latest,  arch: darwin-arm64, ext: "", family: sandbox, harness: srt,      runtime: srt,      expect: '["seatbelt"]' }
           - { os: linux, runner: ubuntu-latest, arch: linux-amd64,  ext: "", family: sandbox, harness: firejail, runtime: firejail, expect: '["firejail"]' }
           - { os: linux, runner: ubuntu-latest, arch: linux-amd64,  ext: "", family: sandbox, harness: nono,     runtime: nono,     expect: '["landlock","seccomp-notify","seccomp-filter","no-new-privs"]' }
