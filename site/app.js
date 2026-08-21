@@ -30,6 +30,18 @@ const FT2CAT = {
 const CONTEXT_FT = new Set([
   "sandbox_detection", "user_context_detection", "hostname_detection",
   "environment_detection", "proxy_detection", "env_secret_detection",
+  // local_listeners is the kernel's socket table — what is BOUND in this
+  // namespace, not what this process can reach. The two diverge under exactly
+  // the sandboxes worth measuring: a Seatbelt profile that denies network
+  // leaves the table byte-identical while connect() returns EPERM. Scoring it
+  // as a capability would therefore mark every correctly-confined macOS and
+  // Windows row leaked, permanently. It is context, which is why the probe
+  // reports the inventory and the reachability as separate findings.
+  "local_listeners",
+  // local_probe_status says how that measurement went — which table was read,
+  // whether the UDP feedback channel is live, the namespace, and the per-port
+  // outcomes. It carries no capability of its own.
+  "local_probe_status",
 ]);
 
 // sandbox_detection carries two kinds of claim (CONTEXT.md, "Enforcement badge vs
@@ -310,8 +322,44 @@ function drill(id, catKey) {
     : (items.length ? "<ul>" + items.map((i) => `<li>${typeof i === "object" ? JSON.stringify(i) : i}</li>`).join("") + "</ul>"
         : `<p class="muted">No accessible items (${p.states[catKey]}).</p>`);
   document.getElementById("drill-body").innerHTML =
-    `<div class="fp">fingerprint: ${p.harnessVersion || "—"} · probe ${p.probe} · ${p.kernel}</div>` + body;
+    `<div class="fp">fingerprint: ${p.harnessVersion || "—"} · probe ${p.probe} · ${p.kernel}</div>` +
+    (catKey === "local_services" ? localServicesContext(p.row) : "") + body;
   document.getElementById("drill").classList.remove("hidden");
+}
+
+// An unmeasured Local svc cell used to be indistinguishable from a blocked one.
+// The probe now says which it is, so show that rather than leaving a reader to
+// guess why a cell is "?" — and show what the kernel says is bound, which is
+// the other half of the question and is deliberately never scored.
+function localServicesContext(row) {
+  const st = find(row, "local_probe_status")?.value;
+  const listeners = find(row, "local_listeners")?.value;
+  if (!st && !listeners) return "";
+
+  const bits = [];
+  if (st) {
+    if (st.table && st.table !== "read") {
+      bits.push(`socket table <b>${st.table}</b>${st.error ? ` — ${st.error}` : ""}`);
+    } else if (st.table === "read") {
+      bits.push(`socket table read via ${st.source} (${st.listeners_found ?? 0} bound)`);
+    }
+    if (st.udp_feedback && st.udp_feedback !== "working") {
+      // Without a live refusal channel a UDP silence proves nothing, so the
+      // probe reports no UDP finding at all rather than an empty one.
+      bits.push(`UDP feedback <b>${st.udp_feedback}</b>: silence carries no information here`);
+    }
+    if (st.netns) bits.push(`netns ${st.netns}`);
+  }
+  const head = bits.length ? `<p class="muted">${bits.join(" · ")}</p>` : "";
+
+  let inv = "";
+  if (Array.isArray(listeners)) {
+    inv = listeners.length
+      ? `<p class="muted">Bound in this namespace (visibility, not reachability — not scored):</p>` +
+        "<ul>" + listeners.map((l) => `<li>${l}</li>`).join("") + "</ul>"
+      : `<p class="muted">Nothing bound in this namespace.</p>`;
+  }
+  return head + inv;
 }
 
 function renderFlips() {

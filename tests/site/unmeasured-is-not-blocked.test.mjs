@@ -118,3 +118,26 @@ const T1 = "2026-01-01T00:00:00Z", T2 = "2026-02-01T00:00:00Z", T3 = "2026-03-01
 }
 
 console.log("ok - absent is unmeasured, empty is a measured negative, and re-runs are not collapsed");
+
+// -- the probe's new finding types must not be scored as capabilities.
+//    local_listeners is the kernel's socket table: what is BOUND here, not what
+//    this process can reach. Under a Seatbelt profile denying network it is
+//    byte-identical inside and outside the sandbox, so counting it would mark
+//    every correctly-confined macOS and Windows row leaked, permanently. --
+{
+  const listeners = (v) => ({ findingType: "local_listeners", value: v });
+  const status = (v) => ({ findingType: "local_probe_status", value: v });
+
+  const base = row("direct", T1, [tcp([22]), listeners(["tcp *:22"]), status({ table: "read" })]);
+  const confined = row("sbx", T1, [
+    tcp([]),                                     // measured: nothing reachable
+    listeners(["tcp *:22", "udp *:5353"]),       // but the table still shows the host's
+    status({ table: "read", udp_feedback: "working" }),
+  ], "1.0");
+
+  const st = cellStates(confined, base);
+  assert.equal(st.local_services, "blocked",
+    "a confined row that measured nothing reachable is blocked, even though the socket table is full");
+  assert.notEqual(st.other, "leaked",
+    "the new finding types must not fall through to the 'other' bucket and count as a leak");
+}
