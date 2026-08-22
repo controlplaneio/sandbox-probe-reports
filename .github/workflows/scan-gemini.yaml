@@ -67,9 +67,14 @@ jobs:
           cache: true
 
       - name: Build binary
-        # From the module pinned in go.mod, not from a checkout of the probe.
+        # From the module pinned in go.mod, not from a checkout of the probe. The pinned
+        # version is stamped in, so the report says which probe produced it rather than
+        # "unknown" — see the same step in scan-matrix.yaml.
         # if: steps.check-existing.outputs.should_scan == 'true'
-        run: go build -o sandbox-probe github.com/controlplaneio/sandbox-probe/v6
+        run: |
+          PIN=$(go list -m -f '{{.Version}}' github.com/controlplaneio/sandbox-probe/v6)
+          go build -ldflags "-X github.com/controlplaneio/sandbox-probe/v6/cmd.version=${PIN}" \
+            -o sandbox-probe github.com/controlplaneio/sandbox-probe/v6
 
       - name: Publish binary
         # if: steps.check-existing.outputs.should_scan == 'true'

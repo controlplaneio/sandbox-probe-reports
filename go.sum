@@ -34,8 +34,8 @@ github.com/clipperhouse/displaywidth v0.11.0 h1:lBc6kY44VFw+TDx4I8opi/EtL9m20WSE
 github.com/clipperhouse/displaywidth v0.11.0/go.mod h1:bkrFNkf81G8HyVqmKGxsPufD3JhNl3dSqnGhOoSD/o0=
 github.com/clipperhouse/uax29/v2 v2.7.0 h1:+gs4oBZ2gPfVrKPthwbMzWZDaAFPGYK72F0NJv2v7Vk=
 github.com/clipperhouse/uax29/v2 v2.7.0/go.mod h1:EFJ2TJMRUaplDxHKj1qAEhCtQPW2tJSwu5BF98AuoVM=
-github.com/controlplaneio/sandbox-probe/v6 v6.2.1 h1:BWjIuyCmYacqisHfT7twIFxS/Vfm1DlPMxsIFhaitg8=
-github.com/controlplaneio/sandbox-probe/v6 v6.2.1/go.mod h1:7snC17Tu2nh349rmRWA1RZixC4OVd7lIlZE+D9njXnI=
+github.com/controlplaneio/sandbox-probe/v6 v6.7.3 h1:UgZ0dzpxeb602XawAwbt5jTfBSkytHaefiMmwLwVQiU=
+github.com/controlplaneio/sandbox-probe/v6 v6.7.3/go.mod h1:7snC17Tu2nh349rmRWA1RZixC4OVd7lIlZE+D9njXnI=
 github.com/cpuguy83/go-md2man/v2 v2.0.6/go.mod h1:oOW0eioCTA6cOiMLiUPZOpcVxMig6NIQQ7OS05n1F4g=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
