@@ -34,21 +34,33 @@ jobs:
       - uses: actions/checkout@v7.0.1
       # Cache the built binary keyed on the pin; workflow/script/doc-only changes then
       # reuse it instead of recompiling every run. The pin is go.mod's `tool` directive,
-      # so go.mod/go.sum are the only inputs that can change the binary.
+      # so go.mod/go.sum are the only inputs that can change the binary — with one
+      # exception the key cannot see: the build recipe below. Bump the `probe-N` salt by
+      # hand when that recipe changes, rather than hashing this file, which would rebuild
+      # on every comment edit and give up the reuse the cache exists for.
       - id: cache
         uses: actions/cache@v4
         with:
           path: sandbox-probe${{ matrix.ext }}
-          key: probe-${{ matrix.goos }}-${{ matrix.goarch }}-${{ hashFiles('go.mod', 'go.sum') }}
+          key: probe-2-${{ matrix.goos }}-${{ matrix.goarch }}-${{ hashFiles('go.mod', 'go.sum') }}
       - if: steps.cache.outputs.cache-hit != 'true'
         uses: actions/setup-go@v7
         with: { go-version-file: go.mod }
       # Built from the module pinned in go.mod — not from a sibling checkout. darwin is built
       # on macos-latest and windows on windows-latest so cgo-free cross-compilation bugs in the
       # probe cannot silently produce a binary that will not run on its own target.
+      #
+      # Stamp the pinned version in. Without it every report says binaryVersion "unknown",
+      # and a finding that flips because the probe changed cannot be told apart from one
+      # that flips because the machine did — which is the single thing this site exists to
+      # tell apart. The value is read from go.mod, so it is the pin and not a guess.
       - if: steps.cache.outputs.cache-hit != 'true'
         shell: bash
-        run: GOOS=${{ matrix.goos }} GOARCH=${{ matrix.goarch }} go build -o sandbox-probe${{ matrix.ext }} github.com/controlplaneio/sandbox-probe/v6
+        run: |
+          PIN=$(go list -m -f '{{.Version}}' github.com/controlplaneio/sandbox-probe/v6)
+          GOOS=${{ matrix.goos }} GOARCH=${{ matrix.goarch }} go build \
+            -ldflags "-X github.com/controlplaneio/sandbox-probe/v6/cmd.version=${PIN}" \
+            -o sandbox-probe${{ matrix.ext }} github.com/controlplaneio/sandbox-probe/v6
       - uses: actions/upload-artifact@v7
         with:
           name: sandbox-probe-${{ matrix.goos }}-${{ matrix.goarch }}
