@@ -43,6 +43,20 @@ case "$1" in
     rm -rf "$HOME/.codex/plugins" "$HOME/.codex/bin"
     [ -s "$HOME/.codex/config.toml" ] || rm -f "$HOME/.codex/config.toml"
     ;;
+  profile)
+    # `profile show <name> --format manifest`. NONO_STUB_MANIFEST picks which name
+    # answers and with what: "full" only the <ns>/<name> form, "bare" only the
+    # install-as name, "authored" answers with the authored profile instead of the
+    # resolved manifest, and "none" answers with neither.
+    [ "$2" = "show" ] || exit 0
+    case "${NONO_STUB_MANIFEST:-full}" in
+      full)     [ "$3" = "nolabs-ai/codex" ] || exit 1 ;;
+      bare)     [ "$3" = "codex" ] || exit 1 ;;
+      authored) echo '{"extends":"base","name":"codex"}'; exit 0 ;;
+      none)     exit 1 ;;
+    esac
+    echo '{"version":"0.1.0","filesystem":{"grants":[]},"network":{"mode":"blocked"}}'
+    ;;
 esac
 exit 0
 STUB
@@ -160,7 +174,38 @@ grep -q 'did not restore local agent configuration' <<<"$kept" || fail "a file w
 grep -q 'stray' <<<"$kept" || fail "the failure must name the file left behind: $kept"
 [ -f "$home/.codex/bin/stray" ] || fail "the sweep removed a file that had content in it"
 
-# 8. off CI, an unacknowledged install refuses rather than mutating anything.
+# 8. the capability manifest the attestation diffs. It must be the RESOLVED set, so an
+#    authored profile — which still carries `extends` and group references — has to be
+#    refused, not attested. Getting this wrong produces a verdict over the wrong
+#    document, which is worse than producing none.
+manifest_case() {        # manifest_case <NONO_STUB_MANIFEST> -> prints "<name>|<file contents>"
+  local out; out="$WORK/manifest-$1.json"
+  local name
+  name="$(NONO_STUB_MANIFEST="$1" bash -c '
+    source "'"$ROOT"'/scripts/nono-pack.sh"
+    nono_pack_manifest nolabs-ai/codex "'"$out"'"
+  ' 2>/dev/null)" || name="REFUSED"
+  printf '%s|%s' "$name" "$(cat "$out" 2>/dev/null)"
+}
+
+case "$(manifest_case full)" in
+  'nolabs-ai/codex|{"version":"0.1.0"'*) ;;
+  *) fail "the full <ns>/<name> form must resolve the manifest: $(manifest_case full)" ;;
+esac
+case "$(manifest_case bare)" in
+  'codex|{"version":"0.1.0"'*) ;;
+  *) fail "the bare install-as name must resolve when the full id does not: $(manifest_case bare)" ;;
+esac
+case "$(manifest_case authored)" in
+  "REFUSED|"*) ;;
+  *) fail "the authored profile must be refused, not attested: $(manifest_case authored)" ;;
+esac
+case "$(manifest_case none)" in
+  "REFUSED|"*) ;;
+  *) fail "no manifest at all must be refused: $(manifest_case none)" ;;
+esac
+
+# 9. off CI, an unacknowledged install refuses rather than mutating anything.
 home="$(new_home refuse)"
 if HOME="$home" NONO_CONFIG="$home/.config/nono" CI="" NONO_PACK_ACK="" \
    bash -c 'set -eo pipefail; source "'"$ROOT"'/scripts/nono-pack.sh"; nono_pack_warn nolabs-ai/codex' >/dev/null 2>&1

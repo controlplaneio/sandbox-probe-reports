@@ -63,17 +63,20 @@ nono_pack_install "$PROFILE"
 VERSION="$(nono_pack_version "$PROFILE")"
 echo "attest: ${PROFILE} resolved to version ${VERSION}"
 
-# The resolved capability set — never the authored profile. Groups, aliases,
-# inheritance and bypasses are already expanded here; diffing the authored profile
-# would mean reimplementing nono's resolver.
+# The resolved capability set — never the authored profile. See nono_pack_manifest
+# in scripts/nono-pack.sh for what that distinction costs if it is got wrong.
 PACK_DIR="${NONO_CONFIG:-$HOME/.config/nono}/packages/${PROFILE%%@*}"
-if [ ! -f "$PACK_DIR/policy.json" ]; then
-  echo "::error::no resolved capability set at ${PACK_DIR}/policy.json — nono's pack layout has moved."
-  echo "::error::Find the resolved capability manifest in the listing below and update this path."
+PROFILE_ID="${PROFILE%%@*}"
+if ! MANIFEST_NAME="$(nono_pack_manifest "$PROFILE" "$WORK/capability-set.json")"; then
+  echo "::error::no resolved capability manifest for ${PROFILE_ID} — nono's profile naming or manifest format has moved."
+  echo "::error::Tried 'nono profile show ${PROFILE_ID}' and 'nono profile show ${PROFILE_ID##*/}', both --format manifest."
+  echo "::error::What nono says, then the installed pack, follow."
+  nono profile show "${PROFILE_ID##*/}" --format manifest || true
+  nono profile list || true
   ls -R "$PACK_DIR" || true
   exit 1
 fi
-cp "$PACK_DIR/policy.json" "$WORK/capability-set.json"
+echo "attest: resolved capability manifest via 'nono profile show ${MANIFEST_NAME} --format manifest'"
 
 # ── 4. the probe under the profile, no flag of ours ───────────────────────────
 mkdir -p "$IN_GRANT_DIR"

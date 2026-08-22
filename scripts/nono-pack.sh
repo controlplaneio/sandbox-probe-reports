@@ -131,6 +131,37 @@ nono_pack_version() {
   printf 'unknown\n'
 }
 
+# nono_pack_manifest <profile> <outfile> — the profile's RESOLVED capability set,
+# written to outfile. Groups, aliases, inheritance and bypasses are already
+# expanded here, which is the whole point: diffing the authored profile instead
+# would mean reimplementing nono's resolver.
+#
+# Ask nono for it rather than reading a file out of the pack. This used to copy
+# `<pack>/policy.json`, and from nono 0.74.0 that file is gone: the pack's
+# registry-side policy.json is installed as `profiles/<install-as>.json`, which is
+# the AUTHORED profile — it still carries `extends`, aliases and group references.
+# Pointing at it would have attested the wrong document while still reporting a
+# verdict, which is worse than failing. `nono profile show --format manifest` is
+# the same resolution `nono run` applies, and its `version` is the manifestVersion
+# the attestation records.
+#
+# Two names are tried, and the winner is echoed. `nono run --profile` takes the
+# full `<ns>/<name>`, while the pack store keys profiles on the bare install-as
+# name. Returns non-zero, having written nothing usable, if neither resolves.
+nono_pack_manifest() {
+  local profile_id="${1%%@*}" out="$2" candidate
+  for candidate in "$profile_id" "${profile_id##*/}"; do
+    nono profile show "$candidate" --format manifest > "$out" 2>/dev/null || continue
+    # A manifest, not merely valid JSON: the whole attestation rests on this being
+    # the resolved capability set, so a changed shape must fail here rather than
+    # produce a verdict over the wrong document.
+    jq -e 'has("version") and has("filesystem")' "$out" >/dev/null 2>&1 || continue
+    printf '%s\n' "$candidate"
+    return 0
+  done
+  return 1
+}
+
 # was_there reports whether the snapshot taken before the install already held
 # this exact path, whatever its contents were. A path that was there belongs to
 # whoever put it there and is never touched, even when the name matches what the
