@@ -1,0 +1,519 @@
+{
+  "version":  "1.0.0",
+  "timestamp":  "2026-08-22T11:19:22.108496Z",
+  "probeBinary":  {
+    "goVersion":  "go1.25.6",
+    "os":  "windows",
+    "arch":  "amd64",
+    "binaryVersion":  "v6.7.3",
+    "commit":  "unknown",
+    "buildDate":  "unknown"
+  },
+  "metadata":  {
+    "tags":  [
+      "runner=windows-latest",
+      "harness=opencode",
+      "opencode=1.18.21",
+      "mode=via-opencode-stub"
+    ]
+  },
+  "findings":  [
+    {
+      "findingType":  "writeable_paths",
+      "task":  "baseline_filesystem_enumerator",
+      "description":  "Writeable paths",
+      "value":  [
+        "C:\\Windows\\System32",
+        "C:\\Windows\\SysWOW64",
+        "C:\\Windows",
+        "C:\\Program Files",
+        "C:\\Program Files (x86)"
+      ]
+    },
+    {
+      "findingType":  "sensitive_readable_paths",
+      "task":  "baseline_filesystem_enumerator",
+      "description":  "Readable sensitive paths",
+      "value":  [
+        "C:\\Users\\runneradmin\\AppData\\Roaming\\Microsoft\\Credentials",
+        "C:\\Users\\runneradmin\\AppData\\Roaming\\Microsoft\\Protect",
+        "C:\\Users\\runneradmin\\.docker\\config.json",
+        "C:\\Users\\runneradmin\\.gradle\\gradle.properties"
+      ]
+    },
+    {
+      "findingType":  "external_host_dns_resolution",
+      "task":  "baseline_network_scanner",
+      "description":  "External host DNS resolution",
+      "value":  [
+        "64.233.180.100",
+        "64.233.180.139",
+        "64.233.180.102",
+        "64.233.180.138",
+        "64.233.180.101",
+        "64.233.180.113"
+      ]
+    },
+    {
+      "findingType":  "external_host_connectivity",
+      "task":  "baseline_network_scanner",
+      "description":  "External host connectivity",
+      "value":  [
+        "google.com"
+      ]
+    },
+    {
+      "findingType":  "local_listeners",
+      "task":  "baseline_network_scanner",
+      "description":  "Local listening sockets (inventory, not a capability)",
+      "value":  [
+        "tcp *:22",
+        "tcp 192.168.16.1:53",
+        "tcp *:80",
+        "tcp *:135",
+        "tcp 10.1.0.113:139",
+        "tcp 192.168.16.1:139",
+        "tcp *:445",
+        "tcp *:1801",
+        "tcp *:2103",
+        "tcp *:2105",
+        "tcp *:2107",
+        "tcp *:2179",
+        "tcp *:3389",
+        "tcp *:5985",
+        "tcp *:5986",
+        "tcp 127.0.0.1:8790",
+        "tcp *:47001",
+        "tcp *:49664",
+        "tcp *:49665",
+        "tcp *:49666",
+        "tcp *:49667",
+        "tcp *:49668",
+        "tcp *:49670",
+        "tcp *:49671",
+        "tcp *:49685",
+        "udp 192.168.16.1:53",
+        "udp *:123",
+        "udp 10.1.0.113:137",
+        "udp 192.168.16.1:137",
+        "udp 10.1.0.113:138",
+        "udp 192.168.16.1:138",
+        "udp *:3389",
+        "udp *:5353",
+        "udp *:5355",
+        "udp *:51212",
+        "udp *:53951",
+        "udp *:57425",
+        "udp *:58948",
+        "udp 127.0.0.1:60746"
+      ]
+    },
+    {
+      "findingType":  "tcp_ports_open",
+      "task":  "baseline_network_scanner",
+      "description":  "Reachable TCP ports",
+      "value":  [
+        22,
+        53,
+        80,
+        135,
+        139,
+        445,
+        1801,
+        2103,
+        2105,
+        2107,
+        2179,
+        3389,
+        5985,
+        5986,
+        8790,
+        47001,
+        49664,
+        49665,
+        49666,
+        49667,
+        49668,
+        49670,
+        49671,
+        49685
+      ]
+    },
+    {
+      "findingType":  "udp_ports_open",
+      "task":  "baseline_network_scanner",
+      "description":  "Reachable UDP ports",
+      "value":  [
+        53,
+        123,
+        137,
+        138,
+        3389,
+        5353,
+        5355,
+        51212,
+        53951,
+        57425,
+        58948,
+        60746
+      ]
+    },
+    {
+      "findingType":  "local_probe_status",
+      "task":  "baseline_network_scanner",
+      "description":  "How the local service measurement went",
+      "value":  {
+        "control_tcp":  "refused",
+        "control_udp":  "refused",
+        "listeners_found":  39,
+        "method":  "kernel-inventory-v1",
+        "results":  [
+          {
+            "addr":  "127.0.0.1",
+            "outcome":  "reachable",
+            "port":  5986,
+            "proto":  "tcp"
+          },
+          {
+            "addr":  "127.0.0.1",
+            "outcome":  "reachable",
+            "port":  2179,
+            "proto":  "tcp"
+          },
+          {
+            "addr":  "127.0.0.1",
+            "outcome":  "reachable",
+            "port":  2107,
+            "proto":  "tcp"
+          },
+          {
+            "addr":  "127.0.0.1",
+            "outcome":  "reachable",
+            "port":  2105,
+            "proto":  "tcp"
+          },
+          {
+            "addr":  "127.0.0.1",
+            "outcome":  "reachable",
+            "port":  2103,
+            "proto":  "tcp"
+          },
+          {
+            "addr":  "127.0.0.1",
+            "outcome":  "reachable",
+            "port":  1801,
+            "proto":  "tcp"
+          },
+          {
+            "addr":  "127.0.0.1",
+            "outcome":  "reachable",
+            "port":  445,
+            "proto":  "tcp"
+          },
+          {
+            "addr":  "192.168.16.1",
+            "outcome":  "reachable",
+            "port":  139,
+            "proto":  "tcp"
+          },
+          {
+            "addr":  "10.1.0.113",
+            "outcome":  "reachable",
+            "port":  139,
+            "proto":  "tcp"
+          },
+          {
+            "addr":  "127.0.0.1",
+            "outcome":  "reachable",
+            "port":  135,
+            "proto":  "tcp"
+          },
+          {
+            "addr":  "127.0.0.1",
+            "outcome":  "reachable",
+            "port":  80,
+            "proto":  "tcp"
+          },
+          {
+            "addr":  "192.168.16.1",
+            "outcome":  "reachable",
+            "port":  53,
+            "proto":  "tcp"
+          },
+          {
+            "addr":  "127.0.0.1",
+            "outcome":  "reachable",
+            "port":  22,
+            "proto":  "tcp"
+          },
+          {
+            "addr":  "127.0.0.1",
+            "outcome":  "reachable",
+            "port":  8790,
+            "proto":  "tcp"
+          },
+          {
+            "addr":  "127.0.0.1",
+            "outcome":  "reachable",
+            "port":  5985,
+            "proto":  "tcp"
+          },
+          {
+            "addr":  "127.0.0.1",
+            "outcome":  "reachable",
+            "port":  3389,
+            "proto":  "tcp"
+          },
+          {
+            "addr":  "127.0.0.1",
+            "outcome":  "reachable",
+            "port":  49685,
+            "proto":  "tcp"
+          },
+          {
+            "addr":  "127.0.0.1",
+            "outcome":  "reachable",
+            "port":  49671,
+            "proto":  "tcp"
+          },
+          {
+            "addr":  "127.0.0.1",
+            "outcome":  "reachable",
+            "port":  49670,
+            "proto":  "tcp"
+          },
+          {
+            "addr":  "127.0.0.1",
+            "outcome":  "reachable",
+            "port":  49668,
+            "proto":  "tcp"
+          },
+          {
+            "addr":  "127.0.0.1",
+            "outcome":  "reachable",
+            "port":  49667,
+            "proto":  "tcp"
+          },
+          {
+            "addr":  "127.0.0.1",
+            "outcome":  "reachable",
+            "port":  49666,
+            "proto":  "tcp"
+          },
+          {
+            "addr":  "127.0.0.1",
+            "outcome":  "reachable",
+            "port":  49665,
+            "proto":  "tcp"
+          },
+          {
+            "addr":  "127.0.0.1",
+            "outcome":  "reachable",
+            "port":  49664,
+            "proto":  "tcp"
+          },
+          {
+            "addr":  "127.0.0.1",
+            "outcome":  "reachable",
+            "port":  47001,
+            "proto":  "tcp"
+          },
+          {
+            "addr":  "192.168.16.1",
+            "errno":  "deadline",
+            "outcome":  "silent",
+            "port":  53,
+            "proto":  "udp"
+          },
+          {
+            "addr":  "192.168.16.1",
+            "errno":  "deadline",
+            "outcome":  "silent",
+            "port":  137,
+            "proto":  "udp"
+          },
+          {
+            "addr":  "10.1.0.113",
+            "errno":  "deadline",
+            "outcome":  "silent",
+            "port":  138,
+            "proto":  "udp"
+          },
+          {
+            "addr":  "10.1.0.113",
+            "errno":  "deadline",
+            "outcome":  "silent",
+            "port":  137,
+            "proto":  "udp"
+          },
+          {
+            "addr":  "127.0.0.1",
+            "errno":  "deadline",
+            "outcome":  "silent",
+            "port":  123,
+            "proto":  "udp"
+          },
+          {
+            "addr":  "192.168.16.1",
+            "errno":  "deadline",
+            "outcome":  "silent",
+            "port":  138,
+            "proto":  "udp"
+          },
+          {
+            "addr":  "127.0.0.1",
+            "errno":  "deadline",
+            "outcome":  "silent",
+            "port":  3389,
+            "proto":  "udp"
+          },
+          {
+            "addr":  "127.0.0.1",
+            "errno":  "deadline",
+            "outcome":  "silent",
+            "port":  51212,
+            "proto":  "udp"
+          },
+          {
+            "addr":  "127.0.0.1",
+            "errno":  "deadline",
+            "outcome":  "silent",
+            "port":  5355,
+            "proto":  "udp"
+          },
+          {
+            "addr":  "127.0.0.1",
+            "errno":  "deadline",
+            "outcome":  "silent",
+            "port":  5353,
+            "proto":  "udp"
+          },
+          {
+            "addr":  "127.0.0.1",
+            "errno":  "deadline",
+            "outcome":  "silent",
+            "port":  53951,
+            "proto":  "udp"
+          },
+          {
+            "addr":  "127.0.0.1",
+            "errno":  "deadline",
+            "outcome":  "silent",
+            "port":  60746,
+            "proto":  "udp"
+          },
+          {
+            "addr":  "127.0.0.1",
+            "errno":  "deadline",
+            "outcome":  "silent",
+            "port":  57425,
+            "proto":  "udp"
+          },
+          {
+            "addr":  "127.0.0.1",
+            "errno":  "deadline",
+            "outcome":  "silent",
+            "port":  58948,
+            "proto":  "udp"
+          }
+        ],
+        "source":  "iphlpapi",
+        "table":  "read",
+        "udp_feedback":  "working"
+      }
+    },
+    {
+      "findingType":  "proxy_detection",
+      "task":  "baseline_proxy_detector",
+      "description":  "Proxy configuration",
+      "value":  {
+        "all_proxy":  "",
+        "http_proxy":  "",
+        "https_proxy":  "",
+        "no_proxy":  "",
+        "pac_url":  "",
+        "socks_proxy":  ""
+      }
+    },
+    {
+      "findingType":  "unix_socket_detection",
+      "task":  "baseline_socket_scanner",
+      "description":  "Unix sockets detected",
+      "value":  []
+    },
+    {
+      "findingType":  "named_pipe_detection",
+      "task":  "baseline_socket_scanner",
+      "description":  "Named pipes detected",
+      "value":  [
+        "\\\\.\\pipe\\InitShutdown",
+        "\\\\.\\pipe\\lsass",
+        "\\\\.\\pipe\\ntsvcs",
+        "\\\\.\\pipe\\Winsock2\\CatalogChangeListener-3ec-0",
+        "\\\\.\\pipe\\Winsock2\\CatalogChangeListener-448-0",
+        "\\\\.\\pipe\\epmapper",
+        "\\\\.\\pipe\\Winsock2\\CatalogChangeListener-35c-0",
+        "\\\\.\\pipe\\Winsock2\\CatalogChangeListener-480-0",
+        "\\\\.\\pipe\\LSM_API_service",
+        "\\\\.\\pipe\\TermSrv_API_service",
+        "\\\\.\\pipe\\Ctx_WinStation_API_service",
+        "\\\\.\\pipe\\wkssvc",
+        "\\\\.\\pipe\\atsvc",
+        "\\\\.\\pipe\\SessEnvPublicRpc",
+        "\\\\.\\pipe\\Winsock2\\CatalogChangeListener-b78-0",
+        "\\\\.\\pipe\\eventlog",
+        "\\\\.\\pipe\\Winsock2\\CatalogChangeListener-9bc-0",
+        "\\\\.\\pipe\\Winsock2\\CatalogChangeListener-a44-0",
+        "\\\\.\\pipe\\Winsock2\\CatalogChangeListener-cf0-0",
+        "\\\\.\\pipe\\winreg",
+        "\\\\.\\pipe\\wbhstipmc1300185-4a09-49f9-a00e-c18a05359884",
+        "\\\\.\\pipe\\wbhstipm0e28282a-ccec-441a-876f-3bbc0a86b7f5",
+        "\\\\.\\pipe\\wbhstipm27c8cc75-7842-47a8-b59f-e7cb6875928b",
+        "\\\\.\\pipe\\trkwks",
+        "\\\\.\\pipe\\wbhstipm471d2854-b35b-4be4-a13f-20c5ac5cb363",
+        "\\\\.\\pipe\\W32TIME_ALT",
+        "\\\\.\\pipe\\srvsvc",
+        "\\\\.\\pipe\\Winsock2\\CatalogChangeListener-f20-0",
+        "\\\\.\\pipe\\W32PosixPipe.00000f4c.00000000",
+        "\\\\.\\pipe\\PIPE_EVENTROOT\\CIMV2SCM EVENT PROVIDER",
+        "\\\\.\\pipe\\fc1e77b8-f840-4795-b8e7-ee119acd7958",
+        "\\\\.\\pipe\\235caad4-55b7-4b37-805e-50e1bb3d4b77",
+        "\\\\.\\pipe\\Winsock2\\CatalogChangeListener-3d0-0",
+        "\\\\.\\pipe\\docker_engine",
+        "\\\\.\\pipe\\dotnet-diagnostic-7788",
+        "\\\\.\\pipe\\dotnet-diagnostic-8344",
+        "\\\\.\\pipe\\openssh-ssh-agent",
+        "\\\\.\\pipe\\msys-1888ae32e00d56aa-7716-sigwait",
+        "\\\\.\\pipe\\msys-1888ae32e00d56aa-7844-sigwait",
+        "\\\\.\\pipe\\msys-1888ae32e00d56aa-7824-sigwait",
+        "\\\\.\\pipe\\msys-1888ae32e00d56aa-5800-sigwait",
+        "\\\\.\\pipe\\uv\\18446744073709551615-7068",
+        "\\\\.\\pipe\\uv\\0-7068",
+        "\\\\.\\pipe\\dotnet-diagnostic-1464",
+        "\\\\.\\pipe\\PSHost.134318711608806855.1464.DefaultAppDomain.pwsh"
+      ]
+    },
+    {
+      "findingType":  "hostname_detection",
+      "task":  "baseline_hostname",
+      "description":  "Hostname",
+      "value":  "runnervm6iq3x"
+    },
+    {
+      "findingType":  "environment_detection",
+      "task":  "baseline_environment",
+      "description":  "Host kernel and OS release",
+      "value":  {
+        "kernel_release":  "",
+        "kernel_version":  "",
+        "os_release":  ""
+      }
+    },
+    {
+      "findingType":  "mounted_volumes_detections",
+      "task":  "baseline_mount_scanner",
+      "description":  "Host-mounted volumes",
+      "value":  []
+    }
+  ]
+}
