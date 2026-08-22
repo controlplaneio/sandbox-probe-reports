@@ -99,6 +99,14 @@ jobs:
           # is a finding to record about the profile — NOT something to fix by adding a network flag
           # of our own, which would make the row measure our configuration. Promote to blocking once
           # a scheduled run shows it green.
+          #
+          # FINDING, observed 2026-08-22 against nono 0.74.0, both rows: the profile does not grant
+          # read on the directory holding the `codex` binary, so codex exits 127 before it starts —
+          # "The executable 'codex' was resolved at <path> but its directory is not readable inside
+          # the sandbox" — and the row produces no report at all. nono names `--read <dir>` as the
+          # fix and we do not take it, for the reason directly above: a grant of ours would make the
+          # row measure our configuration instead of the published profile. The row therefore stays
+          # red, and non-blocking, until the profile covers the harness binary it exists to confine.
           - { os: linux, runner: ubuntu-latest, arch: linux-amd64,  ext: "", family: codex, harness: codex-nono, nono_profile: nolabs-ai/codex, expect: '["landlock","seccomp-notify","seccomp-filter","no-new-privs"]', optional: true }
           - { os: macos, runner: macos-latest,  arch: darwin-arm64, ext: "", family: codex, harness: codex-nono, nono_profile: nolabs-ai/codex, expect: '["seatbelt"]', optional: true }
           # gemini — real agent, model stubbed; as-is vs its sandbox (Seatbelt on macOS, container on Linux).
