@@ -1,0 +1,428 @@
+{
+  "version": "1.0.0",
+  "timestamp": "2026-08-22T11:30:56.090303151Z",
+  "probeBinary": {
+    "goVersion": "go1.25.6",
+    "os": "linux",
+    "arch": "amd64",
+    "binaryVersion": "v6.7.3",
+    "commit": "unknown",
+    "buildDate": "unknown"
+  },
+  "metadata": {
+    "tags": [
+      "runner=ubuntu-latest",
+      "harness=codex",
+      "sandbox=on",
+      "codex=0.149.0",
+      "bwrap=0.9.0",
+      "mode=via-codex-stub"
+    ]
+  },
+  "findings": [
+    {
+      "findingType": "writeable_paths",
+      "task": "baseline_filesystem_enumerator",
+      "description": "Writeable paths",
+      "value": [
+        "/dev"
+      ]
+    },
+    {
+      "findingType": "sensitive_readable_paths",
+      "task": "baseline_filesystem_enumerator",
+      "description": "Readable sensitive paths",
+      "value": [
+        "/etc/passwd",
+        "/etc/group",
+        "/etc/hostname",
+        "/etc/hosts",
+        "/etc/resolv.conf",
+        "/etc/ssh/sshd_config",
+        "/proc/self/cgroup",
+        "/proc/self/mountinfo",
+        "/proc/self/status",
+        "/proc/1/cgroup",
+        "/proc/1/environ",
+        "/home/runner/.ssh/id_rsa",
+        "/home/runner/.ssh/id_ed25519",
+        "/home/runner/.ssh/id_ecdsa",
+        "/home/runner/.ssh/config",
+        "/home/runner/.ssh/authorized_keys",
+        "/home/runner/.aws/credentials",
+        "/home/runner/.aws/config",
+        "/home/runner/.gcloud/credentials.db",
+        "/home/runner/.gcloud/access_tokens.db",
+        "/home/runner/.azure/credentials",
+        "/home/runner/.azure/msal_token_cache.json",
+        "/home/runner/.kube/config",
+        "/home/runner/.docker/config.json",
+        "/home/runner/.git-credentials",
+        "/home/runner/.netrc",
+        "/home/runner/.vault-token",
+        "/home/runner/.terraform.d/credentials.tfrc.json",
+        "/home/runner/.config/gh/hosts.yml",
+        "/home/runner/.config/doctl/config.yaml",
+        "/home/runner/.fly/config.yml",
+        "/home/runner/.npmrc",
+        "/home/runner/.pypirc",
+        "/home/runner/.gem/credentials",
+        "/home/runner/.cargo/credentials.toml",
+        "/home/runner/.m2/settings.xml",
+        "/home/runner/.gradle/gradle.properties"
+      ]
+    },
+    {
+      "findingType": "external_host_dns_resolution",
+      "task": "baseline_network_scanner",
+      "description": "External host DNS resolution",
+      "value": []
+    },
+    {
+      "findingType": "external_host_connectivity",
+      "task": "baseline_network_scanner",
+      "description": "External host connectivity",
+      "value": []
+    },
+    {
+      "findingType": "local_listeners",
+      "task": "baseline_network_scanner",
+      "description": "Local listening sockets (inventory, not a capability)",
+      "value": []
+    },
+    {
+      "findingType": "tcp_ports_open",
+      "task": "baseline_network_scanner",
+      "description": "Reachable TCP ports",
+      "value": []
+    },
+    {
+      "findingType": "local_probe_status",
+      "task": "baseline_network_scanner",
+      "description": "How the local service measurement went",
+      "value": {
+        "control_tcp": "probe_error",
+        "control_udp": "probe_error",
+        "listeners_found": 0,
+        "method": "kernel-inventory-v1",
+        "netns": "net:[4026532428]",
+        "results": [],
+        "source": "procfs",
+        "table": "read",
+        "udp_feedback": "unknown"
+      }
+    },
+    {
+      "findingType": "proxy_detection",
+      "task": "baseline_proxy_detector",
+      "description": "Proxy configuration",
+      "value": {
+        "all_proxy": "",
+        "http_proxy": "",
+        "https_proxy": "",
+        "no_proxy": "",
+        "pac_url": "",
+        "socks_proxy": ""
+      }
+    },
+    {
+      "findingType": "unix_socket_detection",
+      "task": "baseline_socket_scanner",
+      "description": "Unix sockets detected",
+      "value": [
+        "/run/dbus/system_bus_socket",
+        "/run/docker.sock",
+        "/run/lxd-installer.socket",
+        "/run/php/php8.3-fpm.sock",
+        "/run/snapd-snap.socket",
+        "/run/snapd.socket",
+        "/run/uuidd/request",
+        "/run/systemd/coredump",
+        "/run/systemd/fsck.progress",
+        "/run/udev/control",
+        "/run/user/1001/bus",
+        "/run/user/1001/pk-debconf-socket",
+        "/run/user/1001/snapd-session-agent.socket",
+        "/run/systemd/io.systemd.ManagedOOM",
+        "/run/systemd/inaccessible/sock",
+        "/run/systemd/io.systemd.sysext",
+        "/run/systemd/notify",
+        "/run/systemd/private",
+        "/run/user/1001/systemd/notify",
+        "/run/user/1001/systemd/private",
+        "/run/user/1001/gnupg/S.dirmngr",
+        "/run/user/1001/gnupg/S.gpg-agent",
+        "/run/user/1001/gnupg/S.gpg-agent.browser",
+        "/run/user/1001/gnupg/S.gpg-agent.extra",
+        "/run/user/1001/gnupg/S.gpg-agent.ssh",
+        "/run/user/1001/gnupg/S.keyboxd",
+        "/run/user/1001/systemd/inaccessible/sock",
+        "/run/dhcpcd/eth0-4.sock",
+        "/run/dhcpcd/eth0-4.unpriv.sock",
+        "/run/systemd/resolve/io.systemd.Resolve",
+        "/run/systemd/resolve/io.systemd.Resolve.Monitor",
+        "/run/systemd/userdb/io.systemd.DynamicUser",
+        "/run/systemd/journal/dev-log",
+        "/run/systemd/journal/io.systemd.journal",
+        "/run/systemd/journal/socket",
+        "/run/systemd/journal/stdout",
+        "/run/systemd/journal/syslog",
+        "/tmp/dotnet-diagnostic-1948-6342-socket",
+        "/tmp/dotnet-diagnostic-1966-6514-socket",
+        "/tmp/ssh-sandbox-probe-decoy/agent.1",
+        "/home/runner/.local/share/code-server/code-server-ipc.sock"
+      ]
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "codex-linux-sandbox --sandbox-policy-cwd /home/runner/work/sandbox-probe-reports/sandbox-probe-reports --command-cwd /home/runner/work/sandbox-probe-reports/sandbox-probe-reports --permission-profile {\"type\":\"managed\",\"file_system\":{\"type\":\"restricted\",\"entries\":[{\"path\":{\"type\":\"special\",\"value\":{\"kind\":\"root\"}},\"access\":\"read\"},{\"path\":{\"type\":\"path\",\"path\":\"/home/runner/work/sandbox-probe-reports/sandbox-probe-reports\"},\"access\":\"write\"},{\"path\":{\"type\":\"special\",\"value\":{\"kind\":\"slash_tmp\"}},\"access\":\"write\"},{\"path\":{\"type\":\"special\",\"value\":{\"kind\":\"tmpdir\"}},\"access\":\"write\"},{\"path\":{\"type\":\"path\",\"path\":\"/home/runner/work/sandbox-probe-reports/sandbox-probe-reports/.git\"},\"access\":\"read\",\"missing_path_behavior\":\"skip\"},{\"path\":{\"type\":\"path\",\"path\":\"/home/runner/work/sandbox-probe-reports/sandbox-probe-reports/.agents\"},\"access\":\"read\",\"missing_path_behavior\":\"skip\"},{\"path\":{\"type\":\"path\",\"path\":\"/home/runner/work/sandbox-probe-reports/sandbox-probe-reports/.codex\"},\"access\":\"read\",\"missing_path_behavior\":\"skip\"}]},\"network\":\"restricted\"} --apply-seccomp-then-exec -- /bin/bash -c __CODEX_SNAPSHOT_OVERRIDE_SET_0=\"${CODEX_APPLY_PATCH_PRESERVE_LINE_ENDINGS+x}\"\n__CODEX_SNAPSHOT_OVERRIDE_0=\"${CODEX_APPLY_PATCH_PRESERVE_LINE_ENDINGS-}\"\n__CODEX_SNAPSHOT_OVERRIDE_SET_1=\"${CODEX_PERMISSION_PROFILE+x}\"\n__CODEX_SNAPSHOT_OVERRIDE_1=\"${CODEX_PERMISSION_PROFILE-}\"\n__CODEX_SNAPSHOT_OVERRIDE_SET_2=\"${CODEX_PLUGIN_METRICS_OUTPUT+x}\"\n__CODEX_SNAPSHOT_OVERRIDE_2=\"${CODEX_PLUGIN_METRICS_OUTPUT-}\"\n__CODEX_SNAPSHOT_OVERRIDE_SET_3=\"${CODEX_SESSION_ID+x}\"\n__CODEX_SNAPSHOT_OVERRIDE_3=\"${CODEX_SESSION_ID-}\"\n__CODEX_SNAPSHOT_OVERRIDE_SET_4=\"${CODEX_THREAD_ID+x}\"\n__CODEX_SNAPSHOT_OVERRIDE_4=\"${CODEX_THREAD_ID-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_0=\"${ALL_PROXY+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_0=\"${ALL_PROXY-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_1=\"${BUNDLE_HTTPS_PROXY+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_1=\"${BUNDLE_HTTPS_PROXY-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_2=\"${BUNDLE_HTTP_PROXY+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_2=\"${BUNDLE_HTTP_PROXY-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_3=\"${BUNDLE_NO_PROXY+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_3=\"${BUNDLE_NO_PROXY-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_4=\"${BUNDLE_SSL_CA_CERT+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_4=\"${BUNDLE_SSL_CA_CERT-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_5=\"${CARGO_HTTP_CAINFO+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_5=\"${CARGO_HTTP_CAINFO-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_6=\"${CODEX_CA_CERTIFICATE+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_6=\"${CODEX_CA_CERTIFICATE-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_7=\"${CODEX_NETWORK_ALLOW_LOCAL_BINDING+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_7=\"${CODEX_NETWORK_ALLOW_LOCAL_BINDING-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_8=\"${CODEX_NETWORK_PROXY_ACTIVE+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_8=\"${CODEX_NETWORK_PROXY_ACTIVE-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_9=\"${CODEX_NETWORK_PROXY_ATTRIBUTION+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_9=\"${CODEX_NETWORK_PROXY_ATTRIBUTION-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_10=\"${CODEX_NETWORK_PROXY_BROKERED_CREDENTIALS+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_10=\"${CODEX_NETWORK_PROXY_BROKERED_CREDENTIALS-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_11=\"${CODEX_NETWORK_PROXY_CREDENTIAL_BROKER_ACTIVE+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_11=\"${CODEX_NETWORK_PROXY_CREDENTIAL_BROKER_ACTIVE-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_12=\"${CURL_CA_BUNDLE+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_12=\"${CURL_CA_BUNDLE-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_13=\"${DOCKER_HTTPS_PROXY+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_13=\"${DOCKER_HTTPS_PROXY-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_14=\"${DOCKER_HTTP_PROXY+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_14=\"${DOCKER_HTTP_PROXY-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_15=\"${ELECTRON_GET_USE_PROXY+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_15=\"${ELECTRON_GET_USE_PROXY-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_16=\"${FTP_PROXY+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_16=\"${FTP_PROXY-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_17=\"${GIT_SSL_CAINFO+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_17=\"${GIT_SSL_CAINFO-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_18=\"${HTTPS_PROXY+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_18=\"${HTTPS_PROXY-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_19=\"${HTTP_PROXY+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_19=\"${HTTP_PROXY-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_20=\"${NODE_EXTRA_CA_CERTS+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_20=\"${NODE_EXTRA_CA_CERTS-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_21=\"${NODE_USE_ENV_PROXY+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_21=\"${NODE_USE_ENV_PROXY-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_22=\"${NO_PROXY+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_22=\"${NO_PROXY-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_23=\"${NPM_CONFIG_CAFILE+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_23=\"${NPM_CONFIG_CAFILE-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_24=\"${NPM_CONFIG_HTTPS_PROXY+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_24=\"${NPM_CONFIG_HTTPS_PROXY-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_25=\"${NPM_CONFIG_HTTP_PROXY+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_25=\"${NPM_CONFIG_HTTP_PROXY-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_26=\"${NPM_CONFIG_NOPROXY+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_26=\"${NPM_CONFIG_NOPROXY-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_27=\"${NPM_CONFIG_PROXY+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_27=\"${NPM_CONFIG_PROXY-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_28=\"${PIP_CERT+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_28=\"${PIP_CERT-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_29=\"${PIP_PROXY+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_29=\"${PIP_PROXY-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_30=\"${REQUESTS_CA_BUNDLE+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_30=\"${REQUESTS_CA_BUNDLE-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_31=\"${SSL_CERT_FILE+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_31=\"${SSL_CERT_FILE-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_32=\"${WSS_PROXY+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_32=\"${WSS_PROXY-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_33=\"${WS_PROXY+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_33=\"${WS_PROXY-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_34=\"${YARN_HTTPS_PROXY+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_34=\"${YARN_HTTPS_PROXY-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_35=\"${YARN_HTTP_PROXY+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_35=\"${YARN_HTTP_PROXY-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_36=\"${YARN_NO_PROXY+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_36=\"${YARN_NO_PROXY-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_37=\"${all_proxy+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_37=\"${all_proxy-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_38=\"${ftp_proxy+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_38=\"${ftp_proxy-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_39=\"${http_proxy+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_39=\"${http_proxy-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_40=\"${https_proxy+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_40=\"${https_proxy-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_41=\"${no_proxy+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_41=\"${no_proxy-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_42=\"${npm_config_cafile+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_42=\"${npm_config_cafile-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_43=\"${npm_config_http_proxy+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_43=\"${npm_config_http_proxy-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_44=\"${npm_config_https_proxy+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_44=\"${npm_config_https_proxy-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_45=\"${npm_config_noproxy+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_45=\"${npm_config_noproxy-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_46=\"${npm_config_proxy+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_46=\"${npm_config_proxy-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_47=\"${ws_proxy+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_47=\"${ws_proxy-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_48=\"${wss_proxy+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_48=\"${wss_proxy-}\"\n__CODEX_SNAPSHOT_PROXY_ENV_SET=\"${CODEX_NETWORK_PROXY_ACTIVE+x}\"\n\nif . '/tmp/tmp.Lg8rAX9dKc/shell_snapshots/01a0293c-f3ed-7f72-ac8e-29a82685c5cd.1787398255600793993.sh' >/dev/null 2>&1; then :; fi\n\nif [ -n \"${__CODEX_SNAPSHOT_OVERRIDE_SET_0}\" ]; then export CODEX_APPLY_PATCH_PRESERVE_LINE_ENDINGS=\"${__CODEX_SNAPSHOT_OVERRIDE_0}\"; else unset CODEX_APPLY_PATCH_PRESERVE_LINE_ENDINGS; fi\nif [ -n \"${__CODEX_SNAPSHOT_OVERRIDE_SET_1}\" ]; then export CODEX_PERMISSION_PROFILE=\"${__CODEX_SNAPSHOT_OVERRIDE_1}\"; else unset CODEX_PERMISSION_PROFILE; fi\nif [ -n \"${__CODEX_SNAPSHOT_OVERRIDE_SET_2}\" ]; then export CODEX_PLUGIN_METRICS_OUTPUT=\"${__CODEX_SNAPSHOT_OVERRIDE_2}\"; else unset CODEX_PLUGIN_METRICS_OUTPUT; fi\nif [ -n \"${__CODEX_SNAPSHOT_OVERRIDE_SET_3}\" ]; then export CODEX_SESSION_ID=\"${__CODEX_SNAPSHOT_OVERRIDE_3}\"; else unset CODEX_SESSION_ID; fi\nif [ -n \"${__CODEX_SNAPSHOT_OVERRIDE_SET_4}\" ]; then export CODEX_THREAD_ID=\"${__CODEX_SNAPSHOT_OVERRIDE_4}\"; else unset CODEX_THREAD_ID; fi\nif [ -n \"$__CODEX_SNAPSHOT_PROXY_ENV_SET\" ] || [ -n \"${CODEX_NETWORK_PROXY_ACTIVE+x}\" ]; then\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_0}\" ]; then export ALL_PROXY=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_0}\"; else unset ALL_PROXY; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_1}\" ]; then export BUNDLE_HTTPS_PROXY=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_1}\"; else unset BUNDLE_HTTPS_PROXY; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_2}\" ]; then export BUNDLE_HTTP_PROXY=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_2}\"; else unset BUNDLE_HTTP_PROXY; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_3}\" ]; then export BUNDLE_NO_PROXY=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_3}\"; else unset BUNDLE_NO_PROXY; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_4}\" ]; then export BUNDLE_SSL_CA_CERT=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_4}\"; else unset BUNDLE_SSL_CA_CERT; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_5}\" ]; then export CARGO_HTTP_CAINFO=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_5}\"; else unset CARGO_HTTP_CAINFO; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_6}\" ]; then export CODEX_CA_CERTIFICATE=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_6}\"; else unset CODEX_CA_CERTIFICATE; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_7}\" ]; then export CODEX_NETWORK_ALLOW_LOCAL_BINDING=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_7}\"; else unset CODEX_NETWORK_ALLOW_LOCAL_BINDING; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_8}\" ]; then export CODEX_NETWORK_PROXY_ACTIVE=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_8}\"; else unset CODEX_NETWORK_PROXY_ACTIVE; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_9}\" ]; then export CODEX_NETWORK_PROXY_ATTRIBUTION=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_9}\"; else unset CODEX_NETWORK_PROXY_ATTRIBUTION; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_10}\" ]; then export CODEX_NETWORK_PROXY_BROKERED_CREDENTIALS=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_10}\"; else unset CODEX_NETWORK_PROXY_BROKERED_CREDENTIALS; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_11}\" ]; then export CODEX_NETWORK_PROXY_CREDENTIAL_BROKER_ACTIVE=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_11}\"; else unset CODEX_NETWORK_PROXY_CREDENTIAL_BROKER_ACTIVE; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_12}\" ]; then export CURL_CA_BUNDLE=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_12}\"; else unset CURL_CA_BUNDLE; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_13}\" ]; then export DOCKER_HTTPS_PROXY=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_13}\"; else unset DOCKER_HTTPS_PROXY; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_14}\" ]; then export DOCKER_HTTP_PROXY=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_14}\"; else unset DOCKER_HTTP_PROXY; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_15}\" ]; then export ELECTRON_GET_USE_PROXY=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_15}\"; else unset ELECTRON_GET_USE_PROXY; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_16}\" ]; then export FTP_PROXY=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_16}\"; else unset FTP_PROXY; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_17}\" ]; then export GIT_SSL_CAINFO=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_17}\"; else unset GIT_SSL_CAINFO; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_18}\" ]; then export HTTPS_PROXY=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_18}\"; else unset HTTPS_PROXY; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_19}\" ]; then export HTTP_PROXY=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_19}\"; else unset HTTP_PROXY; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_20}\" ]; then export NODE_EXTRA_CA_CERTS=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_20}\"; else unset NODE_EXTRA_CA_CERTS; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_21}\" ]; then export NODE_USE_ENV_PROXY=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_21}\"; else unset NODE_USE_ENV_PROXY; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_22}\" ]; then export NO_PROXY=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_22}\"; else unset NO_PROXY; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_23}\" ]; then export NPM_CONFIG_CAFILE=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_23}\"; else unset NPM_CONFIG_CAFILE; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_24}\" ]; then export NPM_CONFIG_HTTPS_PROXY=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_24}\"; else unset NPM_CONFIG_HTTPS_PROXY; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_25}\" ]; then export NPM_CONFIG_HTTP_PROXY=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_25}\"; else unset NPM_CONFIG_HTTP_PROXY; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_26}\" ]; then export NPM_CONFIG_NOPROXY=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_26}\"; else unset NPM_CONFIG_NOPROXY; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_27}\" ]; then export NPM_CONFIG_PROXY=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_27}\"; else unset NPM_CONFIG_PROXY; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_28}\" ]; then export PIP_CERT=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_28}\"; else unset PIP_CERT; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_29}\" ]; then export PIP_PROXY=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_29}\"; else unset PIP_PROXY; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_30}\" ]; then export REQUESTS_CA_BUNDLE=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_30}\"; else unset REQUESTS_CA_BUNDLE; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_31}\" ]; then export SSL_CERT_FILE=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_31}\"; else unset SSL_CERT_FILE; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_32}\" ]; then export WSS_PROXY=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_32}\"; else unset WSS_PROXY; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_33}\" ]; then export WS_PROXY=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_33}\"; else unset WS_PROXY; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_34}\" ]; then export YARN_HTTPS_PROXY=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_34}\"; else unset YARN_HTTPS_PROXY; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_35}\" ]; then export YARN_HTTP_PROXY=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_35}\"; else unset YARN_HTTP_PROXY; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_36}\" ]; then export YARN_NO_PROXY=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_36}\"; else unset YARN_NO_PROXY; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_37}\" ]; then export all_proxy=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_37}\"; else unset all_proxy; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_38}\" ]; then export ftp_proxy=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_38}\"; else unset ftp_proxy; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_39}\" ]; then export http_proxy=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_39}\"; else unset http_proxy; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_40}\" ]; then export https_proxy=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_40}\"; else unset https_proxy; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_41}\" ]; then export no_proxy=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_41}\"; else unset no_proxy; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_42}\" ]; then export npm_config_cafile=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_42}\"; else unset npm_config_cafile; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_43}\" ]; then export npm_config_http_proxy=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_43}\"; else unset npm_config_http_proxy; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_44}\" ]; then export npm_config_https_proxy=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_44}\"; else unset npm_config_https_proxy; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_45}\" ]; then export npm_config_noproxy=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_45}\"; else unset npm_config_noproxy; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_46}\" ]; then export npm_config_proxy=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_46}\"; else unset npm_config_proxy; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_47}\" ]; then export ws_proxy=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_47}\"; else unset ws_proxy; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_48}\" ]; then export wss_proxy=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_48}\"; else unset wss_proxy; fi\nfi\nif [ -n \"${PATH:-}\" ]; then export PATH='/opt/hostedtoolcache/node/22.23.2/x64/lib/node_modules/@openai/codex/node_modules/@openai/codex-linux-x64/vendor/x86_64-unknown-linux-musl/codex-path':\"$PATH\"; else export PATH='/opt/hostedtoolcache/node/22.23.2/x64/lib/node_modules/@openai/codex/node_modules/@openai/codex-linux-x64/vendor/x86_64-unknown-linux-musl/codex-path'; fi\n\nexec '/bin/bash' -c './sandbox-probe scan --tasksets baseline --tags runner=ubuntu-latest,harness=codex,sandbox=on,codex=0.149.0,bwrap=0.9.0,mode=via-codex-stub --output_path reports/linux-codex-sandbox.json'",
+        "namespaces": [
+          {
+            "inode": 4026532363,
+            "type": "user"
+          },
+          {
+            "inode": 4026531835,
+            "type": "cgroup"
+          },
+          {
+            "inode": 4026531834,
+            "type": "time"
+          },
+          {
+            "inode": 4026531834,
+            "type": "time"
+          },
+          {
+            "inode": 4026532426,
+            "type": "ipc"
+          },
+          {
+            "inode": 4026532427,
+            "type": "pid"
+          },
+          {
+            "inode": 4026532425,
+            "type": "mnt"
+          },
+          {
+            "inode": 4026532428,
+            "type": "net"
+          },
+          {
+            "inode": 4026531838,
+            "type": "uts"
+          },
+          {
+            "inode": 4026532427,
+            "type": "pid"
+          }
+        ],
+        "pid": 1,
+        "ppid": 0
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "./sandbox-probe scan --tasksets baseline --tags runner=ubuntu-latest,harness=codex,sandbox=on,codex=0.149.0,bwrap=0.9.0,mode=via-codex-stub --output_path reports/linux-codex-sandbox.json",
+        "namespaces": [
+          {
+            "inode": 4026532363,
+            "type": "user"
+          },
+          {
+            "inode": 4026532425,
+            "type": "mnt"
+          },
+          {
+            "inode": 4026531835,
+            "type": "cgroup"
+          },
+          {
+            "inode": 4026531834,
+            "type": "time"
+          },
+          {
+            "inode": 4026531834,
+            "type": "time"
+          },
+          {
+            "inode": 4026532428,
+            "type": "net"
+          },
+          {
+            "inode": 4026531838,
+            "type": "uts"
+          },
+          {
+            "inode": 4026532426,
+            "type": "ipc"
+          },
+          {
+            "inode": 4026532427,
+            "type": "pid"
+          },
+          {
+            "inode": 4026532427,
+            "type": "pid"
+          }
+        ],
+        "pid": 2,
+        "ppid": 1
+      }
+    },
+    {
+      "findingType": "parent_process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Parent process",
+      "value": {
+        "command": "codex-linux-sandbox --sandbox-policy-cwd /home/runner/work/sandbox-probe-reports/sandbox-probe-reports --command-cwd /home/runner/work/sandbox-probe-reports/sandbox-probe-reports --permission-profile {\"type\":\"managed\",\"file_system\":{\"type\":\"restricted\",\"entries\":[{\"path\":{\"type\":\"special\",\"value\":{\"kind\":\"root\"}},\"access\":\"read\"},{\"path\":{\"type\":\"path\",\"path\":\"/home/runner/work/sandbox-probe-reports/sandbox-probe-reports\"},\"access\":\"write\"},{\"path\":{\"type\":\"special\",\"value\":{\"kind\":\"slash_tmp\"}},\"access\":\"write\"},{\"path\":{\"type\":\"special\",\"value\":{\"kind\":\"tmpdir\"}},\"access\":\"write\"},{\"path\":{\"type\":\"path\",\"path\":\"/home/runner/work/sandbox-probe-reports/sandbox-probe-reports/.git\"},\"access\":\"read\",\"missing_path_behavior\":\"skip\"},{\"path\":{\"type\":\"path\",\"path\":\"/home/runner/work/sandbox-probe-reports/sandbox-probe-reports/.agents\"},\"access\":\"read\",\"missing_path_behavior\":\"skip\"},{\"path\":{\"type\":\"path\",\"path\":\"/home/runner/work/sandbox-probe-reports/sandbox-probe-reports/.codex\"},\"access\":\"read\",\"missing_path_behavior\":\"skip\"}]},\"network\":\"restricted\"} --apply-seccomp-then-exec -- /bin/bash -c __CODEX_SNAPSHOT_OVERRIDE_SET_0=\"${CODEX_APPLY_PATCH_PRESERVE_LINE_ENDINGS+x}\"\n__CODEX_SNAPSHOT_OVERRIDE_0=\"${CODEX_APPLY_PATCH_PRESERVE_LINE_ENDINGS-}\"\n__CODEX_SNAPSHOT_OVERRIDE_SET_1=\"${CODEX_PERMISSION_PROFILE+x}\"\n__CODEX_SNAPSHOT_OVERRIDE_1=\"${CODEX_PERMISSION_PROFILE-}\"\n__CODEX_SNAPSHOT_OVERRIDE_SET_2=\"${CODEX_PLUGIN_METRICS_OUTPUT+x}\"\n__CODEX_SNAPSHOT_OVERRIDE_2=\"${CODEX_PLUGIN_METRICS_OUTPUT-}\"\n__CODEX_SNAPSHOT_OVERRIDE_SET_3=\"${CODEX_SESSION_ID+x}\"\n__CODEX_SNAPSHOT_OVERRIDE_3=\"${CODEX_SESSION_ID-}\"\n__CODEX_SNAPSHOT_OVERRIDE_SET_4=\"${CODEX_THREAD_ID+x}\"\n__CODEX_SNAPSHOT_OVERRIDE_4=\"${CODEX_THREAD_ID-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_0=\"${ALL_PROXY+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_0=\"${ALL_PROXY-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_1=\"${BUNDLE_HTTPS_PROXY+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_1=\"${BUNDLE_HTTPS_PROXY-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_2=\"${BUNDLE_HTTP_PROXY+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_2=\"${BUNDLE_HTTP_PROXY-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_3=\"${BUNDLE_NO_PROXY+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_3=\"${BUNDLE_NO_PROXY-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_4=\"${BUNDLE_SSL_CA_CERT+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_4=\"${BUNDLE_SSL_CA_CERT-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_5=\"${CARGO_HTTP_CAINFO+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_5=\"${CARGO_HTTP_CAINFO-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_6=\"${CODEX_CA_CERTIFICATE+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_6=\"${CODEX_CA_CERTIFICATE-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_7=\"${CODEX_NETWORK_ALLOW_LOCAL_BINDING+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_7=\"${CODEX_NETWORK_ALLOW_LOCAL_BINDING-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_8=\"${CODEX_NETWORK_PROXY_ACTIVE+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_8=\"${CODEX_NETWORK_PROXY_ACTIVE-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_9=\"${CODEX_NETWORK_PROXY_ATTRIBUTION+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_9=\"${CODEX_NETWORK_PROXY_ATTRIBUTION-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_10=\"${CODEX_NETWORK_PROXY_BROKERED_CREDENTIALS+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_10=\"${CODEX_NETWORK_PROXY_BROKERED_CREDENTIALS-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_11=\"${CODEX_NETWORK_PROXY_CREDENTIAL_BROKER_ACTIVE+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_11=\"${CODEX_NETWORK_PROXY_CREDENTIAL_BROKER_ACTIVE-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_12=\"${CURL_CA_BUNDLE+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_12=\"${CURL_CA_BUNDLE-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_13=\"${DOCKER_HTTPS_PROXY+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_13=\"${DOCKER_HTTPS_PROXY-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_14=\"${DOCKER_HTTP_PROXY+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_14=\"${DOCKER_HTTP_PROXY-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_15=\"${ELECTRON_GET_USE_PROXY+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_15=\"${ELECTRON_GET_USE_PROXY-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_16=\"${FTP_PROXY+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_16=\"${FTP_PROXY-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_17=\"${GIT_SSL_CAINFO+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_17=\"${GIT_SSL_CAINFO-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_18=\"${HTTPS_PROXY+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_18=\"${HTTPS_PROXY-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_19=\"${HTTP_PROXY+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_19=\"${HTTP_PROXY-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_20=\"${NODE_EXTRA_CA_CERTS+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_20=\"${NODE_EXTRA_CA_CERTS-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_21=\"${NODE_USE_ENV_PROXY+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_21=\"${NODE_USE_ENV_PROXY-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_22=\"${NO_PROXY+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_22=\"${NO_PROXY-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_23=\"${NPM_CONFIG_CAFILE+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_23=\"${NPM_CONFIG_CAFILE-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_24=\"${NPM_CONFIG_HTTPS_PROXY+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_24=\"${NPM_CONFIG_HTTPS_PROXY-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_25=\"${NPM_CONFIG_HTTP_PROXY+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_25=\"${NPM_CONFIG_HTTP_PROXY-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_26=\"${NPM_CONFIG_NOPROXY+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_26=\"${NPM_CONFIG_NOPROXY-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_27=\"${NPM_CONFIG_PROXY+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_27=\"${NPM_CONFIG_PROXY-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_28=\"${PIP_CERT+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_28=\"${PIP_CERT-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_29=\"${PIP_PROXY+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_29=\"${PIP_PROXY-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_30=\"${REQUESTS_CA_BUNDLE+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_30=\"${REQUESTS_CA_BUNDLE-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_31=\"${SSL_CERT_FILE+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_31=\"${SSL_CERT_FILE-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_32=\"${WSS_PROXY+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_32=\"${WSS_PROXY-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_33=\"${WS_PROXY+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_33=\"${WS_PROXY-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_34=\"${YARN_HTTPS_PROXY+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_34=\"${YARN_HTTPS_PROXY-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_35=\"${YARN_HTTP_PROXY+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_35=\"${YARN_HTTP_PROXY-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_36=\"${YARN_NO_PROXY+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_36=\"${YARN_NO_PROXY-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_37=\"${all_proxy+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_37=\"${all_proxy-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_38=\"${ftp_proxy+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_38=\"${ftp_proxy-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_39=\"${http_proxy+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_39=\"${http_proxy-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_40=\"${https_proxy+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_40=\"${https_proxy-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_41=\"${no_proxy+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_41=\"${no_proxy-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_42=\"${npm_config_cafile+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_42=\"${npm_config_cafile-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_43=\"${npm_config_http_proxy+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_43=\"${npm_config_http_proxy-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_44=\"${npm_config_https_proxy+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_44=\"${npm_config_https_proxy-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_45=\"${npm_config_noproxy+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_45=\"${npm_config_noproxy-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_46=\"${npm_config_proxy+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_46=\"${npm_config_proxy-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_47=\"${ws_proxy+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_47=\"${ws_proxy-}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_48=\"${wss_proxy+x}\"\n__CODEX_SNAPSHOT_PROXY_OVERRIDE_48=\"${wss_proxy-}\"\n__CODEX_SNAPSHOT_PROXY_ENV_SET=\"${CODEX_NETWORK_PROXY_ACTIVE+x}\"\n\nif . '/tmp/tmp.Lg8rAX9dKc/shell_snapshots/01a0293c-f3ed-7f72-ac8e-29a82685c5cd.1787398255600793993.sh' >/dev/null 2>&1; then :; fi\n\nif [ -n \"${__CODEX_SNAPSHOT_OVERRIDE_SET_0}\" ]; then export CODEX_APPLY_PATCH_PRESERVE_LINE_ENDINGS=\"${__CODEX_SNAPSHOT_OVERRIDE_0}\"; else unset CODEX_APPLY_PATCH_PRESERVE_LINE_ENDINGS; fi\nif [ -n \"${__CODEX_SNAPSHOT_OVERRIDE_SET_1}\" ]; then export CODEX_PERMISSION_PROFILE=\"${__CODEX_SNAPSHOT_OVERRIDE_1}\"; else unset CODEX_PERMISSION_PROFILE; fi\nif [ -n \"${__CODEX_SNAPSHOT_OVERRIDE_SET_2}\" ]; then export CODEX_PLUGIN_METRICS_OUTPUT=\"${__CODEX_SNAPSHOT_OVERRIDE_2}\"; else unset CODEX_PLUGIN_METRICS_OUTPUT; fi\nif [ -n \"${__CODEX_SNAPSHOT_OVERRIDE_SET_3}\" ]; then export CODEX_SESSION_ID=\"${__CODEX_SNAPSHOT_OVERRIDE_3}\"; else unset CODEX_SESSION_ID; fi\nif [ -n \"${__CODEX_SNAPSHOT_OVERRIDE_SET_4}\" ]; then export CODEX_THREAD_ID=\"${__CODEX_SNAPSHOT_OVERRIDE_4}\"; else unset CODEX_THREAD_ID; fi\nif [ -n \"$__CODEX_SNAPSHOT_PROXY_ENV_SET\" ] || [ -n \"${CODEX_NETWORK_PROXY_ACTIVE+x}\" ]; then\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_0}\" ]; then export ALL_PROXY=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_0}\"; else unset ALL_PROXY; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_1}\" ]; then export BUNDLE_HTTPS_PROXY=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_1}\"; else unset BUNDLE_HTTPS_PROXY; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_2}\" ]; then export BUNDLE_HTTP_PROXY=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_2}\"; else unset BUNDLE_HTTP_PROXY; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_3}\" ]; then export BUNDLE_NO_PROXY=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_3}\"; else unset BUNDLE_NO_PROXY; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_4}\" ]; then export BUNDLE_SSL_CA_CERT=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_4}\"; else unset BUNDLE_SSL_CA_CERT; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_5}\" ]; then export CARGO_HTTP_CAINFO=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_5}\"; else unset CARGO_HTTP_CAINFO; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_6}\" ]; then export CODEX_CA_CERTIFICATE=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_6}\"; else unset CODEX_CA_CERTIFICATE; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_7}\" ]; then export CODEX_NETWORK_ALLOW_LOCAL_BINDING=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_7}\"; else unset CODEX_NETWORK_ALLOW_LOCAL_BINDING; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_8}\" ]; then export CODEX_NETWORK_PROXY_ACTIVE=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_8}\"; else unset CODEX_NETWORK_PROXY_ACTIVE; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_9}\" ]; then export CODEX_NETWORK_PROXY_ATTRIBUTION=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_9}\"; else unset CODEX_NETWORK_PROXY_ATTRIBUTION; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_10}\" ]; then export CODEX_NETWORK_PROXY_BROKERED_CREDENTIALS=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_10}\"; else unset CODEX_NETWORK_PROXY_BROKERED_CREDENTIALS; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_11}\" ]; then export CODEX_NETWORK_PROXY_CREDENTIAL_BROKER_ACTIVE=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_11}\"; else unset CODEX_NETWORK_PROXY_CREDENTIAL_BROKER_ACTIVE; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_12}\" ]; then export CURL_CA_BUNDLE=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_12}\"; else unset CURL_CA_BUNDLE; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_13}\" ]; then export DOCKER_HTTPS_PROXY=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_13}\"; else unset DOCKER_HTTPS_PROXY; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_14}\" ]; then export DOCKER_HTTP_PROXY=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_14}\"; else unset DOCKER_HTTP_PROXY; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_15}\" ]; then export ELECTRON_GET_USE_PROXY=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_15}\"; else unset ELECTRON_GET_USE_PROXY; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_16}\" ]; then export FTP_PROXY=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_16}\"; else unset FTP_PROXY; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_17}\" ]; then export GIT_SSL_CAINFO=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_17}\"; else unset GIT_SSL_CAINFO; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_18}\" ]; then export HTTPS_PROXY=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_18}\"; else unset HTTPS_PROXY; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_19}\" ]; then export HTTP_PROXY=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_19}\"; else unset HTTP_PROXY; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_20}\" ]; then export NODE_EXTRA_CA_CERTS=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_20}\"; else unset NODE_EXTRA_CA_CERTS; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_21}\" ]; then export NODE_USE_ENV_PROXY=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_21}\"; else unset NODE_USE_ENV_PROXY; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_22}\" ]; then export NO_PROXY=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_22}\"; else unset NO_PROXY; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_23}\" ]; then export NPM_CONFIG_CAFILE=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_23}\"; else unset NPM_CONFIG_CAFILE; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_24}\" ]; then export NPM_CONFIG_HTTPS_PROXY=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_24}\"; else unset NPM_CONFIG_HTTPS_PROXY; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_25}\" ]; then export NPM_CONFIG_HTTP_PROXY=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_25}\"; else unset NPM_CONFIG_HTTP_PROXY; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_26}\" ]; then export NPM_CONFIG_NOPROXY=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_26}\"; else unset NPM_CONFIG_NOPROXY; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_27}\" ]; then export NPM_CONFIG_PROXY=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_27}\"; else unset NPM_CONFIG_PROXY; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_28}\" ]; then export PIP_CERT=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_28}\"; else unset PIP_CERT; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_29}\" ]; then export PIP_PROXY=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_29}\"; else unset PIP_PROXY; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_30}\" ]; then export REQUESTS_CA_BUNDLE=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_30}\"; else unset REQUESTS_CA_BUNDLE; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_31}\" ]; then export SSL_CERT_FILE=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_31}\"; else unset SSL_CERT_FILE; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_32}\" ]; then export WSS_PROXY=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_32}\"; else unset WSS_PROXY; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_33}\" ]; then export WS_PROXY=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_33}\"; else unset WS_PROXY; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_34}\" ]; then export YARN_HTTPS_PROXY=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_34}\"; else unset YARN_HTTPS_PROXY; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_35}\" ]; then export YARN_HTTP_PROXY=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_35}\"; else unset YARN_HTTP_PROXY; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_36}\" ]; then export YARN_NO_PROXY=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_36}\"; else unset YARN_NO_PROXY; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_37}\" ]; then export all_proxy=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_37}\"; else unset all_proxy; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_38}\" ]; then export ftp_proxy=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_38}\"; else unset ftp_proxy; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_39}\" ]; then export http_proxy=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_39}\"; else unset http_proxy; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_40}\" ]; then export https_proxy=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_40}\"; else unset https_proxy; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_41}\" ]; then export no_proxy=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_41}\"; else unset no_proxy; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_42}\" ]; then export npm_config_cafile=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_42}\"; else unset npm_config_cafile; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_43}\" ]; then export npm_config_http_proxy=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_43}\"; else unset npm_config_http_proxy; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_44}\" ]; then export npm_config_https_proxy=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_44}\"; else unset npm_config_https_proxy; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_45}\" ]; then export npm_config_noproxy=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_45}\"; else unset npm_config_noproxy; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_46}\" ]; then export npm_config_proxy=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_46}\"; else unset npm_config_proxy; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_47}\" ]; then export ws_proxy=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_47}\"; else unset ws_proxy; fi\nif [ -n \"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_SET_48}\" ]; then export wss_proxy=\"${__CODEX_SNAPSHOT_PROXY_OVERRIDE_48}\"; else unset wss_proxy; fi\nfi\nif [ -n \"${PATH:-}\" ]; then export PATH='/opt/hostedtoolcache/node/22.23.2/x64/lib/node_modules/@openai/codex/node_modules/@openai/codex-linux-x64/vendor/x86_64-unknown-linux-musl/codex-path':\"$PATH\"; else export PATH='/opt/hostedtoolcache/node/22.23.2/x64/lib/node_modules/@openai/codex/node_modules/@openai/codex-linux-x64/vendor/x86_64-unknown-linux-musl/codex-path'; fi\n\nexec '/bin/bash' -c './sandbox-probe scan --tasksets baseline --tags runner=ubuntu-latest,harness=codex,sandbox=on,codex=0.149.0,bwrap=0.9.0,mode=via-codex-stub --output_path reports/linux-codex-sandbox.json'",
+        "namespaces": [
+          {
+            "inode": 4026531834,
+            "type": "time"
+          },
+          {
+            "inode": 4026531834,
+            "type": "time"
+          },
+          {
+            "inode": 4026532428,
+            "type": "net"
+          },
+          {
+            "inode": 4026532427,
+            "type": "pid"
+          },
+          {
+            "inode": 4026532425,
+            "type": "mnt"
+          },
+          {
+            "inode": 4026531838,
+            "type": "uts"
+          },
+          {
+            "inode": 4026532426,
+            "type": "ipc"
+          },
+          {
+            "inode": 4026532427,
+            "type": "pid"
+          },
+          {
+            "inode": 4026532363,
+            "type": "user"
+          },
+          {
+            "inode": 4026531835,
+            "type": "cgroup"
+          }
+        ],
+        "pid": 1,
+        "ppid": 0
+      }
+    },
+    {
+      "findingType": "user_context_detection",
+      "task": "baseline_user_context",
+      "description": "User context information",
+      "value": {
+        "egid": 1001,
+        "euid": 1001,
+        "gid": 1001,
+        "groups": [
+          65534,
+          65534,
+          65534,
+          65534,
+          1001
+        ],
+        "uid": 1001
+      }
+    },
+    {
+      "findingType": "hostname_detection",
+      "task": "baseline_hostname",
+      "description": "Hostname",
+      "value": "runnervm76f27"
+    },
+    {
+      "findingType": "environment_detection",
+      "task": "baseline_environment",
+      "description": "Host kernel and OS release",
+      "value": {
+        "kernel_release": "6.17.0-1022-azure",
+        "kernel_version": "Linux version 6.17.0-1022-azure (buildd@lcy02-amd64-020) (x86_64-linux-gnu-gcc-13 (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, GNU ld (GNU Binutils for Ubuntu) 2.42) #22-Ubuntu SMP Mon Jul 27 17:24:03 UTC 2026",
+        "os_release": "Ubuntu 24.04.4 LTS"
+      }
+    },
+    {
+      "findingType": "sandbox_detection",
+      "task": "baseline_sandbox_detector",
+      "description": "Container/wrapper runtime",
+      "value": "bubblewrap"
+    },
+    {
+      "findingType": "sandbox_detection",
+      "task": "baseline_sandbox_detector",
+      "description": "Active kernel enforcement mechanism",
+      "value": "user-namespace"
+    },
+    {
+      "findingType": "sandbox_detection",
+      "task": "baseline_sandbox_detector",
+      "description": "Active kernel enforcement mechanism",
+      "value": "seccomp-filter"
+    },
+    {
+      "findingType": "sandbox_detection",
+      "task": "baseline_sandbox_detector",
+      "description": "Active kernel enforcement mechanism",
+      "value": "no-new-privs"
+    },
+    {
+      "findingType": "mounted_volumes_detections",
+      "task": "baseline_mount_scanner",
+      "description": "Host-mounted volumes",
+      "value": [
+        "/dev/root -> / (ext4, root=/)",
+        "devtmpfs -> /dev (devtmpfs, root=/)",
+        "tmpfs -> /dev/shm (tmpfs, root=/)",
+        "hugetlbfs -> /dev/hugepages (hugetlbfs, root=/)",
+        "systemd-1 -> /proc/sys/fs/binfmt_misc (autofs, root=/)",
+        "binfmt_misc -> /proc/sys/fs/binfmt_misc (binfmt_misc, root=/)",
+        "none -> /sys/fs/pstore (pstore, root=/)",
+        "efivarfs -> /sys/firmware/efi/efivars (efivarfs, root=/)",
+        "fusectl -> /sys/fs/fuse/connections (fusectl, root=/)",
+        "tmpfs -> /run (tmpfs, root=/)",
+        "tmpfs -> /run/lock (tmpfs, root=/)",
+        "tmpfs -> /run/user/1001 (tmpfs, root=/)",
+        "/dev/nvme0n1p16 -> /boot (ext4, root=/)",
+        "/dev/nvme0n1p15 -> /boot/efi (vfat, root=/)",
+        "tmpfs -> /dev (tmpfs, root=/)",
+        "devtmpfs -> /dev/null (devtmpfs, root=/null)",
+        "devtmpfs -> /dev/zero (devtmpfs, root=/zero)",
+        "devtmpfs -> /dev/full (devtmpfs, root=/full)",
+        "devtmpfs -> /dev/random (devtmpfs, root=/random)",
+        "devtmpfs -> /dev/urandom (devtmpfs, root=/urandom)",
+        "devtmpfs -> /dev/tty (devtmpfs, root=/tty)",
+        "/dev/root -> /tmp (ext4, root=/tmp)",
+        "tmpfs -> /tmp/.git (tmpfs, root=/)",
+        "tmpfs -> /tmp/.agents (tmpfs, root=/)",
+        "tmpfs -> /tmp/.codex (tmpfs, root=/)",
+        "/dev/root -> /home/runner/work/sandbox-probe-reports/sandbox-probe-reports (ext4, root=/home/runner/work/sandbox-probe-reports/sandbox-probe-reports)",
+        "/dev/root -> /home/runner/work/sandbox-probe-reports/sandbox-probe-reports/.git (ext4, root=/home/runner/work/sandbox-probe-reports/sandbox-probe-reports/.git)",
+        "tmpfs -> /home/runner/work/sandbox-probe-reports/sandbox-probe-reports/.agents (tmpfs, root=/)",
+        "tmpfs -> /home/runner/work/sandbox-probe-reports/sandbox-probe-reports/.codex (tmpfs, root=/)",
+        "/dev/root -> /tmp/codex-bwrap-synthetic-mount-targets-1001 (ext4, root=/tmp/codex-bwrap-synthetic-mount-targets-1001)"
+      ]
+    }
+  ]
+}
