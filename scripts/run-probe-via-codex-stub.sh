@@ -93,6 +93,13 @@ else
   SBX=(--sandbox workspace-write)
 fi
 # `nono run --profile <id> --` and nothing else: every restriction on this row is the vendor's.
+#
+# FINDING, nono 0.74.0: the profile does not grant read on the directory holding the `codex`
+# binary, so codex never starts (exit 127, "its directory is not readable inside the sandbox")
+# and the row produces no report. nono names `--read <dir>` as the fix. We do not take it. A
+# grant of ours would make the row measure our configuration rather than the published profile,
+# which is the whole point of the row, and tests/nono-pack-wiring.test.mjs enforces that.
+# The row is `optional: true` and stays red until the profile covers it.
 NONO=()
 [ -n "$CODEX_NONO_PROFILE" ] && NONO=(nono run --profile "$CODEX_NONO_PROFILE" --)
 PROVIDER="model_providers.mock={ name = \"mock\", base_url = \"http://127.0.0.1:${PORT}/v1\", wire_api = \"responses\", env_key = \"MOCK_KEY\", request_max_retries = 0, stream_max_retries = 0 }"

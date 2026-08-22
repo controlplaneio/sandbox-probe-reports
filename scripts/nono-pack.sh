@@ -131,42 +131,58 @@ nono_pack_version() {
   printf 'unknown\n'
 }
 
-# nono_pack_sweep_plugin_residue removes what `nono remove` leaves behind under
-# ~/.codex, and says so, so the gap stays visible instead of becoming invisible.
+# was_there reports whether the snapshot taken before the install already held
+# this exact path, whatever its contents were. A path that was there belongs to
+# whoever put it there and is never touched, even when the name matches what the
+# pack would have created. The snapshot lines are `<sha>  <path>` and
+# `dir  <path>`, so stripping the first field and its two spaces leaves the path.
+nono_pack_was_there() {
+  sed 's/^[^ ]*  //' "$NONO_PACK_BEFORE" 2>/dev/null | grep -qxF -- "$1"
+}
+
+# nono_pack_sweep_residue removes what `nono remove` leaves behind, and says so,
+# so the gap stays visible instead of becoming invisible.
 #
-# It is deliberately narrow. Only the namespace of the profile this run
-# installed is removed, and only when the snapshot taken before the install
-# shows that path was absent — so a namespace somebody already had is never
-# touched, even if it shares a name.
-nono_pack_sweep_plugin_residue() {
+# Two kinds of residue, two rules, both narrow.
+#
+# The pack's own plugin copy under the installing namespace holds real files, so
+# only that one namespace is removed, and only where the snapshot shows the path
+# was absent before.
+#
+# Everything else nono leaves is empty: directories it created and did not take
+# away, and a zero-byte config.toml where there was no configuration file at all.
+# Those go only when they hold nothing — an empty directory or a zero-byte file
+# that was not there before. Anything carrying content stays exactly where it is,
+# so a real unreverted mutation still fails the run and names itself.
+nono_pack_sweep_residue() {
   local ns="${NONO_PACK_PROFILE%%/*}"
   [ -n "$ns" ] || return 0
-  local swept=0 d
-
-  # was_there reports whether the snapshot taken before the install already had
-  # this directory. If it did, it belongs to whoever put it there and is never
-  # touched, even when the name matches.
-  was_there() { grep -qxF "dir  $1" "$NONO_PACK_BEFORE" 2>/dev/null; }
+  local swept=0 d root p
 
   for d in "$HOME/.codex/plugins/cache/$ns" "$HOME/.codex/plugins/marketplaces/$ns"; do
     [ -e "$d" ] || continue
-    was_there "$d" && continue
+    nono_pack_was_there "$d" && continue
     rm -rf "$d" 2>/dev/null && swept=$((swept + 1))
   done
 
-  # Then the husks. Removing the namespace leaves empty parents behind, and the
-  # snapshot catches those too — deliberately, since an empty directory that was
-  # not there before is still a change to the machine. rmdir rather than rm -rf
-  # is the guard: it refuses on a directory that still holds anything, so a
-  # parent shared with something real survives. Deepest first.
-  for d in "$HOME/.codex/plugins/cache" "$HOME/.codex/plugins/marketplaces" "$HOME/.codex/plugins"; do
-    [ -d "$d" ] || continue
-    was_there "$d" && continue
-    rmdir "$d" 2>/dev/null && swept=$((swept + 1))
-  done
+  # -depth so a husk emptied by this same pass can go with it: children are
+  # listed before their parent, and the parent is reached after they are gone.
+  # rmdir rather than rm -rf is the guard on directories. It refuses on one that
+  # still holds anything, so a parent shared with something real survives.
+  while IFS= read -r root; do
+    [ -d "$root" ] || continue
+    while IFS= read -r p; do
+      nono_pack_was_there "$p" && continue
+      if [ -d "$p" ]; then
+        rmdir "$p" 2>/dev/null && swept=$((swept + 1))
+      elif [ -f "$p" ] && [ ! -s "$p" ]; then
+        rm -f "$p" 2>/dev/null && swept=$((swept + 1))
+      fi
+    done < <(find "$root" -depth 2>/dev/null)
+  done < <(nono_pack_paths "$NONO_PACK_PROFILE")
 
   [ "$swept" -gt 0 ] &&
-    echo "::warning::nono remove ${NONO_PACK_PROFILE} left ${swept} plugin tree(s) behind; swept them so the machine is as it was found" >&2
+    echo "::warning::nono remove ${NONO_PACK_PROFILE} left ${swept} path(s) behind; swept them so the machine is as it was found" >&2
   return 0
 }
 
@@ -178,16 +194,20 @@ nono_pack_restore() {
   # Files this run put inside a granted tree are ours, not the pack's; they would
   # otherwise read as residue the pack failed to remove.
   [ "${#NONO_PACK_SCRATCH[@]}" -gt 0 ] && rm -rf "${NONO_PACK_SCRATCH[@]}" 2>/dev/null
-  # `nono remove` does not take its own plugin cache with it. Verified against
-  # nono 0.69.0: the pack's own files under ~/.config/nono/packages go, and
-  # ~/.codex/plugins/{cache,marketplaces}/<namespace> is left behind, so the
-  # snapshot never comes back clean and every run reports the machine as
+  # `nono remove` does not take everything it created with it. Verified against
+  # nono 0.69.0 and 0.74.0: the pack's own files under ~/.config/nono/packages
+  # go, and these are left behind —
+  #   ~/.codex/plugins/{cache,marketplaces}/<namespace>   the pack's plugin copy
+  #   ~/.codex, ~/.codex/bin                              empty directories
+  #   ~/.codex/config.toml                                zero bytes, where there
+  #                                                       was no file at all
+  # so the snapshot never comes back clean and every run reports the machine as
   # mutated. Finish the job nono started, rather than widening the snapshot to
   # tolerate it: this whole file exists to guarantee the machine is left as it
   # was found, and a residue we merely stop LOOKING at is still residue on
-  # somebody's laptop. Only the namespace this run installed is touched, and
-  # only where the tree did not already exist beforehand.
-  nono_pack_sweep_plugin_residue
+  # somebody's laptop. Nothing that holds content is touched, and nothing the
+  # snapshot shows was already there is touched.
+  nono_pack_sweep_residue
 
   local after diff_out
   after="$(mktemp)"
