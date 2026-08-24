@@ -173,11 +173,11 @@ jobs:
       REPORT: reports/${{ matrix.os }}-${{ matrix.harness }}.json
     steps:
       - uses: actions/checkout@v7.0.1
-      - uses: actions/download-artifact@v7
+      - uses: actions/download-artifact@v8
         with:
           name: sandbox-probe-${{ matrix.arch }}
       - if: runner.os != 'Windows'
-        run: chmod +x $PROBE
+        run: chmod +x "$PROBE"
       - run: mkdir -p reports
         shell: bash
 
@@ -467,7 +467,7 @@ jobs:
       PROFILE: ${{ inputs.profile || 'nolabs-ai/codex' }}
     steps:
       - uses: actions/checkout@v7.0.1
-      - uses: actions/download-artifact@v7
+      - uses: actions/download-artifact@v8
         with: { name: sandbox-probe-linux-amd64 }
       - run: chmod +x sandbox-probe
       - uses: actions/setup-node@v7
@@ -559,7 +559,7 @@ jobs:
       - uses: actions/checkout@v7.0.1 # main: site/ + scripts/
       - uses: actions/setup-node@v7
         with: { node-version: "22" }
-      - uses: actions/download-artifact@v7
+      - uses: actions/download-artifact@v8
         with:
           pattern: report-*
           path: incoming
@@ -568,7 +568,7 @@ jobs:
       # attestation view shows this run's verdict. Its own `source` field says which it is, so a
       # missing artifact (attest job skipped or failed) just publishes the fixture document as
       # before, labelled as such — never an observed run's verdict by mistake.
-      - uses: actions/download-artifact@v7
+      - uses: actions/download-artifact@v8
         continue-on-error: true
         with: { name: attestation, path: incoming-attestation }
       - shell: bash

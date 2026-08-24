@@ -33,27 +33,32 @@ Paste its output under [Result](#result).
 
 ## Result
 
-**Not yet run.** The comparison needs a probe release carrying the corrected
-enumerator, and this repository's pin bumped to it — the fifth acceptance
-criterion of #43, and neither exists yet:
+**Not run yet. The blocker is gone, so it can be run now.**
 
-- The pin is still the placeholder `v1.1.0` (see the README), which predates
-  both the fix and `list-targets`. Tracked as
-  [sandbox-probe#14](https://github.com/chrisns/sandbox-probe/issues/14).
-- Nothing can be derived from the stored fixtures in the interim: every report
-  under `reports/` carries only `sandbox_detection` findings — they are
-  fingerprint fixtures, not full scans — and no real report in this repository
-  contains a `mounted_volumes_detections` finding at all. The only mount data
-  present is in `site/sample-data.json`, which is synthetic
-  (`scripts/gen-sample-data.mjs`) and therefore evidence of nothing.
+The comparison needed a probe release carrying the corrected enumerator, and
+this repository's pin bumped to it — the fifth acceptance criterion of #43.
+Both conditions are met as of 22 August 2026, and this section is stale in the
+other direction now: it said neither existed, and both do.
 
-So the set of harnesses whose cell moves is **unknown until a real matrix run on
-the bumped pin**. Two things are already known about its shape:
+- The pin is `v6.7.3` (`go.mod`), which carries the corrected enumerator. It is
+  no longer the `v1.1.0` placeholder this section described.
+- Real reports now carry `mounted_volumes_detections`. Sampled from the
+  published run of 24 August: `linux-direct` 14 entries,
+  `linux-claude-sandbox` 59, `macos-codex-sandbox` 0. So the fixtures objection
+  below no longer holds either — there is real mount data to compare.
+
+That `linux-claude-sandbox` reports **more** mounts than the unconfined
+`linux-direct` baseline is the shape this document predicted, and is exactly
+what a 🟩 → 🟥 move looks like. It is not analysed here. Run the tool as
+described above and record the moves properly, rather than reading two numbers
+out of one sample.
+
+Two things remain true about the shape of the answer:
 
 - The runtime that surfaced the bug (gVisor) is retired from the comparison for
   methodology reasons, so it will not appear here.
 - The macOS and Windows rows cannot move: the affected enumerator is
   Linux-specific.
 
-Fill this section with the tool's output on the first matrix run after the pin
-bump, and record the moves as corrected readings.
+Fill this section with the tool's output and record the moves as corrected
+readings. Nothing blocks that now.
