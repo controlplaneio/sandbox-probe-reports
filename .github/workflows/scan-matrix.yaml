@@ -39,7 +39,7 @@ jobs:
       # hand when that recipe changes, rather than hashing this file, which would rebuild
       # on every comment edit and give up the reuse the cache exists for.
       - id: cache
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: sandbox-probe${{ matrix.ext }}
           key: probe-2-${{ matrix.goos }}-${{ matrix.goarch }}-${{ hashFiles('go.mod', 'go.sum') }}
