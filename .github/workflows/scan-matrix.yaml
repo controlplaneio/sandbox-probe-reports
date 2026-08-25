@@ -9,6 +9,34 @@ on:
         default: nolabs-ai/codex
   push:
     branches: ["matrix/**"]
+  # Every pull request, because the thing this repo publishes IS the matrix and
+  # a PR that has not run it has not been tested. The gap was concrete: a probe
+  # version bump goes green on smoke.yml — which builds the probe and runs ONE
+  # scan — while breaking rows the site publishes, and nobody finds out until
+  # the weekly run.
+  #
+  # `pull_request`, never `pull_request_target`. These jobs execute shell
+  # scripts from the PR's own branch (scripts/run-probe-via-*.sh). Under
+  # pull_request a fork gets a read-only token and no secrets, which is right
+  # for code nobody has reviewed yet; pull_request_target would hand that same
+  # unreviewed code a write token. Nothing here needs a secret — every harness
+  # is keyless by design — so there is nothing to gain by weakening it.
+  #
+  # Docs are excluded because they cannot change a measurement. Scripts and this
+  # workflow are deliberately included: a launcher edit is the change most
+  # likely to break a row.
+  #
+  # NOTE, learned the hard way: this trigger does NOT apply to the pull request
+  # that introduces it. GitHub selects which workflows answer a pull_request
+  # event from the BASE branch's definitions, so scan-matrix stayed silent on
+  # the PR that added it while smoke.yml — which already had the trigger on
+  # main — ran on the same event. Removing paths-ignore changed nothing, which
+  # is what ruled the filter out. It works for every PR opened after this lands.
+  pull_request:
+    paths-ignore:
+      - "**/*.md"
+      - "docs/**"
+      - "LICENSE"
   schedule:
     - cron: "0 8 * * 1" # weekly
 
