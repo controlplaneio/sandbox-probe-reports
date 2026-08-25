@@ -50,6 +50,11 @@ const CONTEXT_FT = new Set([
 // category, so neither moves the 0–8 exposure count.
 const MECHANISMS = new Set([
   "user-namespace", "landlock", "seccomp-filter", "seccomp-notify", "seccomp-strict", "no-new-privs",
+  // Windows, read off the process token with IsTokenRestricted(), so kernel-attested like the
+  // rest. It must be in this set: sandboxOf() takes the first value that is NOT a mechanism as
+  // the wrapper badge, so leaving it out would render it as a tool name the probe cannot
+  // identify — a restricted token says nothing about which sandbox built it.
+  "restricted-token",
 ]);
 
 const find = (r, ft) => r.report.findings.find((f) => f.findingType === ft);

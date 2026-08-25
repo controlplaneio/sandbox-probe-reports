@@ -77,7 +77,33 @@ if [ -n "$CODEX_NONO_PROFILE" ]; then
 else
   stub_start_mock
   # Scratch config so we never touch the runner's real ~/.codex; dummy key for the mock provider.
-  CODEX_HOME="$(mktemp -d)"; export CODEX_HOME; STUB_SCRATCH+=("$CODEX_HOME")
+  CODEX_SCRATCH="$(mktemp -d)"; STUB_SCRATCH+=("$CODEX_SCRATCH")
+
+  # Two spellings of one directory, because bash and codex.exe do not agree on it.
+  #
+  # Under `shell: bash` on windows-latest this is Git Bash: mktemp yields a POSIX path
+  # ("/tmp/tmp.XXXX"), and MSYS rewrites path-shaped *arguments* handed to a native binary but
+  # not *environment variables*. codex.exe would read CODEX_HOME verbatim, resolve it
+  # drive-relative to C:\tmp\tmp.XXXX, never see the config written below, and leave that
+  # directory behind — STUB_SCRATCH removes the POSIX one. cygpath exists only under MSYS, so
+  # its absence is the no-op on Linux and macOS, where there is nothing to convert.
+  CODEX_HOME="$(cygpath -w "$CODEX_SCRATCH" 2>/dev/null || printf %s "$CODEX_SCRATCH")"
+  export CODEX_HOME
+
+  # Codex's Windows sandbox is a restricted token, and it is OFF unless config.toml asks for it.
+  # Measured 2026-08-24 against Codex 0.149.1, on a Windows 11 host and on windows-latest alike:
+  # `--sandbox workspace-write` ALONE reports `read-only` and rejects every command, including a
+  # bare `echo`, so the row would claim to be sandboxed and produce no report at all. This key is
+  # minimum-to-run in the sense the README's flag table means — without it the sandbox does not
+  # engage — and it is written as a file rather than passed as `-c windows.sandbox=...` because a
+  # file is what was measured. Harmless on the sandbox=off row: with
+  # --dangerously-bypass-approvals-and-sandbox the mode is danger-full-access either way, which
+  # was control case B of that same measurement.
+  if command -v cygpath >/dev/null 2>&1; then
+    printf '[windows]\nsandbox = "unelevated"\n' >"$CODEX_SCRATCH/config.toml"
+    echo "CODEX_HOME=$CODEX_HOME"
+    cat "$CODEX_SCRATCH/config.toml"
+  fi
 fi
 export MOCK_KEY=dummy OPENAI_API_KEY=dummy
 
