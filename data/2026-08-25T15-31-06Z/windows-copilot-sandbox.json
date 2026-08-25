@@ -1,0 +1,199 @@
+{
+  "version": "1.0.0",
+  "timestamp": "2026-08-25T15:30:35.524953Z",
+  "probeBinary": {
+    "goVersion": "go1.25.6",
+    "os": "windows",
+    "arch": "amd64",
+    "binaryVersion": "v6.14.1",
+    "commit": "unknown",
+    "buildDate": "unknown"
+  },
+  "metadata": {
+    "tags": [
+      "runner=windows-latest",
+      "harness=copilot",
+      "sandbox=on",
+      "copilot=1.0.80",
+      "mode=via-copilot-stub"
+    ]
+  },
+  "findings": [
+    {
+      "findingType": "writeable_paths",
+      "task": "baseline_filesystem_enumerator",
+      "description": "Writeable paths",
+      "value": []
+    },
+    {
+      "findingType": "sensitive_readable_paths",
+      "task": "baseline_filesystem_enumerator",
+      "description": "Readable sensitive paths",
+      "value": []
+    },
+    {
+      "findingType": "external_host_dns_resolution",
+      "task": "baseline_network_scanner",
+      "description": "External host DNS resolution",
+      "value": [
+        "142.251.218.14"
+      ]
+    },
+    {
+      "findingType": "external_host_connectivity",
+      "task": "baseline_network_scanner",
+      "description": "External host connectivity",
+      "value": [
+        "google.com"
+      ]
+    },
+    {
+      "findingType": "local_probe_status",
+      "task": "baseline_network_scanner",
+      "description": "How the local service measurement went",
+      "value": {
+        "error": "GetExtendedTcpTable: Access is denied.",
+        "method": "kernel-inventory-v1",
+        "source": "iphlpapi",
+        "table": "denied"
+      }
+    },
+    {
+      "findingType": "proxy_detection",
+      "task": "baseline_proxy_detector",
+      "description": "Proxy configuration",
+      "value": {
+        "all_proxy": "",
+        "http_proxy": "",
+        "https_proxy": "",
+        "no_proxy": "",
+        "pac_url": "",
+        "socks_proxy": ""
+      }
+    },
+    {
+      "findingType": "unix_socket_detection",
+      "task": "baseline_socket_scanner",
+      "description": "Unix sockets detected",
+      "value": []
+    },
+    {
+      "findingType": "named_pipe_detection",
+      "task": "baseline_socket_scanner",
+      "description": "Named pipes detected",
+      "value": [
+        "\\\\.\\pipe\\InitShutdown",
+        "\\\\.\\pipe\\lsass",
+        "\\\\.\\pipe\\ntsvcs",
+        "\\\\.\\pipe\\Winsock2\\CatalogChangeListener-3d8-0",
+        "\\\\.\\pipe\\Winsock2\\CatalogChangeListener-43c-0",
+        "\\\\.\\pipe\\epmapper",
+        "\\\\.\\pipe\\Winsock2\\CatalogChangeListener-348-0",
+        "\\\\.\\pipe\\Winsock2\\CatalogChangeListener-46c-0",
+        "\\\\.\\pipe\\LSM_API_service",
+        "\\\\.\\pipe\\TermSrv_API_service",
+        "\\\\.\\pipe\\Ctx_WinStation_API_service",
+        "\\\\.\\pipe\\wkssvc",
+        "\\\\.\\pipe\\SessEnvPublicRpc",
+        "\\\\.\\pipe\\Winsock2\\CatalogChangeListener-9f0-0",
+        "\\\\.\\pipe\\atsvc",
+        "\\\\.\\pipe\\eventlog",
+        "\\\\.\\pipe\\Winsock2\\CatalogChangeListener-a4c-0",
+        "\\\\.\\pipe\\Winsock2\\CatalogChangeListener-9e0-0",
+        "\\\\.\\pipe\\Winsock2\\CatalogChangeListener-cec-0",
+        "\\\\.\\pipe\\winreg",
+        "\\\\.\\pipe\\trkwks",
+        "\\\\.\\pipe\\wbhstipm11abeebc-2d80-4a3f-96bf-4e45b8a3cf22",
+        "\\\\.\\pipe\\wbhstipm09173664-8871-4ed4-8b0d-7f90cfb725af",
+        "\\\\.\\pipe\\wbhstipm45509824-ce10-4ba8-bca4-13dfccb8c0bc",
+        "\\\\.\\pipe\\wbhstipma6520fc8-a655-485f-8992-51abadd79ab1",
+        "\\\\.\\pipe\\W32TIME_ALT",
+        "\\\\.\\pipe\\srvsvc",
+        "\\\\.\\pipe\\W32PosixPipe.00000f7c.00000000",
+        "\\\\.\\pipe\\Winsock2\\CatalogChangeListener-f1c-0",
+        "\\\\.\\pipe\\PIPE_EVENTROOT\\CIMV2SCM EVENT PROVIDER",
+        "\\\\.\\pipe\\27628f87-d502-4119-8fe0-21bffb6b31e9",
+        "\\\\.\\pipe\\27ffebbb-a3b5-4551-9c21-f8f53406f8cc",
+        "\\\\.\\pipe\\Winsock2\\CatalogChangeListener-3bc-0",
+        "\\\\.\\pipe\\docker_engine",
+        "\\\\.\\pipe\\dotnet-diagnostic-9964",
+        "\\\\.\\pipe\\dotnet-diagnostic-10068",
+        "\\\\.\\pipe\\openssh-ssh-agent",
+        "\\\\.\\pipe\\sandbox-probe-reachability-decoy",
+        "\\\\.\\pipe\\msys-1888ae32e00d56aa-9560-sigwait",
+        "\\\\.\\pipe\\msys-1888ae32e00d56aa-5792-sigwait",
+        "\\\\.\\pipe\\msys-1888ae32e00d56aa-5764-sigwait",
+        "\\\\.\\pipe\\msys-1888ae32e00d56aa-7596-sigwait"
+      ]
+    },
+    {
+      "findingType": "named_pipe_reachable",
+      "task": "baseline_socket_scanner",
+      "description": "Named pipes reached (the probe's own decoy only)",
+      "value": []
+    },
+    {
+      "findingType": "named_pipe_creation",
+      "task": "baseline_socket_scanner",
+      "description": "Named pipe the probe could create",
+      "value": []
+    },
+    {
+      "findingType": "named_pipe_probe_status",
+      "task": "baseline_socket_scanner",
+      "description": "How the named-pipe reachability measurement went",
+      "value": {
+        "control": "unreachable",
+        "control_errno": "ERROR_FILE_NOT_FOUND",
+        "creation": "blocked",
+        "creation_errno": "ERROR_ACCESS_DENIED",
+        "decoy_enumerated": true,
+        "method": "own-decoy-roundtrip-v1",
+        "namespace": "read",
+        "pipes_found": 42,
+        "results": [
+          {
+            "errno": "ERROR_ACCESS_DENIED",
+            "outcome": "blocked",
+            "pipe": "\\\\.\\pipe\\sandbox-probe-reachability-decoy",
+            "syscall": "CreateFile"
+          }
+        ]
+      }
+    },
+    {
+      "findingType": "hostname_detection",
+      "task": "baseline_hostname",
+      "description": "Hostname",
+      "value": "runnervm6iq3x"
+    },
+    {
+      "findingType": "environment_detection",
+      "task": "baseline_environment",
+      "description": "Host kernel and OS release",
+      "value": {
+        "kernel_release": "",
+        "kernel_version": "",
+        "os_release": ""
+      }
+    },
+    {
+      "findingType": "sandbox_detection",
+      "task": "baseline_sandbox_detector",
+      "description": "Container/wrapper runtime",
+      "value": "unknown"
+    },
+    {
+      "findingType": "sandbox_detection",
+      "task": "baseline_sandbox_detector",
+      "description": "Active kernel enforcement mechanism",
+      "value": "app-container"
+    },
+    {
+      "findingType": "mounted_volumes_detections",
+      "task": "baseline_mount_scanner",
+      "description": "Host-mounted volumes",
+      "value": []
+    }
+  ]
+}
