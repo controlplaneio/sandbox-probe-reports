@@ -74,9 +74,11 @@ jobs:
   scan:
     name: ${{ matrix.harness }} (${{ matrix.os }})
     needs: build
-    # Best-effort opt-in: a row may set `optional: true` to be non-blocking (e.g. a fragile new
-    # runtime being stabilised). Three rows set it today: both codex-nono rows and trae-docker.
-    # Everything else is blocking, the new Windows codex-sandbox row included.
+    # Best-effort opt-in: a row may set `optional: true` to be non-blocking. NOTHING sets it
+    # today — every row in this matrix is blocking, and that is deliberate. An excused row is a
+    # row nobody reads: both codex-nono rows sat red for weeks behind this flag. Keep the
+    # mechanism for stabilising a genuinely new runtime, and take the flag off again once it
+    # passes.
     continue-on-error: ${{ matrix.optional == true }}
     strategy:
       fail-fast: false
@@ -156,21 +158,24 @@ jobs:
           # version, so it forms its own time series. THIS ROW INSTALLS A REGISTRY PACK, which
           # splices Codex plugin wiring into ~/.codex; removal is verified on exit whether the run
           # succeeds or fails (scripts/nono-pack.sh).
-          # Best-effort until a real run has been observed: it is unconfirmed whether the profile's
-          # network policy lets Codex reach the stubbed model API on loopback. If it does not, that
-          # is a finding to record about the profile — NOT something to fix by adding a network flag
-          # of our own, which would make the row measure our configuration. Promote to blocking once
-          # a scheduled run shows it green.
+          # BLOCKING. It was best-effort while unconfirmed, and stayed red behind that flag for
+          # weeks — which is the argument against the flag, not for it. Still unconfirmed and still
+          # deliberately unfixed: whether the profile's network policy lets Codex reach the stubbed
+          # model API on loopback. If it does not, that is a finding to record about the profile —
+          # NOT something to fix by adding a network flag of our own, which would make the row
+          # measure our configuration.
           #
-          # FINDING, observed 2026-08-22 against nono 0.74.0, both rows: the profile does not grant
-          # read on the directory holding the `codex` binary, so codex exits 127 before it starts —
+          # RESOLVED, exit 127: the profile does not grant read on the directory holding the `codex`
           # "The executable 'codex' was resolved at <path> but its directory is not readable inside
           # the sandbox" — and the row produces no report at all. nono names `--read <dir>` as the
-          # fix and we do not take it, for the reason directly above: a grant of ours would make the
-          # row measure our configuration instead of the published profile. The row therefore stays
-          # red, and non-blocking, until the profile covers the harness binary it exists to confine.
-          - { os: linux, runner: ubuntu-latest, arch: linux-amd64,  ext: "", family: codex, harness: codex-nono, nono_profile: nolabs-ai/codex, expect: '["landlock","seccomp-notify","seccomp-filter","no-new-privs"]', optional: true }
-          - { os: macos, runner: macos-latest,  arch: darwin-arm64, ext: "", family: codex, harness: codex-nono, nono_profile: nolabs-ai/codex, expect: '["seatbelt"]', optional: true }
+          # fix and we STILL do not take it, for the reason directly above. The cause was CI layout,
+          # not policy: `npm install -g` on a runner puts codex in /opt/hostedtoolcache/..., a path
+          # no profile grants because no user has it. The workflow now installs codex under
+          # $HOME/.codex, which this profile grants r+w itself. Moving the binary changes no policy;
+          # granting the path would have. The `nono run` invocation is still the profile and
+          # nothing else, enforced by tests/nono-pack-wiring.test.mjs.
+          - { os: linux, runner: ubuntu-latest, arch: linux-amd64,  ext: "", family: codex, harness: codex-nono, nono_profile: nolabs-ai/codex, expect: '["landlock","seccomp-notify","seccomp-filter","no-new-privs"]' }
+          - { os: macos, runner: macos-latest,  arch: darwin-arm64, ext: "", family: codex, harness: codex-nono, nono_profile: nolabs-ai/codex, expect: '["seatbelt"]' }
           # gemini — real agent, model stubbed; as-is vs its sandbox (Seatbelt on macOS, container on Linux).
           - { os: linux, runner: ubuntu-latest, arch: linux-amd64,  ext: "", family: gemini, harness: gemini }
           # gemini-docker re-execs the whole CLI in a container; the mock is reached and auth injected
@@ -193,8 +198,9 @@ jobs:
           - { os: linux, runner: ubuntu-latest, arch: linux-amd64,  ext: "", family: trae,     harness: trae }
           - { os: macos, runner: macos-latest,  arch: darwin-arm64, ext: "", family: trae,     harness: trae }
           # trae-docker — trae's own Docker execution mode (agent-driven container). Heavy (source clone +
-          # pyinstaller tool-bundling per run) and only re-detects docker, so best-effort.
-          - { os: linux, runner: ubuntu-latest, arch: linux-amd64,  ext: "", family: trae,     harness: trae-docker, sandbox: "docker", expect: '["docker"]', optional: true }
+          # pyinstaller tool-bundling per run) and only re-detects docker. Blocking: it has been
+          # green on every observed run, so there is nothing left for the excuse to cover.
+          - { os: linux, runner: ubuntu-latest, arch: linux-amd64,  ext: "", family: trae,     harness: trae-docker, sandbox: "docker", expect: '["docker"]' }
           # sandbox runtimes — no agent, no model; each restricts the seeded parent's own filesystem
           # by policy, so the run is a genuine child of it. The rootfs-swapping runtimes (docker,
           # podman, bwrap, nspawn, gvisor) are retired: they were never nested in the seeded parent,
@@ -258,9 +264,31 @@ jobs:
       - if: matrix.family == 'claude'
         run: npm install -g @anthropic-ai/claude-code && claude --version
         shell: bash
-      - if: matrix.family == 'codex'
+      - if: matrix.family == 'codex' && matrix.harness != 'codex-nono'
         run: npm install -g @openai/codex && codex --version
         shell: bash
+      # codex-nono installs the SAME codex to a different place, and only because of where
+      # GitHub puts things. A plain `npm install -g` on a runner lands the binary in
+      # /opt/hostedtoolcache/node/<ver>/x64/bin (macOS: ~/hostedtoolcache/...). No profile grants
+      # that — it is a CI path, not a path any user has — so codex never starts inside the
+      # sandbox and the row dies at exit 127 before measuring anything:
+      #
+      #   The executable 'codex' was resolved at: /opt/hostedtoolcache/node/22.23.2/x64/bin/codex
+      #   but its directory is not readable inside the sandbox.
+      #
+      # nono's fix is `--read <dir>`, and we still do NOT take it: a grant of ours would make the
+      # row measure our configuration instead of the published profile, which is the whole point
+      # of the row. Moving the binary changes no policy. ~/.codex is granted r+w by the profile
+      # itself — it is Codex's own home — so installing there satisfies the profile as written
+      # rather than widening it. The `nono run` invocation stays `--profile <id> --` and nothing
+      # else, and tests/nono-pack-wiring.test.mjs still enforces that.
+      - if: matrix.harness == 'codex-nono'
+        name: install codex inside a path the profile already grants
+        shell: bash
+        run: |
+          npm install -g --prefix "$HOME/.codex/toolchain" @openai/codex
+          echo "$HOME/.codex/toolchain/bin" >> "$GITHUB_PATH"
+          "$HOME/.codex/toolchain/bin/codex" --version
       - if: matrix.family == 'copilot'
         run: npm install -g @github/copilot && copilot --version
         shell: bash
