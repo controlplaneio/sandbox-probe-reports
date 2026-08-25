@@ -1,0 +1,270 @@
+{
+  "version":  "1.0.0",
+  "timestamp":  "2026-08-25T08:42:03.599685Z",
+  "probeBinary":  {
+    "goVersion":  "go1.25.6",
+    "os":  "darwin",
+    "arch":  "arm64",
+    "binaryVersion":  "v6.11.1",
+    "commit":  "unknown",
+    "buildDate":  "unknown"
+  },
+  "metadata":  {
+    "tags":  [
+      "runner=macos-latest",
+      "harness=claude",
+      "sandbox=off",
+      "claude=2.1.245",
+      "mode=via-claude-stub"
+    ]
+  },
+  "findings":  [
+    {
+      "findingType":  "writeable_paths",
+      "task":  "baseline_filesystem_enumerator",
+      "description":  "Writeable paths",
+      "value":  []
+    },
+    {
+      "findingType":  "sensitive_readable_paths",
+      "task":  "baseline_filesystem_enumerator",
+      "description":  "Readable sensitive paths",
+      "value":  [
+        "/etc/passwd",
+        "/etc/group",
+        "/etc/hosts",
+        "/etc/resolv.conf",
+        "/etc/ssh/sshd_config",
+        "/Users/runner/.ssh/id_rsa",
+        "/Users/runner/.ssh/id_ed25519",
+        "/Users/runner/.ssh/id_ecdsa",
+        "/Users/runner/.ssh/config",
+        "/Users/runner/.ssh/authorized_keys",
+        "/Users/runner/.aws/credentials",
+        "/Users/runner/.aws/config",
+        "/Users/runner/.gcloud/credentials.db",
+        "/Users/runner/.gcloud/access_tokens.db",
+        "/Users/runner/.azure/credentials",
+        "/Users/runner/.azure/msal_token_cache.json",
+        "/Users/runner/.kube/config",
+        "/Users/runner/.docker/config.json",
+        "/Users/runner/.git-credentials",
+        "/Users/runner/.netrc",
+        "/Users/runner/.vault-token",
+        "/Users/runner/.terraform.d/credentials.tfrc.json",
+        "/Users/runner/.config/gh/hosts.yml",
+        "/Users/runner/.config/doctl/config.yaml",
+        "/Users/runner/.fly/config.yml",
+        "/Users/runner/.npmrc",
+        "/Users/runner/.pypirc",
+        "/Users/runner/.gem/credentials",
+        "/Users/runner/.cargo/credentials.toml",
+        "/Users/runner/.m2/settings.xml",
+        "/Users/runner/.gradle/gradle.properties"
+      ]
+    },
+    {
+      "findingType":  "external_host_dns_resolution",
+      "task":  "baseline_network_scanner",
+      "description":  "External host DNS resolution",
+      "value":  [
+        "142.251.218.110",
+        "2607:f8b0:4005:808::200e"
+      ]
+    },
+    {
+      "findingType":  "external_host_connectivity",
+      "task":  "baseline_network_scanner",
+      "description":  "External host connectivity",
+      "value":  [
+        "google.com"
+      ]
+    },
+    {
+      "findingType":  "local_listeners",
+      "task":  "baseline_network_scanner",
+      "description":  "Local listening sockets (inventory, not a capability)",
+      "value":  [
+        "tcp *:22",
+        "tcp 127.0.0.1:8787",
+        "udp *:137",
+        "udp *:138",
+        "udp *:5353",
+        "udp *:52569",
+        "udp *:60414"
+      ]
+    },
+    {
+      "findingType":  "tcp_ports_open",
+      "task":  "baseline_network_scanner",
+      "description":  "Reachable TCP ports",
+      "value":  [
+        22,
+        8787
+      ]
+    },
+    {
+      "findingType":  "udp_ports_open",
+      "task":  "baseline_network_scanner",
+      "description":  "Reachable UDP ports",
+      "value":  [
+        137,
+        138,
+        5353,
+        52569,
+        60414
+      ]
+    },
+    {
+      "findingType":  "local_probe_status",
+      "task":  "baseline_network_scanner",
+      "description":  "How the local service measurement went",
+      "value":  {
+        "control_tcp":  "refused",
+        "control_udp":  "refused",
+        "listeners_found":  7,
+        "method":  "kernel-inventory-v1",
+        "results":  [
+          {
+            "addr":  "127.0.0.1",
+            "outcome":  "reachable",
+            "port":  22,
+            "proto":  "tcp"
+          },
+          {
+            "addr":  "127.0.0.1",
+            "outcome":  "reachable",
+            "port":  8787,
+            "proto":  "tcp"
+          },
+          {
+            "addr":  "127.0.0.1",
+            "errno":  "deadline",
+            "outcome":  "silent",
+            "port":  5353,
+            "proto":  "udp"
+          },
+          {
+            "addr":  "127.0.0.1",
+            "errno":  "deadline",
+            "outcome":  "silent",
+            "port":  138,
+            "proto":  "udp"
+          },
+          {
+            "addr":  "127.0.0.1",
+            "errno":  "deadline",
+            "outcome":  "silent",
+            "port":  137,
+            "proto":  "udp"
+          },
+          {
+            "addr":  "127.0.0.1",
+            "errno":  "deadline",
+            "outcome":  "silent",
+            "port":  52569,
+            "proto":  "udp"
+          },
+          {
+            "addr":  "127.0.0.1",
+            "errno":  "deadline",
+            "outcome":  "silent",
+            "port":  60414,
+            "proto":  "udp"
+          }
+        ],
+        "source":  "sysctl-pcblist",
+        "table":  "read",
+        "udp_feedback":  "working"
+      }
+    },
+    {
+      "findingType":  "proxy_detection",
+      "task":  "baseline_proxy_detector",
+      "description":  "Proxy configuration",
+      "value":  {
+        "all_proxy":  "",
+        "http_proxy":  "",
+        "https_proxy":  "",
+        "no_proxy":  "",
+        "pac_url":  "",
+        "socks_proxy":  ""
+      }
+    },
+    {
+      "findingType":  "unix_socket_detection",
+      "task":  "baseline_socket_scanner",
+      "description":  "Unix sockets detected",
+      "value":  [
+        "/private/var/run/.sim_diagnosticd_socket",
+        "/private/var/run/anka",
+        "/private/var/run/cupsd",
+        "/private/var/run/filesystemui.socket",
+        "/private/var/run/mDNSResponder",
+        "/private/var/run/portmap.socket",
+        "/private/var/run/pppconfd",
+        "/private/var/run/syslog",
+        "/private/var/run/systemkeychaincheck.socket",
+        "/private/var/run/usbmuxd",
+        "/private/var/run/vpncontrol.sock",
+        "/private/var/run/com.apple.launchd.3MHqQ7QXUo/Listeners",
+        "/private/tmp/com.apple.launchd.sandbox-probe-decoy/Listeners",
+        "/Users/runner/.docker/run/docker.sock",
+        "/private/var/folders/df/djsxfhc17x95674wsm_g8s980000gn/T/dotnet-diagnostic-1717-1787647308-socket",
+        "/private/var/folders/df/djsxfhc17x95674wsm_g8s980000gn/T/dotnet-diagnostic-1720-1787647310-socket",
+        "/private/var/folders/df/djsxfhc17x95674wsm_g8s980000gn/T/vscode-ipc-sandbox-probe-decoy.sock"
+      ]
+    },
+    {
+      "findingType":  "user_context_detection",
+      "task":  "baseline_user_context",
+      "description":  "User context information",
+      "value":  {
+        "egid":  20,
+        "euid":  501,
+        "gid":  20,
+        "groups":  [
+          20,
+          12,
+          61,
+          79,
+          80,
+          81,
+          264,
+          701,
+          33,
+          98,
+          100,
+          204,
+          250,
+          395,
+          398,
+          399
+        ],
+        "uid":  501
+      }
+    },
+    {
+      "findingType":  "hostname_detection",
+      "task":  "baseline_hostname",
+      "description":  "Hostname",
+      "value":  "sat12-bq160-fb30e35f-8bfa-41ba-af43-0751cbe50e33-92DBAE167F65.local"
+    },
+    {
+      "findingType":  "environment_detection",
+      "task":  "baseline_environment",
+      "description":  "Host kernel and OS release",
+      "value":  {
+        "kernel_release":  "25.5.0",
+        "kernel_version":  "Darwin Kernel Version 25.5.0: Tue Jun  9 22:26:00 PDT 2026; root:xnu-12377.121.10~1/RELEASE_ARM64_VMAPPLE",
+        "os_release":  "macOS 26.5.2"
+      }
+    },
+    {
+      "findingType":  "mounted_volumes_detections",
+      "task":  "baseline_mount_scanner",
+      "description":  "Host-mounted volumes",
+      "value":  []
+    }
+  ]
+}
