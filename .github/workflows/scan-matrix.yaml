@@ -174,7 +174,15 @@ jobs:
           # $HOME/.codex, which this profile grants r+w itself. Moving the binary changes no policy;
           # granting the path would have. The `nono run` invocation is still the profile and
           # nothing else, enforced by tests/nono-pack-wiring.test.mjs.
-          - { os: linux, runner: ubuntu-latest, arch: linux-amd64,  ext: "", family: codex, harness: codex-nono, nono_profile: nolabs-ai/codex, expect: '["landlock","seccomp-notify","seccomp-filter","no-new-privs"]' }
+          #
+          # FINDING, first measured 2026-08-25 once the row could run at all (32862742013): on Linux
+          # this profile delivers ONLY no-new-privs. No landlock, no seccomp filter, no
+          # seccomp-notify — against ["bubblewrap","user-namespace","seccomp-filter","no-new-privs"]
+          # from codex-sandbox on the same runner, and against the landlock+seccomp-notify the
+          # standalone `nono` row gets. The expect list below is now the measured set rather than
+          # the aspirational one it was copied from: "any of" semantics meant the old four-value
+          # list passed on its weakest member and would have gone on hiding this.
+          - { os: linux, runner: ubuntu-latest, arch: linux-amd64,  ext: "", family: codex, harness: codex-nono, nono_profile: nolabs-ai/codex, expect: '["no-new-privs"]' }
           - { os: macos, runner: macos-latest,  arch: darwin-arm64, ext: "", family: codex, harness: codex-nono, nono_profile: nolabs-ai/codex, expect: '["seatbelt"]' }
           # gemini — real agent, model stubbed; as-is vs its sandbox (Seatbelt on macOS, container on Linux).
           - { os: linux, runner: ubuntu-latest, arch: linux-amd64,  ext: "", family: gemini, harness: gemini }
