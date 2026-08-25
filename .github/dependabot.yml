@@ -2,10 +2,36 @@ version: 2
 updates:
   # The point of the go.mod pin: a probe release raises a version-bump PR here
   # without anyone remembering. gomod resolves off git tags directly.
+  #
+  # It had never once done that, and the reason is the `allow` block below.
+  # Dependabot updates only DIRECT dependencies by default, and the probe is
+  # pinned through a `tool` directive, so `go mod tidy` records it in the
+  # indirect require block:
+  #
+  #   github.com/controlplaneio/sandbox-probe/v6 v6.15.1 // indirect
+  #   tool github.com/controlplaneio/sandbox-probe/v6
+  #
+  # So the one dependency this file exists for was the one it skipped, silently
+  # and with no failure to notice. The github-actions ecosystem has no direct
+  # or indirect distinction, which is why those bumps kept arriving and hid it.
+  #
+  # Two entries, unioned, rather than `dependency-type: all`: the first keeps
+  # today's behaviour for every direct dependency, the second adds the probe
+  # whichever block it lands in. `all` would have pulled in every transitive
+  # module in go.sum as well, and burying the probe bump in that noise defeats
+  # the purpose as thoroughly as skipping it did.
+  #
+  # Daily, not weekly: probe releases and the matrix that consumes them happen
+  # the same day, and a weekly window can leave the published site running an
+  # old probe for six days with nothing saying so.
   - package-ecosystem: gomod
     directory: /
     schedule:
-      interval: weekly
+      interval: daily
+    allow:
+      - dependency-type: direct
+      - dependency-name: github.com/controlplaneio/sandbox-probe/v6
+        dependency-type: all
 
   - package-ecosystem: github-actions
     directory: /
