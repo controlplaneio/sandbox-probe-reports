@@ -133,7 +133,7 @@ jobs:
           bin/sandbox-probe version
 
       - if: steps.compare.outputs.changed == 'true'
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@v8
         with:
           branch: chore/probe-major-${{ steps.compare.outputs.new_major }}
           title: "chore(deps)!: move the probe pin to ${{ steps.compare.outputs.new_major }} (${{ steps.compare.outputs.tag }})"
