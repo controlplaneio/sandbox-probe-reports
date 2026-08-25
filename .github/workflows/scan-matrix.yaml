@@ -26,10 +26,6 @@ on:
   # is included deliberately, scripts and workflow alike: a launcher edit is
   # precisely the change most likely to break a row.
   pull_request:
-    paths-ignore:
-      - "**/*.md"
-      - "docs/**"
-      - "LICENSE"
   schedule:
     - cron: "0 8 * * 1" # weekly
 
