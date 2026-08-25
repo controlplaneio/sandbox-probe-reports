@@ -24,6 +24,14 @@ updates:
   # Daily, not weekly: probe releases and the matrix that consumes them happen
   # the same day, and a weekly window can leave the published site running an
   # old probe for six days with nothing saying so.
+  #
+  # This covers everything BELOW a major. It cannot cover a major, and that is
+  # not a gap in the config: in Go the major version is part of the module
+  # path, so sandbox-probe/v6 and /v7 are different modules rather than two
+  # versions of one. Dependabot correctly finds no newer version of the pinned
+  # module and raises nothing. .github/workflows/probe-major-bump.yaml is the
+  # other half, and it moves every reference at once because moving only
+  # go.mod would leave smoke.yml asserting the old path.
   - package-ecosystem: gomod
     directory: /
     schedule:
