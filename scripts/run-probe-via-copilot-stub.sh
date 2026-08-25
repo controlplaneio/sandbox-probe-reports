@@ -41,6 +41,22 @@ fi
 TAGS="runner=${RUNNER},harness=copilot,sandbox=${COPILOT_SANDBOX},copilot=${VERSION}${SANDBOX_TOOL_TAG},mode=via-copilot-stub"
 
 export BASH_TIMEOUT_MS=600000   # carried by the mock into the tool input
+
+# On Windows, Copilot's shell tool is `powershell`, and inside the sandbox that PowerShell starts
+# WITHOUT its default drive provider initialised, so a relative path does not resolve:
+#   The term './sandbox-probe.exe' is not recognized as a name of a cmdlet, function, script file…
+# Measured on windows-latest, run 32854833208: the unconfined row ran the identical relative
+# command and produced a report, and only the sandboxed one failed. So this is the sandbox
+# breaking the cwd, not PowerShell or the launcher.
+#
+# Absolute native paths need no cwd at all. `cygpath -wa` is the honest Windows test here — it is
+# present exactly where the translation problem is, and absent on Linux and macOS, which keep the
+# relative form every other row uses.
+if command -v cygpath >/dev/null 2>&1; then
+  PROBE_CMD="$(cygpath -wa "$PROBE") ${SCAN_ARGS} --tags ${TAGS} --output_path $(cygpath -wa "$OUT")"
+  echo "windows: absolutised PROBE_CMD -> ${PROBE_CMD}"
+fi
+
 stub_start_mock
 
 # Scratch config so we never touch the runner's real ~/.copilot. COPILOT_HOME also redirects the

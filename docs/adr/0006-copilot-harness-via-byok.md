@@ -116,6 +116,32 @@ measured rather than copied from the row above it. Copying that list would have
 passed anyway, because the assert is "any of" and `bubblewrap` alone satisfies
 it — which is exactly how an unmeasured guess survives review.
 
+### The Windows sandbox breaks PowerShell's current directory
+
+Measured on `windows-latest`, matrix run 32854833208. On Windows, Copilot's
+shell tool is `powershell` rather than `bash`. Inside the sandbox that
+PowerShell starts **without its default drive provider initialised**, so a
+relative path does not resolve:
+
+```
+The term './sandbox-probe.exe' is not recognized as a name of a cmdlet,
+function, script file, or executable program.
+```
+
+The unconfined Windows row ran the identical relative command in the same run
+and produced a report. Only the sandboxed one failed, so this is the sandbox
+breaking the working directory, not PowerShell and not the launcher.
+
+The launcher therefore hands Windows absolute native paths, built with
+`cygpath -wa`, which need no working directory at all. `cygpath` is the honest
+gate: it is present exactly where the problem is, and absent on Linux and
+macOS, which keep the relative form every other row uses.
+
+This is worth stating as a property of the sandbox rather than only fixing.
+Any tool that shells out with a relative path inside Copilot's Windows sandbox
+hits it, and the failure names the path rather than the sandbox, so it reads
+like a missing file.
+
 ### Windows is the one unmeasured row
 
 `windows/copilot-sandbox` is the only row in this family marked `optional`, and
