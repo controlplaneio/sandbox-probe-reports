@@ -55,6 +55,11 @@ const MECHANISMS = new Set([
   // the wrapper badge, so leaving it out would render it as a tool name the probe cannot
   // identify — a restricted token says nothing about which sandbox built it.
   "restricted-token",
+  // Windows, read off the process token with TokenIsAppContainer. The primitive behind MXC's
+  // ProcessContainer backend, which is GitHub Copilot CLI's Windows sandbox. Same argument as
+  // above: an AppContainer token cannot say who built it — Store apps, Chromium's renderer and
+  // Defender Application Guard all produce one — so it is a mechanism, never the badge.
+  "app-container",
 ]);
 
 const find = (r, ft) => r.report.findings.find((f) => f.findingType === ft);

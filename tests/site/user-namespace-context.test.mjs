@@ -73,4 +73,20 @@ const winCodex = report("codex-sandbox", [sd("unknown"), sd("restricted-token")]
 assert.equal(sandboxOf(winCodex), "unknown", "the badge is the generic one, not the mechanism");
 assert.deepEqual(mechanismsOf(winCodex), ["restricted-token"]);
 
+// -- the Windows AppContainer is a mechanism too, on the same argument --
+// The probe reads TokenIsAppContainer on its own token. That is the primitive behind MXC's
+// ProcessContainer backend, which is Copilot CLI's Windows sandbox, and it is just as unable to
+// name the tool that built it: Store apps, Chromium's renderer and Defender Application Guard all
+// produce one.
+assert.ok(MECHANISMS.has("app-container"), "app-container must be a mechanism, not a badge");
+const winCopilot = report("copilot-sandbox", [sd("unknown"), sd("app-container")]);
+assert.equal(sandboxOf(winCopilot), "unknown", "the badge is the generic one, not the mechanism");
+assert.deepEqual(mechanismsOf(winCopilot), ["app-container"]);
+
+// The two Windows mechanisms stay distinct rather than collapsing into one value: the primitives
+// are independent, so a row carrying both must report both. This is what lets the published data
+// tell Codex's Windows sandbox from Copilot's.
+const winBoth = report("hypothetical", [sd("unknown"), sd("restricted-token"), sd("app-container")]);
+assert.deepEqual(mechanismsOf(winBoth), ["restricted-token", "app-container"]);
+
 console.log("ok - user-namespace renders as a context signal and moves no exposure count");

@@ -1,6 +1,7 @@
 #!/usr/bin/env node
-// General mock for agent-CLI model APIs: drives Claude Code, Codex, gemini-cli, OpenCode, Goose, Pi,
-// gptme and Cline with no real model, no tokens, no key. Pointed at by the CLI's base-URL override,
+// General mock for agent-CLI model APIs: drives Claude Code, Codex, Copilot CLI, gemini-cli,
+// OpenCode, Goose, Pi, gptme and Cline with no real model, no tokens, no key. Copilot also needs no
+// GitHub account, because its BYOK mode skips authentication. Pointed at by the CLI's base-URL override,
 // it makes the CLI issue exactly one shell tool call — $PROBE_CMD — then stop, so the probe runs
 // inside the agent's real sandbox. It routes by request path and speaks five protocols, each
 // returning $PROBE_CMD:
@@ -8,7 +9,7 @@
 //   POST /v1/messages                    Anthropic          -> Bash tool_use            (Claude Code)
 //   POST /v1beta/.../*:generateContent   Gemini             -> run_shell_command call    (gemini-cli)
 //   POST /v1/responses                   OpenAI Responses    -> function_call (shell)     (Codex)
-//   POST /v1/chat/completions            OpenAI Chat (SSE/JSON) -> tool_calls            (OpenCode/Goose/Pi/gptme/Cline)
+//   POST /v1/chat/completions            OpenAI Chat (SSE/JSON) -> tool_calls            (OpenCode/Goose/Pi/gptme/Cline/Copilot)
 //   POST /api/chat                       Ollama (NDJSON/JSON)   -> tool_calls            (native-Ollama clients)
 //
 // It echoes whatever shell tool name the request advertises (shaping the argument from that tool's

@@ -29,7 +29,7 @@ game: fewer findings = tighter sandbox.
 
 ### Harness
 The thing whose sandbox is under test — an AI coding agent (Claude Code, Codex,
-Gemini CLI, opencode, goose, pi, gptme, cline, trae) or a raw sandbox runtime
+Gemini CLI, Copilot CLI, opencode, goose, pi, gptme, cline, trae) or a raw sandbox runtime
 (docker, podman, nono, bwrap, gvisor, firejail, nspawn, srt). A harness may
 appear in confined and unconfined variants (e.g. `claude` vs `claude-sandbox`);
 each variant is a distinct harness identity for reporting.
