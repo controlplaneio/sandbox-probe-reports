@@ -9,6 +9,27 @@ on:
         default: nolabs-ai/codex
   push:
     branches: ["matrix/**"]
+  # Every pull request, because the thing this repo publishes is the matrix and
+  # a PR that has not run it has not been tested. The gap was concrete: a probe
+  # version bump could go green on smoke.yml — which builds the probe and runs
+  # ONE scan — while silently breaking rows the site actually publishes, and
+  # nobody would find out until the weekly run.
+  #
+  # `pull_request`, never `pull_request_target`. These jobs execute shell
+  # scripts from the PR's own branch (scripts/run-probe-via-*.sh). Under
+  # pull_request a fork gets a read-only token and no secrets, which is exactly
+  # right for code we have not reviewed yet; pull_request_target would hand that
+  # same unreviewed code a write token. Nothing here needs a secret — every
+  # harness is keyless by design — so there is nothing to gain by weakening it.
+  #
+  # Docs are excluded because they cannot change a measurement. Everything else
+  # is included deliberately, scripts and workflow alike: a launcher edit is
+  # precisely the change most likely to break a row.
+  pull_request:
+    paths-ignore:
+      - "**/*.md"
+      - "docs/**"
+      - "LICENSE"
   schedule:
     - cron: "0 8 * * 1" # weekly
 

@@ -163,12 +163,15 @@ jobs:
 
             **Review this one properly.** A major is breaking by definition, and
             this repo reads the probe's report schema, its finding names and its
-            CLI flags. Check `smoke.yml` on this PR: it builds the probe, seeds
-            decoys from its target registry, runs a scan and asserts the report
-            parses. Green there means the contract this repo depends on survived.
+            CLI flags.
 
-            `scan-matrix` does **not** run on pull requests, so the published
-            rows are still unproven at this point. Dispatch it on this branch if
-            the change looks at all risky.
+            Two checks on this PR are doing the real work. `smoke.yml` builds the
+            probe, seeds decoys from its target registry, runs a scan and asserts
+            the report parses. `scan-matrix` runs every published row against the
+            new major, so a finding this repo depends on that the new version
+            renamed or dropped turns a row red here rather than in the next
+            weekly run.
+
+            Green on both means the contract this repo depends on survived.
           labels: dependencies
           delete-branch: true
