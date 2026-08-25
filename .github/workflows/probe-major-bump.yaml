@@ -1,0 +1,174 @@
+name: probe-major-bump
+
+# Dependabot cannot do this one, and it is not a configuration mistake.
+#
+# In Go the major version IS part of the module path: sandbox-probe/v6 and
+# sandbox-probe/v7 are different modules, not two versions of one. So a major
+# release is not a version bump Dependabot can raise — there is no newer
+# version of /v6 to find, and /v7 is a module nothing here requires yet.
+#
+# Renovate can do the go.mod half (postUpdateOptions: gomodUpdateImportPaths),
+# but that rewrites Go SOURCE imports. This repo imports no probe package — it
+# builds and runs the binary — so the path is written in workflows, a shell
+# guard in smoke.yml and the README instead. Renovate would move go.mod and
+# leave the rest, and the PR would fail its own smoke test.
+#
+# Hence this. It moves every reference together, which is the only way the
+# resulting PR can be green enough to judge on its merits.
+#
+# It never merges. A major version is breaking by definition, and the report
+# schema, the finding names and the CLI flags are all things this repo reads.
+# The PR is the point: smoke.yml then builds the new probe, seeds decoys from
+# its target registry, runs a scan and asserts the report still parses — so a
+# breaking change shows up as a red PR rather than a broken weekly matrix.
+
+on:
+  schedule:
+    - cron: "0 9 * * 1" # weekly; majors are rare and deliberate
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: open a PR when the probe's major changes
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: go.mod
+
+      - id: compare
+        name: compare the pinned major against the latest release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+
+          # The tool directive is the authority on what is pinned. go.mod's
+          # require line carries the same path, but the tool directive is what
+          # keeps it from being tidied away (see smoke.yml), so it is the one
+          # that must be right.
+          CUR_PATH=$(awk '$1=="tool" && $2 ~ /sandbox-probe/ {print $2}' go.mod)
+          if [ -z "$CUR_PATH" ]; then
+            echo "::error::no sandbox-probe tool directive in go.mod; nothing to compare"
+            exit 1
+          fi
+          CUR_MAJOR=${CUR_PATH##*/}
+
+          # The tag, not the module path: releases are named v6.15.1, and the
+          # leading component of that is the major the module path must carry.
+          TAG=$(gh api repos/controlplaneio/sandbox-probe/releases/latest --jq .tag_name)
+          NEW_MAJOR="v$(printf '%s' "${TAG#v}" | cut -d. -f1)"
+
+          echo "pinned:  $CUR_PATH ($CUR_MAJOR)"
+          echo "latest:  $TAG ($NEW_MAJOR)"
+
+          {
+            echo "cur_path=$CUR_PATH"
+            echo "cur_major=$CUR_MAJOR"
+            echo "new_major=$NEW_MAJOR"
+            echo "tag=$TAG"
+          } >> "$GITHUB_OUTPUT"
+
+          if [ "$CUR_MAJOR" = "$NEW_MAJOR" ]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "Same major. Dependabot handles everything below it."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - if: steps.compare.outputs.changed == 'true'
+        name: move every reference to the new major
+        shell: bash
+        env:
+          CUR_PATH: ${{ steps.compare.outputs.cur_path }}
+          CUR_MAJOR: ${{ steps.compare.outputs.cur_major }}
+          NEW_MAJOR: ${{ steps.compare.outputs.new_major }}
+          TAG: ${{ steps.compare.outputs.tag }}
+        run: |
+          set -euo pipefail
+          NEW_PATH="${CUR_PATH%/*}/${NEW_MAJOR}"
+
+          # go.mod first. The tool directive has to be swapped explicitly —
+          # `go get` will not touch it, and dropping the old module is what
+          # stops both majors sitting in the require block at once.
+          go mod edit -droptool="$CUR_PATH" -tool="$NEW_PATH"
+          go get "${NEW_PATH}@${TAG}"
+          go get "${CUR_PATH}@none"
+          go mod tidy
+
+          # Then everything go tooling cannot see: the build and version-stamp
+          # commands in the scan workflows, the pin assertion in smoke.yml, and
+          # the install instructions in the README. Restricted to tracked text
+          # files so go.sum — which go has already rewritten correctly — is left
+          # alone.
+          mapfile -t FILES < <(git ls-files '*.yaml' '*.yml' '*.md')
+          for f in "${FILES[@]}"; do
+            [ -f "$f" ] || continue
+            sed -i "s|sandbox-probe/${CUR_MAJOR}|sandbox-probe/${NEW_MAJOR}|g" "$f"
+          done
+
+          echo "== remaining references to the old major (should be none) =="
+          ! git grep -n "sandbox-probe/${CUR_MAJOR}" -- '*.yaml' '*.yml' '*.md' 'go.mod'
+
+          echo "== the pin, after =="
+          grep -n 'sandbox-probe' go.mod
+
+      - if: steps.compare.outputs.changed == 'true'
+        name: prove the new major still builds and scans
+        shell: bash
+        run: |
+          set -euo pipefail
+          # Fail here rather than open a PR that cannot build. A major that does
+          # not compile is worth a red workflow, not a red pull request nobody
+          # asked for.
+          go build -o bin/sandbox-probe "$(awk '$1=="tool" && $2 ~ /sandbox-probe/ {print $2}' go.mod)"
+          bin/sandbox-probe version
+
+      - if: steps.compare.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: chore/probe-major-${{ steps.compare.outputs.new_major }}
+          title: "chore(deps)!: move the probe pin to ${{ steps.compare.outputs.new_major }} (${{ steps.compare.outputs.tag }})"
+          commit-message: |
+            chore(deps)!: move the probe pin to ${{ steps.compare.outputs.new_major }} (${{ steps.compare.outputs.tag }})
+
+            In Go the major version is part of the module path, so this is a
+            module swap rather than a version bump and Dependabot cannot raise
+            it. Opened by .github/workflows/probe-major-bump.yaml.
+
+            Every reference moves together — go.mod's require and tool
+            directives, the build and version-stamp commands in the scan
+            workflows, the pin assertion in smoke.yml, and the README — because
+            moving only go.mod leaves the smoke test asserting the old path.
+          body: |
+            The probe's latest release is `${{ steps.compare.outputs.tag }}`, a
+            **major** ahead of the pinned `${{ steps.compare.outputs.cur_major }}`.
+
+            In Go the major version is part of the module path, so
+            `sandbox-probe/${{ steps.compare.outputs.cur_major }}` and
+            `sandbox-probe/${{ steps.compare.outputs.new_major }}` are different
+            modules. Dependabot sees no newer version of the pinned module and
+            correctly raises nothing, which is why this workflow exists.
+
+            Every reference has been moved together, and the new major was built
+            and run before this PR was opened.
+
+            **Review this one properly.** A major is breaking by definition, and
+            this repo reads the probe's report schema, its finding names and its
+            CLI flags. Check `smoke.yml` on this PR: it builds the probe, seeds
+            decoys from its target registry, runs a scan and asserts the report
+            parses. Green there means the contract this repo depends on survived.
+
+            `scan-matrix` does **not** run on pull requests, so the published
+            rows are still unproven at this point. Dispatch it on this branch if
+            the change looks at all risky.
+          labels: dependencies
+          delete-branch: true
