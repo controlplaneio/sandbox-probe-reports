@@ -126,13 +126,13 @@ jobs:
           # probe reads TokenIsAppContainer on its own token, which is kernel-attested and cannot
           # tell Copilot from a Store app or Chromium's renderer.
           #
-          # OPTIONAL, unlike every other row in this family, for two reasons that both resolve.
-          # First, `app-container` needs a probe release carrying the detector, and this row stays
-          # red until the go.mod pin above reaches it. Second, the detector's negative case is
-          # proven on a Windows runner but its positive case has never been observed against a live
-          # ProcessContainer — the evidence that MXC always sets the AppContainer bit is its own
-          # source, not a measurement. This row is what turns that into a measurement, so it must be
-          # able to fail without blocking the matrix. Make it blocking once it has run green.
+          # OPTIONAL, unlike every other row in this family, and for exactly one reason. The
+          # detector's read path is a measured fact — its Windows test requires the class-29 query
+          # to SUCCEED and passed on windows-latest — and the go.mod pin above now carries it. But
+          # its positive case has never been observed against a live ProcessContainer: the evidence
+          # that MXC always sets the AppContainer bit is MXC's own source, not a measurement of a
+          # running sandbox. This row is what turns that into a measurement, so it has to be able
+          # to fail without blocking the matrix. Make it blocking once it has run green.
           - { os: windows, runner: windows-latest, arch: windows-amd64, ext: ".exe", family: copilot, harness: copilot-sandbox, sandbox: "on", expect: '["app-container"]', optional: true }
           # Windows: the sandbox is a restricted token plus synthetic SIDs — no Hyper-V, no Pro
           # edition, so a windows-latest runner can host it. Measured 2026-08-24 on Codex 0.149.1,

@@ -118,14 +118,15 @@ it — which is exactly how an unmeasured guess survives review.
 
 ### Windows is the one unmeasured row
 
-`windows/copilot-sandbox` is the only row in this family marked `optional`, for
-two reasons that both resolve. It asserts `app-container`, which needs a probe
-release carrying the ADR 0005 detector, so it stays red until the `go.mod` pin
-reaches one. And the detector's positive case has never been observed against a
-live ProcessContainer: the evidence that MXC always sets the AppContainer bit
-is MXC's own source, not a measurement. This row is what turns that into a
-measurement, so it has to be able to fail without blocking the matrix. Make it
-blocking once it has run green.
+`windows/copilot-sandbox` is the only row in this family marked `optional`, and
+for exactly one reason. The ADR 0005 detector shipped in probe `v6.14.1` and
+the `go.mod` pin now carries it, and its read path is a measured fact: the
+Windows test requires the class-29 query to succeed and passed on
+`windows-latest`. But the detector's **positive** case has never been observed
+against a live ProcessContainer. The evidence that MXC always sets the
+AppContainer bit is MXC's own source, not a measurement of a running sandbox.
+This row is what turns that into a measurement, so it has to be able to fail
+without blocking the matrix. Make it blocking once it has run green.
 
 ### A drive-by fix in a shared helper
 
