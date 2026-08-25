@@ -142,17 +142,43 @@ Any tool that shells out with a relative path inside Copilot's Windows sandbox
 hits it, and the failure names the path rather than the sandbox, so it reads
 like a missing file.
 
-### Windows is the one unmeasured row
+### Windows, measured — and it gates more than Codex does
 
-`windows/copilot-sandbox` is the only row in this family marked `optional`, and
-for exactly one reason. The ADR 0005 detector shipped in probe `v6.14.1` and
-the `go.mod` pin now carries it, and its read path is a measured fact: the
-Windows test requires the class-29 query to succeed and passed on
-`windows-latest`. But the detector's **positive** case has never been observed
-against a live ProcessContainer. The evidence that MXC always sets the
-AppContainer bit is MXC's own source, not a measurement of a running sandbox.
-This row is what turns that into a measurement, so it has to be able to fail
-without blocking the matrix. Make it blocking once it has run green.
+Measured on `windows-latest`, run 32855719266. The ADR 0005 detector shipped in
+probe `v6.14.1`, and this pair is the observation that confirms the
+AppContainer hypothesis read out of MXC's source:
+
+| finding | `sandbox: off` | `sandbox: on` |
+| :--- | :--- | :--- |
+| `sandbox_detection` | `[]` | `["unknown","app-container"]` |
+| `named_pipe_detection` | 44 | 42 |
+| `named_pipe_reachable` | the decoy | `[]` |
+| `named_pipe_creation` | created | `[]` |
+| `sensitive_readable_paths` | 4 | 0 |
+| `writeable_paths` | 5 | 0 |
+
+`assert sandbox engaged` passed on its own merits rather than being excused by
+`continue-on-error`, so the row is now **blocking**.
+
+Two things in that table matter beyond this harness.
+
+`unknown` next to `app-container` is the badge, and its presence proves the
+second half of the ADR 0005 wiring. Without `GetContainerRuntime` returning
+`RuntimeUnknown`, the site's `sandboxOf()` would report `"none"` for a row
+whose only values are mechanisms, and this confined run would render as
+unsandboxed.
+
+The pipe rows are the payoff of ADR 0004. Enumeration still does not
+discriminate — 44 against 42 is noise, exactly as ADR 0004 measured for Codex —
+but **reachability and creation do**. ADR 0004 concluded that Codex's Windows
+sandbox gates none of enumeration, reachability or creation. Copilot's gates
+reachability and creation. The reachability measurement was built because
+enumeration could not tell the two sides apart, and this is the first pair
+where it earns that.
+
+Both `named_pipe_reachable` and `named_pipe_creation` are present-and-empty
+rather than absent, which under the `absent != empty` rule means measured and
+negative — blocked, not unmeasured.
 
 ### A drive-by fix in a shared helper
 

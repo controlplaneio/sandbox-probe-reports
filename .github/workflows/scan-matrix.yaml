@@ -126,14 +126,11 @@ jobs:
           # probe reads TokenIsAppContainer on its own token, which is kernel-attested and cannot
           # tell Copilot from a Store app or Chromium's renderer.
           #
-          # OPTIONAL, unlike every other row in this family, and for exactly one reason. The
-          # detector's read path is a measured fact — its Windows test requires the class-29 query
-          # to SUCCEED and passed on windows-latest — and the go.mod pin above now carries it. But
-          # its positive case has never been observed against a live ProcessContainer: the evidence
-          # that MXC always sets the AppContainer bit is MXC's own source, not a measurement of a
-          # running sandbox. This row is what turns that into a measurement, so it has to be able
-          # to fail without blocking the matrix. Make it blocking once it has run green.
-          - { os: windows, runner: windows-latest, arch: windows-amd64, ext: ".exe", family: copilot, harness: copilot-sandbox, sandbox: "on", expect: '["app-container"]', optional: true }
+          # BLOCKING. Measured on windows-latest, run 32855719266: this pair reads [] against
+          # ["unknown","app-container"], and `assert sandbox engaged` passed on its own merits
+          # rather than being excused by continue-on-error. The AppContainer hypothesis was read
+          # out of MXC's source; this row is the observation that confirms it.
+          - { os: windows, runner: windows-latest, arch: windows-amd64, ext: ".exe", family: copilot, harness: copilot-sandbox, sandbox: "on", expect: '["app-container"]' }
           # Windows: the sandbox is a restricted token plus synthetic SIDs — no Hyper-V, no Pro
           # edition, so a windows-latest runner can host it. Measured 2026-08-24 on Codex 0.149.1,
           # on a Windows 11 host and on a runner alike: `--sandbox workspace-write` ALONE is INERT
