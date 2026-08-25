@@ -25,7 +25,19 @@ on:
   # Docs are excluded because they cannot change a measurement. Everything else
   # is included deliberately, scripts and workflow alike: a launcher edit is
   # precisely the change most likely to break a row.
+  #
+  # NOTE, verified the hard way on PR #25: this trigger does NOT apply to the
+  # pull request that introduces it. GitHub selects which workflows answer a
+  # pull_request event from the BASE branch's definitions, so scan-matrix stayed
+  # silent on that PR while smoke.yml — which already had the trigger on main —
+  # ran normally. Removing paths-ignore made no difference, which is what ruled
+  # the filter out as the cause. It starts working for every PR opened after
+  # this lands on main.
   pull_request:
+    paths-ignore:
+      - "**/*.md"
+      - "docs/**"
+      - "LICENSE"
   schedule:
     - cron: "0 8 * * 1" # weekly
 
