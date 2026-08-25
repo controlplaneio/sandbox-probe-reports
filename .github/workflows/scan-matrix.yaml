@@ -75,7 +75,8 @@ jobs:
     name: ${{ matrix.harness }} (${{ matrix.os }})
     needs: build
     # Best-effort opt-in: a row may set `optional: true` to be non-blocking (e.g. a fragile new
-    # runtime being stabilised). All rows are currently blocking; none set it.
+    # runtime being stabilised). Three rows set it today: both codex-nono rows and trae-docker.
+    # Everything else is blocking, the new Windows codex-sandbox row included.
     continue-on-error: ${{ matrix.optional == true }}
     strategy:
       fail-fast: false
@@ -92,11 +93,28 @@ jobs:
           - { os: linux, runner: ubuntu-latest, arch: linux-amd64,  ext: "", family: claude, harness: claude-sandbox, sandbox: "on", expect: '["bubblewrap"]' }
           - { os: macos, runner: macos-latest,  arch: darwin-arm64, ext: "", family: claude, harness: claude,         sandbox: "off" }
           - { os: macos, runner: macos-latest,  arch: darwin-arm64, ext: "", family: claude, harness: claude-sandbox, sandbox: "on", expect: '["seatbelt"]' }
-          # codex — real binary, model stubbed; as-is vs its workspace-write sandbox (bwrap on Linux, Seatbelt on macOS).
+          # codex — real binary, model stubbed; as-is vs its workspace-write sandbox (bwrap on Linux,
+          # Seatbelt on macOS, a restricted token on Windows).
           - { os: linux, runner: ubuntu-latest, arch: linux-amd64,  ext: "", family: codex, harness: codex,         sandbox: "off" }
           - { os: linux, runner: ubuntu-latest, arch: linux-amd64,  ext: "", family: codex, harness: codex-sandbox, sandbox: "on", expect: '["bubblewrap","no-new-privs","seccomp-filter","landlock"]' }
           - { os: macos, runner: macos-latest,  arch: darwin-arm64, ext: "", family: codex, harness: codex,         sandbox: "off" }
           - { os: macos, runner: macos-latest,  arch: darwin-arm64, ext: "", family: codex, harness: codex-sandbox, sandbox: "on", expect: '["seatbelt"]' }
+          # Windows: the sandbox is a restricted token plus synthetic SIDs — no Hyper-V, no Pro
+          # edition, so a windows-latest runner can host it. Measured 2026-08-24 on Codex 0.149.1,
+          # on a Windows 11 host and on a runner alike: `--sandbox workspace-write` ALONE is INERT
+          # there. Codex reports `read-only` and rejects every command, even a bare `echo`, so the
+          # row produces no report while claiming to be sandboxed. `[windows] sandbox = "unelevated"`
+          # in config.toml is what engages it, and the launcher writes it — see
+          # scripts/run-probe-via-codex-stub.sh.
+          #
+          # `expect` is a MECHANISM and not a wrapper name, deliberately. The probe reads
+          # IsTokenRestricted() on its own token: kernel-attested, and unable to tell Codex from
+          # Chromium's renderer or anything else built on a restricted token. Same shape as the srt
+          # row below, where the enforcement is provable and the tool's name is not — see CONTEXT.md,
+          # "Enforcement badge vs mechanism". Blocking rather than optional, because a CI run has
+          # already shown the sandbox engaging and a report being produced.
+          - { os: windows, runner: windows-latest, arch: windows-amd64, ext: ".exe", family: codex, harness: codex,         sandbox: "off" }
+          - { os: windows, runner: windows-latest, arch: windows-amd64, ext: ".exe", family: codex, harness: codex-sandbox, sandbox: "on", expect: '["restricted-token"]' }
           # codex-nono (#29) — the same real Codex CLI, confined by nono's *published* profile
           # instead of its own sandbox: an ordinary matrix row on the unchanged baseline-normalized
           # methodology, read directly against codex-sandbox above. Every restriction is the

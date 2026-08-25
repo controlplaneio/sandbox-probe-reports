@@ -63,4 +63,14 @@ const mechOnly = report("srt", [sd("user-namespace"), sd("no-new-privs")]);
 assert.equal(sandboxOf(mechOnly), "none");
 assert.deepEqual(mechanismsOf(mechOnly), ["user-namespace", "no-new-privs"]);
 
+// -- the Windows restricted token is a mechanism, never a wrapper badge --
+// The probe reads IsTokenRestricted() on its own token. That proves enforcement and says nothing
+// about which sandbox applied it — Codex, Chromium's renderer and psexec -l all produce one — so
+// it must render as a mechanism. Were it missing from MECHANISMS, sandboxOf() would take it as
+// the wrapper name and mechanismsOf() would return nothing: exactly inverted.
+assert.ok(MECHANISMS.has("restricted-token"), "restricted-token must be a mechanism, not a badge");
+const winCodex = report("codex-sandbox", [sd("unknown"), sd("restricted-token")]);
+assert.equal(sandboxOf(winCodex), "unknown", "the badge is the generic one, not the mechanism");
+assert.deepEqual(mechanismsOf(winCodex), ["restricted-token"]);
+
 console.log("ok - user-namespace renders as a context signal and moves no exposure count");
