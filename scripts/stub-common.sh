@@ -43,7 +43,9 @@ stub_init() {
 # to EOF, so it's SIGPIPE-safe even when the CLI prints several --version lines.
 stub_semver() {
   local v
-  v="$("$@" 2>/dev/null | awk 'match($0,/[0-9]+\.[0-9][0-9.]*/) && !seen {print substr($0,RSTART,RLENGTH); seen=1}')" || v=""
+  # The match must not end on a separator: Copilot prints "GitHub Copilot CLI 1.0.80." and a
+  # trailing "." would be carried straight into the published tag.
+  v="$("$@" 2>/dev/null | awk 'match($0,/[0-9]+\.[0-9]+(\.[0-9]+)*/) && !seen {print substr($0,RSTART,RLENGTH); seen=1}')" || v=""
   printf '%s' "${v:-unknown}"
 }
 

@@ -99,6 +99,41 @@ jobs:
           - { os: linux, runner: ubuntu-latest, arch: linux-amd64,  ext: "", family: codex, harness: codex-sandbox, sandbox: "on", expect: '["bubblewrap","no-new-privs","seccomp-filter","landlock"]' }
           - { os: macos, runner: macos-latest,  arch: darwin-arm64, ext: "", family: codex, harness: codex,         sandbox: "off" }
           - { os: macos, runner: macos-latest,  arch: darwin-arm64, ext: "", family: codex, harness: codex-sandbox, sandbox: "on", expect: '["seatbelt"]' }
+          # copilot — the real GitHub Copilot CLI, model stubbed through its BYOK mode. BYOK needs
+          # NO GitHub authentication and spends NO AI credits, which is the only reason this row can
+          # exist: Copilot's normal path wants an account and bills every model call.
+          #
+          # Its sandbox is Microsoft Execution Containers (MXC), one abstraction over three OS
+          # backends, so all three rows below measure the same product against three primitives.
+          # There is no --sandbox flag in Copilot CLI 1.0.80: `sandbox.enabled` in settings.json AND
+          # --experimental together are what engage it, and the launcher writes that file into a
+          # scratch COPILOT_HOME — see scripts/run-probe-via-copilot-stub.sh.
+          #
+          # Both rows in each pair pass --allow-all-tools. Copilot is the only harness here with two
+          # independent controls — a permission layer deciding what the model may ask for, and the
+          # OS sandbox deciding what the shell child may reach — so holding the permission layer
+          # constant is what makes the sandbox the single difference between the pair.
+          - { os: linux, runner: ubuntu-latest, arch: linux-amd64,  ext: "", family: copilot, harness: copilot,         sandbox: "off" }
+          # Measured, not copied from the codex row above: MXC's bubblewrap backend adds no seccomp
+          # filter and no landlock ruleset, so this list is shorter than codex-sandbox's on the same
+          # OS. Copying that list would have passed anyway — the assert is "any of" and bubblewrap
+          # alone satisfies it — which is exactly how an unmeasured guess survives review.
+          - { os: linux, runner: ubuntu-latest, arch: linux-amd64,  ext: "", family: copilot, harness: copilot-sandbox, sandbox: "on", expect: '["bubblewrap","no-new-privs"]' }
+          - { os: macos, runner: macos-latest,  arch: darwin-arm64, ext: "", family: copilot, harness: copilot,         sandbox: "off" }
+          - { os: macos, runner: macos-latest,  arch: darwin-arm64, ext: "", family: copilot, harness: copilot-sandbox, sandbox: "on", expect: '["seatbelt"]' }
+          - { os: windows, runner: windows-latest, arch: windows-amd64, ext: ".exe", family: copilot, harness: copilot,         sandbox: "off" }
+          # `app-container` is a MECHANISM, on the same argument as the codex Windows row below: the
+          # probe reads TokenIsAppContainer on its own token, which is kernel-attested and cannot
+          # tell Copilot from a Store app or Chromium's renderer.
+          #
+          # OPTIONAL, unlike every other row in this family, for two reasons that both resolve.
+          # First, `app-container` needs a probe release carrying the detector, and this row stays
+          # red until the go.mod pin above reaches it. Second, the detector's negative case is
+          # proven on a Windows runner but its positive case has never been observed against a live
+          # ProcessContainer — the evidence that MXC always sets the AppContainer bit is its own
+          # source, not a measurement. This row is what turns that into a measurement, so it must be
+          # able to fail without blocking the matrix. Make it blocking once it has run green.
+          - { os: windows, runner: windows-latest, arch: windows-amd64, ext: ".exe", family: copilot, harness: copilot-sandbox, sandbox: "on", expect: '["app-container"]', optional: true }
           # Windows: the sandbox is a restricted token plus synthetic SIDs — no Hyper-V, no Pro
           # edition, so a windows-latest runner can host it. Measured 2026-08-24 on Codex 0.149.1,
           # on a Windows 11 host and on a runner alike: `--sandbox workspace-write` ALONE is INERT
@@ -213,7 +248,8 @@ jobs:
       - if: matrix.family != 'direct'
         uses: actions/setup-node@v7
         with: { node-version: "22" }
-      - if: (matrix.family == 'claude' || matrix.family == 'codex') && runner.os == 'Linux'
+      # copilot needs bwrap on Linux too: MXC's Linux backend IS bubblewrap, and it wants 0.5.0+.
+      - if: (matrix.family == 'claude' || matrix.family == 'codex' || matrix.family == 'copilot') && runner.os == 'Linux'
         name: linux sandbox deps (bwrap)
         shell: bash
         run: |
@@ -227,6 +263,9 @@ jobs:
         shell: bash
       - if: matrix.family == 'codex'
         run: npm install -g @openai/codex && codex --version
+        shell: bash
+      - if: matrix.family == 'copilot'
+        run: npm install -g @github/copilot && copilot --version
         shell: bash
       - if: matrix.family == 'gemini'
         run: npm install -g @google/gemini-cli && gemini --version
@@ -329,6 +368,16 @@ jobs:
           # Only the codex-nono row sets this; it swaps Codex's own sandbox for the declared profile.
           CODEX_NONO_PROFILE: ${{ matrix.nono_profile }}
         run: ./scripts/run-probe-via-codex-stub.sh
+
+      - if: matrix.family == 'copilot'
+        name: probe (${{ matrix.harness }})
+        timeout-minutes: 12
+        shell: bash
+        env:
+          OUT: ${{ env.REPORT }}
+          RUNNER: ${{ matrix.runner }}
+          COPILOT_SANDBOX: ${{ matrix.sandbox }}
+        run: ./scripts/run-probe-via-copilot-stub.sh
 
       - if: matrix.family == 'gemini'
         name: probe (${{ matrix.harness }})
