@@ -58,6 +58,14 @@ if [ -n "$CODEX_NONO_PROFILE" ]; then
   # its own time series and a flip is attributable to a specific published claim.
   NONO_VERSION="$(stub_semver nono --version)"
   PROFILE_VERSION="$(nono_pack_version "$CODEX_NONO_PROFILE")"
+
+  # Read-only introspection, printed so the granted set is in the log rather than inferred.
+  # `nono run` only summarises it as "+ N system/group paths (-v to show)", and that summary is
+  # exactly what is needed to tell a CI-layout problem from a policy one — the distinction that
+  # decides whether a red row is the vendor's gap or ours. Never fatal: this is diagnostics.
+  echo "::group::resolved manifest for ${CODEX_NONO_PROFILE}"
+  nono profile show "$CODEX_NONO_PROFILE" --format manifest 2>&1 | head -100 || true
+  echo "::endgroup::"
   HARNESS=codex-nono
   TAGS="runner=${RUNNER},harness=codex-nono,sandbox=on,codex=${VERSION},nono=${NONO_VERSION}"
   TAGS="${TAGS},nono_profile=${CODEX_NONO_PROFILE}@${PROFILE_VERSION},mode=via-codex-stub"
@@ -120,12 +128,13 @@ else
 fi
 # `nono run --profile <id> --` and nothing else: every restriction on this row is the vendor's.
 #
-# FINDING, nono 0.74.0: the profile does not grant read on the directory holding the `codex`
-# binary, so codex never starts (exit 127, "its directory is not readable inside the sandbox")
-# and the row produces no report. nono names `--read <dir>` as the fix. We do not take it. A
-# grant of ours would make the row measure our configuration rather than the published profile,
-# which is the whole point of the row, and tests/nono-pack-wiring.test.mjs enforces that.
-# The row is `optional: true` and stays red until the profile covers it.
+# The `--read <dir>` nono suggests when codex cannot start is still NOT taken here, and the
+# invocation is still the profile and nothing else. What was a CI-only failure is fixed by moving
+# the binary rather than by widening the policy: a plain `npm install -g` on a GitHub runner
+# lands codex in /opt/hostedtoolcache/..., a path no profile grants because no user has it, so
+# the row died at exit 127 before measuring anything. The workflow now installs codex under
+# $HOME/.codex, which this profile grants r+w itself — the same rule the block above already
+# applies to the probe binary, Codex's state and the report.
 NONO=()
 [ -n "$CODEX_NONO_PROFILE" ] && NONO=(nono run --profile "$CODEX_NONO_PROFILE" --)
 PROVIDER="model_providers.mock={ name = \"mock\", base_url = \"http://127.0.0.1:${PORT}/v1\", wire_api = \"responses\", env_key = \"MOCK_KEY\", request_max_retries = 0, stream_max_retries = 0 }"
