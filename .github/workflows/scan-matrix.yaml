@@ -646,7 +646,16 @@ jobs:
   aggregate:
     name: aggregate & publish
     needs: [build, scan, attest]
-    if: always()
+    # Main only, and not merely as a courtesy: this job pushes snapshots to the data branch and
+    # deploys the site, neither of which a branch has any business doing. It is also bound to the
+    # `github-pages` environment, whose deployment rule restricts it to the default branch — so off
+    # main it did not fail on its merits, it was refused before a single step ran (zero steps, two
+    # seconds) and dragged the whole run red with it.
+    #
+    # That made every dispatch on a feature branch look like a broken matrix, which is exactly the
+    # noise that lets a genuinely red row hide. Skipping is honest here: nothing is being excused,
+    # the job simply has no work to do off main.
+    if: always() && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
     runs-on: ubuntu-latest
     permissions:
       contents: write # push snapshots to the data branch
