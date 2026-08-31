@@ -1,0 +1,524 @@
+{
+  "version":  "1.0.0",
+  "timestamp":  "2026-08-31T08:03:45.214365719Z",
+  "probeBinary":  {
+    "goVersion":  "go1.25.6",
+    "os":  "linux",
+    "arch":  "amd64",
+    "binaryVersion":  "v6.15.1",
+    "commit":  "unknown",
+    "buildDate":  "unknown"
+  },
+  "metadata":  {
+    "tags":  [
+      "runner=ubuntu-latest",
+      "harness=copilot",
+      "sandbox=on",
+      "copilot=1.0.82",
+      "bwrap=0.9.0",
+      "mode=via-copilot-stub"
+    ]
+  },
+  "findings":  [
+    {
+      "findingType":  "writeable_paths",
+      "task":  "baseline_filesystem_enumerator",
+      "description":  "Writeable paths",
+      "value":  [
+        "/usr",
+        "/dev",
+        "/var",
+        "/opt"
+      ]
+    },
+    {
+      "findingType":  "sensitive_readable_paths",
+      "task":  "baseline_filesystem_enumerator",
+      "description":  "Readable sensitive paths",
+      "value":  [
+        "/etc/passwd",
+        "/etc/group",
+        "/etc/hostname",
+        "/etc/hosts",
+        "/etc/resolv.conf",
+        "/etc/ssh/sshd_config",
+        "/proc/self/cgroup",
+        "/proc/self/mountinfo",
+        "/proc/self/status",
+        "/proc/1/cgroup",
+        "/proc/1/environ"
+      ]
+    },
+    {
+      "findingType":  "ephemeral_writeable_paths",
+      "task":  "baseline_filesystem_enumerator",
+      "description":  "Writeable paths backed by a memory-only filesystem, where a write cannot persist",
+      "value":  [
+        "/usr",
+        "/dev",
+        "/var",
+        "/opt"
+      ]
+    },
+    {
+      "findingType":  "external_host_dns_resolution",
+      "task":  "baseline_network_scanner",
+      "description":  "External host DNS resolution",
+      "value":  [
+        "142.251.41.14",
+        "2607:f8b0:4007:806::200e"
+      ]
+    },
+    {
+      "findingType":  "external_host_connectivity",
+      "task":  "baseline_network_scanner",
+      "description":  "External host connectivity",
+      "value":  [
+        "google.com"
+      ]
+    },
+    {
+      "findingType":  "local_listeners",
+      "task":  "baseline_network_scanner",
+      "description":  "Local listening sockets (inventory, not a capability)",
+      "value":  [
+        "tcp *:22",
+        "tcp 127.0.0.53:53",
+        "tcp 127.0.0.54:53",
+        "tcp 127.0.0.1:8796",
+        "udp 127.0.0.53:53",
+        "udp 127.0.0.54:53",
+        "udp 10.1.0.44:68",
+        "udp 127.0.0.1:323",
+        "udp [::1]:323"
+      ]
+    },
+    {
+      "findingType":  "tcp_ports_open",
+      "task":  "baseline_network_scanner",
+      "description":  "Reachable TCP ports",
+      "value":  [
+        22,
+        53,
+        8796
+      ]
+    },
+    {
+      "findingType":  "udp_ports_open",
+      "task":  "baseline_network_scanner",
+      "description":  "Reachable UDP ports",
+      "value":  [
+        53,
+        68,
+        323
+      ]
+    },
+    {
+      "findingType":  "local_probe_status",
+      "task":  "baseline_network_scanner",
+      "description":  "How the local service measurement went",
+      "value":  {
+        "control_tcp":  "refused",
+        "control_udp":  "refused",
+        "listeners_found":  9,
+        "method":  "kernel-inventory-v1",
+        "netns":  "net:[4026531833]",
+        "results":  [
+          {
+            "addr":  "127.0.0.53",
+            "outcome":  "reachable",
+            "port":  53,
+            "proto":  "tcp"
+          },
+          {
+            "addr":  "127.0.0.1",
+            "outcome":  "reachable",
+            "port":  8796,
+            "proto":  "tcp"
+          },
+          {
+            "addr":  "127.0.0.1",
+            "outcome":  "reachable",
+            "port":  22,
+            "proto":  "tcp"
+          },
+          {
+            "addr":  "127.0.0.54",
+            "outcome":  "reachable",
+            "port":  53,
+            "proto":  "tcp"
+          },
+          {
+            "addr":  "127.0.0.1",
+            "errno":  "deadline",
+            "outcome":  "silent",
+            "port":  323,
+            "proto":  "udp"
+          },
+          {
+            "addr":  "127.0.0.53",
+            "errno":  "deadline",
+            "outcome":  "silent",
+            "port":  53,
+            "proto":  "udp"
+          },
+          {
+            "addr":  "127.0.0.54",
+            "errno":  "deadline",
+            "outcome":  "silent",
+            "port":  53,
+            "proto":  "udp"
+          },
+          {
+            "addr":  "::1",
+            "errno":  "deadline",
+            "outcome":  "silent",
+            "port":  323,
+            "proto":  "udp"
+          },
+          {
+            "addr":  "10.1.0.44",
+            "errno":  "deadline",
+            "outcome":  "silent",
+            "port":  68,
+            "proto":  "udp"
+          }
+        ],
+        "source":  "procfs",
+        "table":  "read",
+        "udp_feedback":  "working"
+      }
+    },
+    {
+      "findingType":  "proxy_detection",
+      "task":  "baseline_proxy_detector",
+      "description":  "Proxy configuration",
+      "value":  {
+        "all_proxy":  "",
+        "http_proxy":  "",
+        "https_proxy":  "",
+        "no_proxy":  "",
+        "pac_url":  "",
+        "socks_proxy":  ""
+      }
+    },
+    {
+      "findingType":  "unix_socket_detection",
+      "task":  "baseline_socket_scanner",
+      "description":  "Unix sockets detected",
+      "value":  [
+        "/run/systemd/resolve/io.systemd.Resolve",
+        "/run/systemd/resolve/io.systemd.Resolve.Monitor",
+        "/tmp/dotnet-diagnostic-2086-2973-socket",
+        "/tmp/dotnet-diagnostic-2105-3272-socket",
+        "/tmp/ssh-sandbox-probe-decoy/agent.1"
+      ]
+    },
+    {
+      "findingType":  "process_detection",
+      "task":  "baseline_process_scanner",
+      "description":  "Running processes",
+      "value":  {
+        "command":  "bwrap --unshare-user --unshare-pid --unshare-ipc --unshare-uts --ro-bind-try /bin /bin --ro-bind-try /sbin /sbin --ro-bind-try /lib /lib --ro-bind-try /lib32 /lib32 --ro-bind-try /lib64 /lib64 --ro-bind-try /libx32 /libx32 --ro-bind-try /usr/bin /usr/bin --ro-bind-try /usr/sbin /usr/sbin --ro-bind-try /usr/lib /usr/lib --ro-bind-try /usr/lib32 /usr/lib32 --ro-bind-try /usr/lib64 /usr/lib64 --ro-bind-try /usr/libexec /usr/libexec --ro-bind-try /usr/share /usr/share --ro-bind-try /etc /etc --ro-bind-try /run/systemd/resolve /run/systemd/resolve --ro-bind-try /run/NetworkManager /run/NetworkManager --ro-bind-try /run/resolvconf /run/resolvconf --ro-bind-try /mnt/wsl/resolv.conf /mnt/wsl/resolv.conf --symlink /run /var/run --dev /dev --proc /proc --tmpfs /tmp --bind /tmp /tmp --ro-bind /opt/pipx_bin /opt/pipx_bin --ro-bind /usr/games /usr/games --ro-bind /usr/local/sbin /usr/local/sbin --ro-bind /usr/local/bin /usr/local/bin --ro-bind /usr/local/games /usr/local/games --ro-bind /usr/share/az_15.6.1 /usr/share/az_15.6.1 --bind /home/runner/.cache/go-build /home/runner/.cache/go-build --ro-bind /home/runner/.cargo/bin /home/runner/.cargo/bin --ro-bind /usr/local/.ghcup/bin /usr/local/.ghcup/bin --ro-bind /home/runner/.dotnet/tools /home/runner/.dotnet/tools --ro-bind /usr/lib/jvm/temurin-17-jdk-amd64 /usr/lib/jvm/temurin-17-jdk-amd64 --bind /home/runner/work/sandbox-probe-reports/sandbox-probe-reports /home/runner/work/sandbox-probe-reports/sandbox-probe-reports --ro-bind /usr/local/share/powershell/Modules /usr/local/share/powershell/Modules --ro-bind /opt/microsoft/powershell/7/Modules /opt/microsoft/powershell/7/Modules --ro-bind /opt/hostedtoolcache/node/22.23.2/x64/bin /opt/hostedtoolcache/node/22.23.2/x64/bin --chdir /home/runner/work/sandbox-probe-reports/sandbox-probe-reports --clearenv --setenv GITHUB_ACTION_REPOSITORY  --setenv GITHUB_API_URL https://api.github.com --setenv RUNNER_NAME GitHub Actions 1000049375 --setenv SELENIUM_JAR_PATH /usr/share/java/selenium-server.jar --setenv NVM_CD_FLAGS  --setenv RUNNER ubuntu-latest --setenv XDG_RUNTIME_DIR /run/user/1001 --setenv GITHUB_EVENT_NAME schedule --setenv GITHUB_REPOSITORY controlplaneio/sandbox-probe-reports --setenv USE_BAZEL_FALLBACK_VERSION silent: --setenv GITHUB_RETENTION_DAYS 90 --setenv HOMEBREW_NO_AUTO_UPDATE 1 --setenv GITHUB_WORKFLOW_SHA fa07e4fb076c78f2d26ffaa4d90cd808c063afba --setenv VCPKG_INSTALLATION_ROOT /usr/local/share/vcpkg --setenv GIT_CONFIG_VALUE_3 /dev/null --setenv GITHUB_STATE /home/runner/work/_temp/_runner_file_commands/save_state_d700853a-5998-4b29-87a0-501266f396a3 --setenv RUNNER_ARCH X64 --setenv GITHUB_ACTION_REF  --setenv ENABLE_RUNNER_TRACING true --setenv BASH_TIMEOUT_MS 600000 --setenv HOME /home/runner --setenv COPILOT_MODEL mock-model --setenv GITHUB_REF_PROTECTED true --setenv ACTIONS_ORCHESTRATION_ID f77620cc-0df8-46a1-a5d1-ecc4928f3e24.scan.linux_ubuntu-latest_lin_7 --setenv GIT_CONFIG_VALUE_0 explicit --setenv LOGNAME runner --setenv GITHUB_EVENT_PATH /home/runner/work/_temp/_github_workflow/event.json --setenv GITHUB_REF_NAME main --setenv CI true --setenv SSH_ASKPASS  --setenv RUNNER_WORKSPACE /home/runner/work/sandbox-probe-reports --setenv ANDROID_HOME /usr/local/lib/android/sdk --setenv ACTIONS_RUNNER_RETURN_JOB_RESULT_FOR_HOSTED 1 --setenv CHROME_BIN /usr/bin/google-chrome --setenv JAVA_HOME /usr/lib/jvm/temurin-17-jdk-amd64 --setenv GITHUB_SERVER_URL https://github.com --setenv GOROOT_1_26_X64 /opt/hostedtoolcache/go/1.26.7/x64 --setenv GRADLE_HOME /usr/share/gradle-9.7.1 --setenv SHLVL 2 --setenv GITHUB_REPOSITORY_ID 1189602768 --setenv ANDROID_SDK_ROOT /usr/local/lib/android/sdk --setenv GITHUB_BASE_REF  --setenv AGENT_TOOLSDIRECTORY /opt/hostedtoolcache --setenv GITHUB_ARTIFACTS_LIST /home/runner/work/_temp/_runner_file_commands/artifacts_list_d700853a-5998-4b29-87a0-501266f396a3 --setenv GITHUB_WORKFLOW_REF controlplaneio/sandbox-probe-reports/.github/workflows/scan-matrix.yaml@refs/heads/main --setenv NVM_DIR /home/runner/.nvm --setenv COPILOT_SANDBOX on --setenv GITHUB_STEP_SUMMARY /home/runner/work/_temp/_runner_file_commands/step_summary_d700853a-5998-4b29-87a0-501266f396a3 --setenv INVOCATION_ID 77e1c7126c2f496d926b6dfb6f981738 --setenv GITHUB_WORKSPACE /home/runner/work/sandbox-probe-reports/sandbox-probe-reports --setenv COPILOT_AGENT_SESSION_ID e3ee7fe5-410e-4c69-9f79-6dce2758c1bd --setenv RUNNER_TEMP /home/runner/work/_temp --setenv GITHUB_ARTIFACTS /home/runner/work/_temp/_runner_file_commands/artifacts_d700853a-5998-4b29-87a0-501266f396a3 --setenv GIT_CONFIG_KEY_3 core.excludesFile --setenv GIT_CONFIG_KEY_2 core.fsmonitor --setenv GIT_CONFIG_KEY_0 safe.bareRepository --setenv SGX_AESM_ADDR 1 --setenv GHCUP_INSTALL_BASE_PREFIX /usr/local --setenv GITHUB_ACTIONS true --setenv GIT_ASKPASS  --setenv COPILOT_CLI_BINARY_VERSION 1.0.82 --setenv GITHUB_ACTOR_ID 715120 --setenv BOOTSTRAP_HASKELL_NONINTERACTIVE 1 --setenv ImageVersion 20260823.283.1 --setenv JAVA_HOME_21_X64 /usr/lib/jvm/temurin-21-jdk-amd64 --setenv COPILOT_HOME /tmp/tmp.BAl7lpaocv --setenv GITHUB_RUN_ID 33370959744 --setenv GIT_OPTIONAL_LOCKS 0 --setenv GIT_CONFIG_GLOBAL /dev/null --setenv ANDROID_NDK_ROOT /usr/local/lib/android/sdk/ndk/27.3.13750724 --setenv ANT_HOME /usr/share/ant --setenv COPILOT_CLI 1 --setenv GOROOT_1_25_X64 /opt/hostedtoolcache/go/1.25.14/x64 --setenv HCA_CLOUD_PROVIDER azure --setenv PIPX_HOME /opt/pipx --setenv ACTIONS_RUNNER_ACTION_ARCHIVE_CACHE /opt/actionarchivecache --setenv CHROMEWEBDRIVER /usr/local/share/chromedriver-linux64 --setenv SHELL /bin/bash --setenv GITHUB_ACTOR chrisns --setenv SWIFT_PATH /usr/share/swift/usr/bin --setenv AZURE_EXTENSION_DIR /opt/az/azcliextensions --setenv DOTNET_SKIP_FIRST_TIME_EXPERIENCE 1 --setenv MEMORY_PRESSURE_WATCH /sys/fs/cgroup/system.slice/hosted-compute-agent.service/memory.pressure --setenv CONDA /usr/share/miniconda --setenv GITHUB_TRIGGERING_ACTOR chrisns --setenv GITHUB_JOB scan --setenv PWD /home/runner/work/sandbox-probe-reports/sandbox-probe-reports --setenv GITHUB_PATH /home/runner/work/_temp/_runner_file_commands/add_path_d700853a-5998-4b29-87a0-501266f396a3 --setenv GITHUB_REPOSITORY_OWNER controlplaneio --setenv GIT_CONFIG_VALUE_2  --setenv GCM_INTERACTIVE Never --setenv ANDROID_NDK_HOME /usr/local/lib/android/sdk/ndk/27.3.13750724 --setenv GITHUB_HEAD_REF  --setenv HOMEBREW_CLEANUP_PERIODIC_FULL_DAYS 3650 --setenv RUNNER_OS Linux --setenv JAVA_HOME_17_X64 /usr/lib/jvm/temurin-17-jdk-amd64 --setenv XDG_DATA_DIRS /usr/local/share:/usr/share:/var/lib/snapd/desktop --setenv GITHUB_ACTION __run_24 --setenv ANDROID_NDK_LATEST_HOME /usr/local/lib/android/sdk/ndk/29.0.14206865 --setenv JOURNAL_STREAM 9:14876 --setenv DOTNET_NOLOGO 1 --setenv GITHUB_ENV /home/runner/work/_temp/_runner_file_commands/set_env_d700853a-5998-4b29-87a0-501266f396a3 --setenv JAVA_HOME_25_X64 /usr/lib/jvm/temurin-25-jdk-amd64 --setenv JAVA_HOME_8_X64 /usr/lib/jvm/temurin-8-jdk-amd64 --setenv OUT reports/linux-copilot-sandbox.json --setenv GITHUB_REF refs/heads/main --setenv RUNNER_ENVIRONMENT github-hosted --setenv GIT_CONFIG_KEY_1 credential.interactive --setenv _ /opt/hostedtoolcache/node/22.23.2/x64/bin/copilot --setenv PROBE ./sandbox-probe --setenv USER runner --setenv PATH /opt/hostedtoolcache/node/22.23.2/x64/bin:/snap/bin:/home/runner/.local/bin:/opt/pipx_bin:/home/runner/.cargo/bin:/home/runner/.config/composer/vendor/bin:/usr/local/.ghcup/bin:/home/runner/.dotnet/tools:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games --setenv PIPX_BIN_DIR /opt/pipx_bin --setenv GITHUB_WORKFLOW scan-matrix --setenv EDGEWEBDRIVER /usr/local/share/edge_driver --setenv ImageOS ubuntu24 --setenv POWERSHELL_DISTRIBUTION_CHANNEL GitHub-Actions-Linux --setenv GITHUB_GRAPHQL_URL https://api.github.com/graphql --setenv GITHUB_REPOSITORY_OWNER_ID 31543813 --setenv GOROOT_1_24_X64 /opt/hostedtoolcache/go/1.24.13/x64 --setenv GIT_CONFIG_VALUE_1 never --setenv DEBIAN_FRONTEND noninteractive --setenv JAVA_HOME_11_X64 /usr/lib/jvm/temurin-11-jdk-amd64 --setenv SYSTEMD_EXEC_PID 2033 --setenv MEMORY_PRESSURE_WRITE c29tZSAyMDAwMDAgMjAwMDAwMAA= --setenv GITHUB_RUN_ATTEMPT 1 --setenv GIT_TERMINAL_PROMPT 0 --setenv REPORT reports/linux-copilot-sandbox.json --setenv GIT_CONFIG_VALUE_4 /dev/null --setenv GECKOWEBDRIVER /usr/local/share/gecko_driver --setenv GITHUB_SHA fa07e4fb076c78f2d26ffaa4d90cd808c063afba --setenv GIT_CONFIG_COUNT 5 --setenv GIT_CONFIG_KEY_4 core.attributesFile --setenv XDG_CONFIG_HOME /home/runner/.config --setenv PSModulePath /root/.local/share/powershell/Modules:/usr/local/share/powershell/Modules:/opt/microsoft/powershell/7/Modules:/usr/share/az_15.6.1 --setenv GITHUB_REF_TYPE branch --setenv GITHUB_RUN_NUMBER 16 --setenv GITHUB_OUTPUT /home/runner/work/_temp/_runner_file_commands/set_output_d700853a-5998-4b29-87a0-501266f396a3 --setenv LANG C.UTF-8 --setenv RUNNER_TOOL_CACHE /opt/hostedtoolcache --setenv ANDROID_NDK /usr/local/lib/android/sdk/ndk/27.3.13750724 --setenv ACCEPT_EULA Y --setenv DOTNET_MULTILEVEL_LOOKUP 0 --setenv RUNNER_TRACKING_ID github_f23739ee-780b-4893-a2fa-9f1079a43a7c -- sh -c /bin/bash --norc --noprofile -c 'stty raw -echo 2>/dev/null; ./sandbox-probe scan --tasksets baseline --tags runner=ubuntu-latest,harness=copilot,sandbox=on,copilot=1.0.82,bwrap=0.9.0,mode=via-copilot-stub --output_path reports/linux-copilot-sandbox.json'",
+        "namespaces":  [
+          {
+            "inode":  4026532272,
+            "type":  "pid"
+          },
+          {
+            "inode":  4026531834,
+            "type":  "time"
+          },
+          {
+            "inode":  4026531833,
+            "type":  "net"
+          },
+          {
+            "inode":  4026532270,
+            "type":  "uts"
+          },
+          {
+            "inode":  4026532271,
+            "type":  "ipc"
+          },
+          {
+            "inode":  4026532273,
+            "type":  "user"
+          },
+          {
+            "inode":  4026532220,
+            "type":  "mnt"
+          },
+          {
+            "inode":  4026531835,
+            "type":  "cgroup"
+          },
+          {
+            "inode":  4026531834,
+            "type":  "time"
+          },
+          {
+            "inode":  4026532272,
+            "type":  "pid"
+          }
+        ],
+        "pid":  1,
+        "ppid":  0
+      }
+    },
+    {
+      "findingType":  "process_detection",
+      "task":  "baseline_process_scanner",
+      "description":  "Running processes",
+      "value":  {
+        "command":  "sh -c /bin/bash --norc --noprofile -c 'stty raw -echo 2>/dev/null; ./sandbox-probe scan --tasksets baseline --tags runner=ubuntu-latest,harness=copilot,sandbox=on,copilot=1.0.82,bwrap=0.9.0,mode=via-copilot-stub --output_path reports/linux-copilot-sandbox.json'",
+        "namespaces":  [
+          {
+            "inode":  4026532272,
+            "type":  "pid"
+          },
+          {
+            "inode":  4026532272,
+            "type":  "pid"
+          },
+          {
+            "inode":  4026532220,
+            "type":  "mnt"
+          },
+          {
+            "inode":  4026531834,
+            "type":  "time"
+          },
+          {
+            "inode":  4026531833,
+            "type":  "net"
+          },
+          {
+            "inode":  4026532270,
+            "type":  "uts"
+          },
+          {
+            "inode":  4026532273,
+            "type":  "user"
+          },
+          {
+            "inode":  4026531835,
+            "type":  "cgroup"
+          },
+          {
+            "inode":  4026531834,
+            "type":  "time"
+          },
+          {
+            "inode":  4026532271,
+            "type":  "ipc"
+          }
+        ],
+        "pid":  2,
+        "ppid":  1
+      }
+    },
+    {
+      "findingType":  "process_detection",
+      "task":  "baseline_process_scanner",
+      "description":  "Running processes",
+      "value":  {
+        "command":  "./sandbox-probe scan --tasksets baseline --tags runner=ubuntu-latest,harness=copilot,sandbox=on,copilot=1.0.82,bwrap=0.9.0,mode=via-copilot-stub --output_path reports/linux-copilot-sandbox.json",
+        "namespaces":  [
+          {
+            "inode":  4026532271,
+            "type":  "ipc"
+          },
+          {
+            "inode":  4026532272,
+            "type":  "pid"
+          },
+          {
+            "inode":  4026532272,
+            "type":  "pid"
+          },
+          {
+            "inode":  4026532273,
+            "type":  "user"
+          },
+          {
+            "inode":  4026531834,
+            "type":  "time"
+          },
+          {
+            "inode":  4026531833,
+            "type":  "net"
+          },
+          {
+            "inode":  4026532270,
+            "type":  "uts"
+          },
+          {
+            "inode":  4026532220,
+            "type":  "mnt"
+          },
+          {
+            "inode":  4026531835,
+            "type":  "cgroup"
+          },
+          {
+            "inode":  4026531834,
+            "type":  "time"
+          }
+        ],
+        "pid":  3,
+        "ppid":  2
+      }
+    },
+    {
+      "findingType":  "parent_process_detection",
+      "task":  "baseline_process_scanner",
+      "description":  "Parent process",
+      "value":  {
+        "command":  "sh -c /bin/bash --norc --noprofile -c 'stty raw -echo 2>/dev/null; ./sandbox-probe scan --tasksets baseline --tags runner=ubuntu-latest,harness=copilot,sandbox=on,copilot=1.0.82,bwrap=0.9.0,mode=via-copilot-stub --output_path reports/linux-copilot-sandbox.json'",
+        "namespaces":  [
+          {
+            "inode":  4026532273,
+            "type":  "user"
+          },
+          {
+            "inode":  4026532220,
+            "type":  "mnt"
+          },
+          {
+            "inode":  4026531834,
+            "type":  "time"
+          },
+          {
+            "inode":  4026532272,
+            "type":  "pid"
+          },
+          {
+            "inode":  4026532272,
+            "type":  "pid"
+          },
+          {
+            "inode":  4026531835,
+            "type":  "cgroup"
+          },
+          {
+            "inode":  4026531834,
+            "type":  "time"
+          },
+          {
+            "inode":  4026531833,
+            "type":  "net"
+          },
+          {
+            "inode":  4026532270,
+            "type":  "uts"
+          },
+          {
+            "inode":  4026532271,
+            "type":  "ipc"
+          }
+        ],
+        "pid":  2,
+        "ppid":  1
+      }
+    },
+    {
+      "findingType":  "user_context_detection",
+      "task":  "baseline_user_context",
+      "description":  "User context information",
+      "value":  {
+        "egid":  1001,
+        "euid":  1001,
+        "gid":  1001,
+        "groups":  [
+          65534,
+          65534,
+          65534,
+          65534,
+          1001
+        ],
+        "uid":  1001
+      }
+    },
+    {
+      "findingType":  "hostname_detection",
+      "task":  "baseline_hostname",
+      "description":  "Hostname",
+      "value":  "runnervmgx7h7"
+    },
+    {
+      "findingType":  "environment_detection",
+      "task":  "baseline_environment",
+      "description":  "Host kernel and OS release",
+      "value":  {
+        "kernel_release":  "6.17.0-1022-azure",
+        "kernel_version":  "Linux version 6.17.0-1022-azure (buildd@lcy02-amd64-020) (x86_64-linux-gnu-gcc-13 (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, GNU ld (GNU Binutils for Ubuntu) 2.42) #22-Ubuntu SMP Mon Jul 27 17:24:03 UTC 2026",
+        "os_release":  "Ubuntu 24.04.4 LTS"
+      }
+    },
+    {
+      "findingType":  "sandbox_detection",
+      "task":  "baseline_sandbox_detector",
+      "description":  "Container/wrapper runtime",
+      "value":  "bubblewrap"
+    },
+    {
+      "findingType":  "sandbox_detection",
+      "task":  "baseline_sandbox_detector",
+      "description":  "Active kernel enforcement mechanism",
+      "value":  "user-namespace"
+    },
+    {
+      "findingType":  "sandbox_detection",
+      "task":  "baseline_sandbox_detector",
+      "description":  "Active kernel enforcement mechanism",
+      "value":  "no-new-privs"
+    },
+    {
+      "findingType":  "mounted_volumes_detections",
+      "task":  "baseline_mount_scanner",
+      "description":  "Host-mounted volumes",
+      "value":  [
+        "tmpfs -> / (tmpfs, root=/newroot)",
+        "/dev/root -> /bin (ext4, root=/usr/bin)",
+        "/dev/root -> /sbin (ext4, root=/usr/sbin)",
+        "/dev/root -> /lib (ext4, root=/usr/lib)",
+        "/dev/root -> /lib32 (ext4, root=/usr/lib32)",
+        "/dev/root -> /lib64 (ext4, root=/usr/lib64)",
+        "/dev/root -> /usr/bin (ext4, root=/usr/bin)",
+        "/dev/root -> /usr/sbin (ext4, root=/usr/sbin)",
+        "/dev/root -> /usr/lib (ext4, root=/usr/lib)",
+        "/dev/root -> /usr/lib32 (ext4, root=/usr/lib32)",
+        "/dev/root -> /usr/lib64 (ext4, root=/usr/lib64)",
+        "/dev/root -> /usr/libexec (ext4, root=/usr/libexec)",
+        "/dev/root -> /usr/share (ext4, root=/usr/share)",
+        "/dev/root -> /etc (ext4, root=/etc)",
+        "tmpfs -> /run/systemd/resolve (tmpfs, root=/systemd/resolve)",
+        "tmpfs -> /dev (tmpfs, root=/)",
+        "devtmpfs -> /dev/null (devtmpfs, root=/null)",
+        "devtmpfs -> /dev/zero (devtmpfs, root=/zero)",
+        "devtmpfs -> /dev/full (devtmpfs, root=/full)",
+        "devtmpfs -> /dev/random (devtmpfs, root=/random)",
+        "devtmpfs -> /dev/urandom (devtmpfs, root=/urandom)",
+        "devtmpfs -> /dev/tty (devtmpfs, root=/tty)",
+        "tmpfs -> /tmp (tmpfs, root=/)",
+        "/dev/root -> /tmp (ext4, root=/tmp)",
+        "/dev/root -> /opt/pipx_bin (ext4, root=/opt/pipx_bin)",
+        "/dev/root -> /usr/games (ext4, root=/usr/games)",
+        "/dev/root -> /usr/local/sbin (ext4, root=/usr/local/sbin)",
+        "/dev/root -> /usr/local/bin (ext4, root=/usr/local/bin)",
+        "/dev/root -> /usr/local/games (ext4, root=/usr/local/games)",
+        "/dev/root -> /usr/share/az_15.6.1 (ext4, root=/usr/share/az_15.6.1)",
+        "/dev/root -> /home/runner/.cache/go-build (ext4, root=/home/runner/.cache/go-build)",
+        "/dev/root -> /home/runner/.cargo/bin (ext4, root=/home/runner/.cargo/bin)",
+        "/dev/root -> /usr/local/.ghcup/bin (ext4, root=/usr/local/.ghcup/bin)",
+        "/dev/root -> /home/runner/.dotnet/tools (ext4, root=/home/runner/.dotnet/tools)",
+        "/dev/root -> /usr/lib/jvm/temurin-17-jdk-amd64 (ext4, root=/usr/lib/jvm/temurin-17-jdk-amd64)",
+        "/dev/root -> /home/runner/work/sandbox-probe-reports/sandbox-probe-reports (ext4, root=/home/runner/work/sandbox-probe-reports/sandbox-probe-reports)",
+        "/dev/root -> /usr/local/share/powershell/Modules (ext4, root=/usr/local/share/powershell/Modules)",
+        "/dev/root -> /opt/microsoft/powershell/7/Modules (ext4, root=/opt/microsoft/powershell/7/Modules)",
+        "/dev/root -> /opt/hostedtoolcache/node/22.23.2/x64/bin (ext4, root=/opt/hostedtoolcache/node/22.23.2/x64/bin)"
+      ]
+    }
+  ]
+}
