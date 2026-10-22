@@ -21,6 +21,38 @@
     </div>
   </header>
 
+  <!-- Hand-written rather than generated from the DOM: there are four sections and
+       they are declared right here, so deriving them at runtime would add a code
+       path to read a list that is already written down. tests/site/toc-anchors
+       pins every anchor against its target id, which is what generation would
+       have bought. -->
+  <nav id="toc" aria-label="On this page">
+    <ul>
+      <li><a href="#latest-section">Latest changes</a></li>
+      <li><a href="#matrix-section">Comparison</a></li>
+      <li><a href="#charts-section">Over time</a></li>
+      <li><a href="#flips-section">Changes</a></li>
+    </ul>
+  </nav>
+
+  <section id="latest-section">
+    <div class="section-head">
+      <h2>Latest changes</h2>
+      <!-- Independent of the Comparison and Changes filters on purpose: scoping
+           this section must not re-scope the others. The two compose as AND, and
+           the harness options are rebuilt from this section's OS selection in
+           boot(), so a combination that never ran cannot be chosen. -->
+      <label>harness
+        <select id="latest-harness-filter"><option value="">all</option></select>
+      </label>
+      <label>OS
+        <select id="latest-os-filter"><option value="">all</option></select>
+      </label>
+    </div>
+    <p class="hint">The 10 most recent capability flips. The full history is <a href="#flips-section">at the bottom</a>.</p>
+    <div id="latest"></div>
+  </section>
+
   <section id="matrix-section">
     <div class="section-head">
       <h2>Comparison</h2>
@@ -43,9 +75,26 @@
   </section>
 
   <section id="flips-section">
-    <h2>Changes</h2>
+    <div class="section-head">
+      <h2>Changes</h2>
+      <div class="head-controls">
+        <!-- Both also scope the tabbed view below: tabs, counts and items. -->
+        <label>harness
+          <select id="flips-harness-filter"><option value="">all</option></select>
+        </label>
+        <label>OS
+          <select id="flips-os-filter"><option value="">all</option></select>
+        </label>
+        <!-- revealed by renderFlipsMore() only when the filtered set exceeds 25 -->
+        <button id="flips-more" class="more-btn hidden" aria-expanded="false" aria-controls="flips-all"></button>
+      </div>
+    </div>
     <p class="hint">Every capability that flipped state between two configurations, attributed to what moved.</p>
     <div id="flips"></div>
+    <div id="flips-all" class="flips-all hidden">
+      <div id="flips-tabs" class="tablist" role="tablist" aria-label="Changes by agent identity"></div>
+      <div id="flips-all-list" role="tabpanel" tabindex="0"></div>
+    </div>
   </section>
 
   <aside id="drill" class="drill hidden">
