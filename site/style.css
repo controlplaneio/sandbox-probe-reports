@@ -78,6 +78,9 @@ h3 { font: 700 13px var(--cp-font-sans); text-transform: uppercase; letter-spaci
 .meta { color: var(--cp-neutral-6); font-size: 12px; margin-top: 8px; }
 .hint { color: var(--cp-text-muted); font-size: 12px; margin: 0 0 8px; }
 .section-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 8px; }
+/* The Changes head carries two controls — the OS filter and the more button —
+   which stay together on one line at the right-hand end of the head. */
+.head-controls { display: flex; align-items: center; gap: 12px; }
 section { border-bottom: 1px solid var(--cp-neutral-8); }
 
 /* matrix — hairline-bordered card, not filled, per the DS's card rule */
@@ -93,6 +96,21 @@ td.exp { font-weight: 700; color: var(--cp-text-heading); }
 .cell.na { background: var(--cp-pill-bg); color: var(--cp-neutral-6); }
 .cell.unprovable { background: var(--status-unprovable-bg); color: var(--status-unprovable); }
 .baseline-row { opacity: 0.6; }
+
+/* One column per probe test means the table is wider than the viewport. The
+   SCROLLER is #matrix, not the page: a horizontally scrolling document breaks
+   the ToC jumps and the drill-down aside's fixed position, so the overflow is
+   contained to the table's own box and the table is allowed to exceed it
+   (the global `table { width: 100% }` would otherwise squeeze every column). */
+#matrix { overflow-x: auto; }
+#matrix table { width: auto; min-width: 100%; }
+/* The identity is the row's label, so it stays readable while the tests scroll
+   past it. Sticky needs an opaque background of its own — the default is
+   transparent and the scrolled cells would show through — and a z-index above
+   them. No dependency, two rules. */
+#matrix td.id, #matrix th.id-col { position: sticky; left: 0; z-index: 1; }
+#matrix td.id { background: var(--cp-dark); }
+#matrix th.id-col { background: var(--cp-card); z-index: 2; }
 
 /* pills — CP's TagPill: rounded-full, filled dark, sparse colour */
 .tag {
@@ -138,6 +156,26 @@ a { color: var(--cp-blue-text); }
 .chart { width: 100%; height: 320px; }
 #chart-heatmap { height: 300px; }
 
+/* table of contents — a plain nav list of pills, same TagPill shape as .tag */
+#toc {
+  padding: 10px 24px;
+  border-bottom: 1px solid var(--cp-neutral-8);
+  background: var(--cp-darker);
+}
+#toc ul { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 0; }
+#toc a {
+  display: inline-block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  padding: 3px 10px;
+  border-radius: var(--cp-radius-pill);
+  background: var(--cp-pill-bg);
+  color: var(--cp-pill-text);
+}
+#toc a:hover { background: var(--cp-pill-bg-hover); color: var(--cp-text-heading); }
+
 /* flips */
 .flip-list { list-style: none; padding: 0; margin: 0; }
 .flip-list li { padding: 4px 0; border-bottom: 1px solid var(--cp-neutral-8); }
@@ -145,6 +183,39 @@ a { color: var(--cp-blue-text); }
 .deg .badge { background: var(--status-leaked-bg); color: var(--status-leaked); }
 .imp .badge { background: var(--status-blocked-bg); color: var(--status-blocked); }
 .muted { color: var(--cp-text-muted); }
+
+/* full change history — an in-page panel, not the fixed #drill column: this is a
+   full-width list expected to run to hundreds of rows, so it scrolls in place
+   rather than inside a 340px aside. */
+.more-btn {
+  font: inherit; font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em;
+  padding: 3px 10px; cursor: pointer;
+  background: var(--cp-pill-bg); color: var(--cp-pill-text);
+  border: 1px solid var(--cp-border); border-radius: var(--cp-radius-pill);
+}
+.more-btn:hover { background: var(--cp-pill-bg-hover); color: var(--cp-text-heading); border-color: var(--cp-border-hover); }
+.flips-all {
+  margin-top: 12px;
+  border: 1px solid var(--cp-border);
+  border-radius: var(--cp-radius-card);
+  background: var(--cp-surface-card);
+  padding: 12px;
+}
+.flips-all.hidden { display: none; }
+.tablist { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.flip-tab {
+  font: inherit; font-size: 11px; font-family: ui-monospace, monospace;
+  padding: 3px 10px; cursor: pointer;
+  background: var(--cp-pill-bg); color: var(--cp-pill-text);
+  border: 1px solid var(--cp-border); border-radius: var(--cp-radius-pill);
+}
+.flip-tab:hover { background: var(--cp-pill-bg-hover); color: var(--cp-text-heading); }
+.flip-tab[aria-selected="true"] { color: var(--cp-text-heading); border-color: var(--cp-blue); }
+.tab-count { color: var(--cp-neutral-6); }
+.flip-tab[aria-selected="true"] .tab-count { color: var(--cp-neutral-5); }
+/* hundreds of rows is the design case, so the panel scrolls rather than pushing
+   the page footer off into the distance */
+#flips-all-list { max-height: 60vh; overflow-y: auto; }
 code { background: var(--cp-pill-bg); color: var(--cp-text-body); padding: 0 3px; border-radius: 3px; }
 
 /* drill panel — CP card: hairline border, surface-card fill, no shadow-heavy look */
