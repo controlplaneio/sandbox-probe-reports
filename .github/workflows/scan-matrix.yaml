@@ -160,6 +160,16 @@ jobs:
           # ["unknown","app-container"], and `assert sandbox engaged` passed on its own merits
           # rather than being excused by continue-on-error. The AppContainer hypothesis was read
           # out of MXC's source; this row is the observation that confirms it.
+          #
+          # 2026-10-22, run 39766850096: it no longer engages here. Copilot 1.0.102 on image
+          # windows-2025-vs2026 prints "Sandboxing is disabled for this session because this host
+          # does not support it ... Command sandboxing requires Windows BaseContainer" and runs
+          # unsandboxed, so the probe honestly reports []. Linux and macOS still engage on the same
+          # version, so this is the hosted Windows image, not the settings.json route and not the
+          # probe: codex reads restricted-token on the same runner. The launcher now records that
+          # sentence and the assert step reads it, which keeps this row blocking for a SILENT
+          # failure while letting a stated host limitation through. Getting app-container back
+          # needs a host with BaseContainer, which means a self-hosted Windows 11 runner.
           - { os: windows, runner: windows-latest, arch: windows-amd64, ext: ".exe", family: copilot, harness: copilot-sandbox, sandbox: "on", expect: '["app-container"]' }
           # Windows: the sandbox is a restricted token plus synthetic SIDs — no Hyper-V, no Pro
           # edition, so a windows-latest runner can host it. Measured 2026-08-24 on Codex 0.149.1,
@@ -549,6 +559,14 @@ jobs:
         env:
           EXPECT: ${{ matrix.expect }}
         run: |
+          # A launcher writes this marker only when the agent itself said the host cannot
+          # sandbox. That is a fact about the runner, not a regression, and the report still
+          # publishes the unenforced result. A sandbox that stops engaging WITHOUT the agent
+          # saying so leaves no marker and still fails here, which is the case worth catching.
+          if [ -f "${REPORT}.host-refused-sandbox" ]; then
+            echo "::warning::${REPORT}: agent reports the host cannot sandbox; not asserting $EXPECT"
+            exit 0
+          fi
           echo "sandbox_detection accepted in $EXPECT for $REPORT"
           jq --argjson ok "$EXPECT" -e 'any(.findings[];
             .findingType == "sandbox_detection"

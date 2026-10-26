@@ -77,10 +77,17 @@ echo "::group::copilot (stubbed model, sandbox=${COPILOT_SANDBOX})"
 echo "COPILOT_HOME=$COPILOT_HOME"; cat "$COPILOT_HOME/settings.json"
 # --allow-all-tools is required for non-interactive mode. --no-remote-export keeps the session off
 # GitHub, which BYOK has no token for anyway. Nonzero exit is tolerated; the report is the signal.
+# Tee rather than pipe: Copilot announces a refusal to sandbox on its own output, and that
+# sentence is the only thing that tells a host limitation apart from a silent regression.
+COPILOT_OUT="$(mktemp)"; STUB_SCRATCH+=("$COPILOT_OUT")
 copilot --experimental \
   --allow-all-tools --allow-all-paths --allow-all-urls \
   --no-auto-update --no-remote --no-remote-export --no-color \
-  -p "Run the sandbox probe and then stop." </dev/null || true
+  -p "Run the sandbox probe and then stop." </dev/null 2>&1 | tee "$COPILOT_OUT" || true
 echo "::endgroup::"
+
+if [ "$COPILOT_SANDBOX" = "on" ]; then
+  stub_mark_host_refused_sandbox "$COPILOT_OUT" "$OUT" "copilot" || true
+fi
 
 stub_finish "copilot(stub)"
