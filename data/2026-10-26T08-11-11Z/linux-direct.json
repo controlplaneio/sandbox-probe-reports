@@ -1,0 +1,2664 @@
+{
+  "version": "1.0.0",
+  "timestamp": "2026-10-26T08:08:55.138805400Z",
+  "probeBinary": {
+    "goVersion": "go1.26.0",
+    "os": "linux",
+    "arch": "amd64",
+    "binaryVersion": "v6.19.1",
+    "commit": "unknown",
+    "buildDate": "unknown"
+  },
+  "metadata": {
+    "tags": [
+      "os=linux",
+      "harness=direct"
+    ]
+  },
+  "findings": [
+    {
+      "findingType": "writeable_paths",
+      "task": "baseline_filesystem_enumerator",
+      "description": "Writeable paths",
+      "value": [
+        "/opt"
+      ]
+    },
+    {
+      "findingType": "sensitive_readable_paths",
+      "task": "baseline_filesystem_enumerator",
+      "description": "Readable sensitive paths",
+      "value": [
+        "/etc/passwd",
+        "/etc/group",
+        "/etc/hostname",
+        "/etc/hosts",
+        "/etc/resolv.conf",
+        "/etc/ssh/sshd_config",
+        "/proc/self/cgroup",
+        "/proc/self/mountinfo",
+        "/proc/self/status",
+        "/proc/1/cgroup",
+        "/home/runner/.ssh/id_rsa",
+        "/home/runner/.ssh/id_ed25519",
+        "/home/runner/.ssh/id_ecdsa",
+        "/home/runner/.ssh/config",
+        "/home/runner/.ssh/authorized_keys",
+        "/home/runner/.aws/credentials",
+        "/home/runner/.aws/config",
+        "/home/runner/.gcloud/credentials.db",
+        "/home/runner/.gcloud/access_tokens.db",
+        "/home/runner/.azure/credentials",
+        "/home/runner/.azure/msal_token_cache.json",
+        "/home/runner/.kube/config",
+        "/home/runner/.docker/config.json",
+        "/home/runner/.git-credentials",
+        "/home/runner/.netrc",
+        "/home/runner/.vault-token",
+        "/home/runner/.terraform.d/credentials.tfrc.json",
+        "/home/runner/.config/gh/hosts.yml",
+        "/home/runner/.config/doctl/config.yaml",
+        "/home/runner/.fly/config.yml",
+        "/home/runner/.npmrc",
+        "/home/runner/.pypirc",
+        "/home/runner/.gem/credentials",
+        "/home/runner/.cargo/credentials.toml",
+        "/home/runner/.m2/settings.xml",
+        "/home/runner/.gradle/gradle.properties"
+      ]
+    },
+    {
+      "findingType": "ephemeral_writeable_paths",
+      "task": "baseline_filesystem_enumerator",
+      "description": "Writeable paths backed by a memory-only filesystem, where a write cannot persist",
+      "value": []
+    },
+    {
+      "findingType": "external_host_dns_resolution",
+      "task": "baseline_network_scanner",
+      "description": "External host DNS resolution",
+      "value": [
+        "142.251.121.138",
+        "142.251.121.102",
+        "142.251.121.113",
+        "142.251.121.101",
+        "142.251.121.139",
+        "142.251.121.100",
+        "2607:f8b0:4023:80d::8a",
+        "2607:f8b0:4023:80d::71",
+        "2607:f8b0:4023:80d::66",
+        "2607:f8b0:4023:80d::65"
+      ]
+    },
+    {
+      "findingType": "external_host_connectivity",
+      "task": "baseline_network_scanner",
+      "description": "External host connectivity",
+      "value": [
+        "google.com"
+      ]
+    },
+    {
+      "findingType": "local_listeners",
+      "task": "baseline_network_scanner",
+      "description": "Local listening sockets (inventory, not a capability)",
+      "value": [
+        "tcp *:22",
+        "tcp 127.0.0.53:53",
+        "tcp 127.0.0.54:53",
+        "udp 127.0.0.53:53",
+        "udp 127.0.0.54:53",
+        "udp 10.1.0.129:68",
+        "udp 127.0.0.1:323",
+        "udp [::1]:323"
+      ]
+    },
+    {
+      "findingType": "tcp_ports_open",
+      "task": "baseline_network_scanner",
+      "description": "Reachable TCP ports",
+      "value": [
+        22,
+        53
+      ]
+    },
+    {
+      "findingType": "udp_ports_open",
+      "task": "baseline_network_scanner",
+      "description": "Reachable UDP ports",
+      "value": [
+        53,
+        68,
+        323
+      ]
+    },
+    {
+      "findingType": "local_probe_status",
+      "task": "baseline_network_scanner",
+      "description": "How the local service measurement went",
+      "value": {
+        "control_tcp": "refused",
+        "control_udp": "refused",
+        "listeners_found": 8,
+        "method": "kernel-inventory-v1",
+        "netns": "net:[4026531833]",
+        "results": [
+          {
+            "addr": "127.0.0.1",
+            "outcome": "reachable",
+            "port": 22,
+            "proto": "tcp"
+          },
+          {
+            "addr": "127.0.0.53",
+            "outcome": "reachable",
+            "port": 53,
+            "proto": "tcp"
+          },
+          {
+            "addr": "127.0.0.54",
+            "outcome": "reachable",
+            "port": 53,
+            "proto": "tcp"
+          },
+          {
+            "addr": "127.0.0.54",
+            "errno": "deadline",
+            "outcome": "silent",
+            "port": 53,
+            "proto": "udp"
+          },
+          {
+            "addr": "::1",
+            "errno": "deadline",
+            "outcome": "silent",
+            "port": 323,
+            "proto": "udp"
+          },
+          {
+            "addr": "127.0.0.53",
+            "errno": "deadline",
+            "outcome": "silent",
+            "port": 53,
+            "proto": "udp"
+          },
+          {
+            "addr": "127.0.0.1",
+            "errno": "deadline",
+            "outcome": "silent",
+            "port": 323,
+            "proto": "udp"
+          },
+          {
+            "addr": "10.1.0.129",
+            "errno": "deadline",
+            "outcome": "silent",
+            "port": 68,
+            "proto": "udp"
+          }
+        ],
+        "source": "procfs",
+        "table": "read",
+        "udp_feedback": "working"
+      }
+    },
+    {
+      "findingType": "proxy_detection",
+      "task": "baseline_proxy_detector",
+      "description": "Proxy configuration",
+      "value": {
+        "all_proxy": "",
+        "http_proxy": "",
+        "https_proxy": "",
+        "no_proxy": "",
+        "pac_url": "",
+        "socks_proxy": ""
+      }
+    },
+    {
+      "findingType": "unix_socket_detection",
+      "task": "baseline_socket_scanner",
+      "description": "Unix sockets detected",
+      "value": [
+        "/run/docker.sock",
+        "/run/lxd-installer.socket",
+        "/run/multipathd.socket",
+        "/run/snapd-snap.socket",
+        "/run/snapd.socket",
+        "/run/dhcpcd/eth0-4.sock",
+        "/run/dhcpcd/eth0-4.unpriv.sock",
+        "/run/udev/control",
+        "/run/udev/io.systemd.Udev",
+        "/run/uuidd/request",
+        "/run/systemd/coredump",
+        "/run/systemd/inaccessible/sock",
+        "/run/systemd/io.systemd.AskPassword",
+        "/run/systemd/io.systemd.Credentials",
+        "/run/systemd/io.systemd.FactoryReset",
+        "/run/systemd/io.systemd.Hostname",
+        "/run/systemd/io.systemd.Login",
+        "/run/systemd/io.systemd.ManagedOOM",
+        "/run/systemd/io.systemd.Manager",
+        "/run/systemd/io.systemd.MuteConsole",
+        "/run/systemd/io.systemd.sysext",
+        "/run/systemd/notify",
+        "/run/systemd/private",
+        "/run/systemd/netif/io.systemd.Network",
+        "/run/systemd/resolve.hook/io.systemd.Network",
+        "/run/user/1001/bus",
+        "/run/user/1001/openssh_agent",
+        "/run/user/1001/pk-debconf-socket",
+        "/run/user/1001/snapd-session-agent.socket",
+        "/run/systemd/userdb/io.systemd.DynamicUser",
+        "/run/user/1001/systemd/io.systemd.AskPassword",
+        "/run/user/1001/systemd/io.systemd.Manager",
+        "/run/user/1001/systemd/notify",
+        "/run/user/1001/systemd/private",
+        "/run/systemd/resolve/io.systemd.Resolve",
+        "/run/systemd/resolve/io.systemd.Resolve.Monitor",
+        "/run/systemd/journal/dev-log",
+        "/run/systemd/journal/io.systemd.journal",
+        "/run/user/1001/systemd/inaccessible/sock",
+        "/run/user/1001/gnupg/S.dirmngr",
+        "/run/user/1001/gnupg/S.gpg-agent",
+        "/run/user/1001/gnupg/S.gpg-agent.browser",
+        "/run/user/1001/gnupg/S.gpg-agent.extra",
+        "/run/user/1001/gnupg/S.gpg-agent.ssh",
+        "/run/user/1001/gnupg/S.keyboxd",
+        "/run/ssh-unix-local/socket",
+        "/run/polkit/agent-helper.socket",
+        "/run/php/php8.5-fpm.sock",
+        "/run/dbus/system_bus_socket",
+        "/run/systemd/journal/socket",
+        "/run/systemd/journal/stdout",
+        "/run/systemd/journal/syslog",
+        "/tmp/dotnet-diagnostic-2252-2495-socket",
+        "/tmp/dotnet-diagnostic-2271-2657-socket",
+        "/tmp/ssh-sandbox-probe-decoy/agent.1",
+        "/home/runner/.local/share/code-server/code-server-ipc.sock"
+      ]
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "/sbin/init",
+        "namespaces": [],
+        "pid": 1,
+        "ppid": 0
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kthreadd",
+        "namespaces": [],
+        "pid": 2,
+        "ppid": 0
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "pool_workqueue_release",
+        "namespaces": [],
+        "pid": 3,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-rcu_gp",
+        "namespaces": [],
+        "pid": 4,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-sync_wq",
+        "namespaces": [],
+        "pid": 5,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-kvfree_rcu_reclaim",
+        "namespaces": [],
+        "pid": 6,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-slub_flushwq",
+        "namespaces": [],
+        "pid": 7,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-netns",
+        "namespaces": [],
+        "pid": 8,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/0:0-events",
+        "namespaces": [],
+        "pid": 9,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/0:0H-kblockd",
+        "namespaces": [],
+        "pid": 10,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/0:1-events",
+        "namespaces": [],
+        "pid": 11,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/u16:0-async",
+        "namespaces": [],
+        "pid": 12,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-mm_percpu_wq",
+        "namespaces": [],
+        "pid": 13,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "ksoftirqd/0",
+        "namespaces": [],
+        "pid": 14,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "pr/ttyS0",
+        "namespaces": [],
+        "pid": 15,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "rcu_sched",
+        "namespaces": [],
+        "pid": 16,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "rcu_exp_par_gp_kthread_worker/0",
+        "namespaces": [],
+        "pid": 17,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "rcu_exp_gp_kthread_worker",
+        "namespaces": [],
+        "pid": 18,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "migration/0",
+        "namespaces": [],
+        "pid": 19,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kprobe-optimizer",
+        "namespaces": [],
+        "pid": 20,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "idle_inject/0",
+        "namespaces": [],
+        "pid": 21,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "cpuhp/0",
+        "namespaces": [],
+        "pid": 22,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "cpuhp/2",
+        "namespaces": [],
+        "pid": 23,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "idle_inject/2",
+        "namespaces": [],
+        "pid": 24,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "migration/2",
+        "namespaces": [],
+        "pid": 25,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "ksoftirqd/2",
+        "namespaces": [],
+        "pid": 26,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/2:0-cgroup_offline",
+        "namespaces": [],
+        "pid": 27,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/2:0H-kblockd",
+        "namespaces": [],
+        "pid": 28,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "cpuhp/1",
+        "namespaces": [],
+        "pid": 29,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "idle_inject/1",
+        "namespaces": [],
+        "pid": 30,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "migration/1",
+        "namespaces": [],
+        "pid": 31,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "ksoftirqd/1",
+        "namespaces": [],
+        "pid": 32,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/1:0-events",
+        "namespaces": [],
+        "pid": 33,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/1:0H-kblockd",
+        "namespaces": [],
+        "pid": 34,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "cpuhp/3",
+        "namespaces": [],
+        "pid": 35,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "idle_inject/3",
+        "namespaces": [],
+        "pid": 36,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "migration/3",
+        "namespaces": [],
+        "pid": 37,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "ksoftirqd/3",
+        "namespaces": [],
+        "pid": 38,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/3:0-events",
+        "namespaces": [],
+        "pid": 39,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/3:0H-kblockd",
+        "namespaces": [],
+        "pid": 40,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kdevtmpfs",
+        "namespaces": [],
+        "pid": 41,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-inet_frag_wq",
+        "namespaces": [],
+        "pid": 42,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "rcu_tasks_kthread",
+        "namespaces": [],
+        "pid": 43,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "rcu_tasks_rude_kthread",
+        "namespaces": [],
+        "pid": 44,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kauditd",
+        "namespaces": [],
+        "pid": 45,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "khungtaskd",
+        "namespaces": [],
+        "pid": 46,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/u16:1-flush-8:0",
+        "namespaces": [],
+        "pid": 47,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "oom_reaper",
+        "namespaces": [],
+        "pid": 48,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/u16:2-flush-8:0",
+        "namespaces": [],
+        "pid": 49,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/2:1-cgroup_free",
+        "namespaces": [],
+        "pid": 50,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-writeback",
+        "namespaces": [],
+        "pid": 51,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kcompactd0",
+        "namespaces": [],
+        "pid": 52,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "ksmd",
+        "namespaces": [],
+        "pid": 53,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "khugepaged",
+        "namespaces": [],
+        "pid": 54,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-kblockd",
+        "namespaces": [],
+        "pid": 55,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-blkcg_punt_bio",
+        "namespaces": [],
+        "pid": 56,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-kintegrityd",
+        "namespaces": [],
+        "pid": 57,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/3:1-events",
+        "namespaces": [],
+        "pid": 58,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "irq/9-acpi",
+        "namespaces": [],
+        "pid": 59,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/1:1-events",
+        "namespaces": [],
+        "pid": 60,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-tpm_dev_wq",
+        "namespaces": [],
+        "pid": 61,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-ata_sff",
+        "namespaces": [],
+        "pid": 62,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-md_bitmap",
+        "namespaces": [],
+        "pid": 63,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-md_llbitmap_io",
+        "namespaces": [],
+        "pid": 64,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-md_llbitmap_unplug",
+        "namespaces": [],
+        "pid": 65,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-edac-poller",
+        "namespaces": [],
+        "pid": 66,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-hv_vmbus_con",
+        "namespaces": [],
+        "pid": 67,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-hv_vmbus_rescind",
+        "namespaces": [],
+        "pid": 68,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-hv_pri_chan",
+        "namespaces": [],
+        "pid": 69,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-hv_sub_chan",
+        "namespaces": [],
+        "pid": 70,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-devfreq_wq",
+        "namespaces": [],
+        "pid": 71,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "watchdogd",
+        "namespaces": [],
+        "pid": 72,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-quota_events_unbound",
+        "namespaces": [],
+        "pid": 73,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kswapd0",
+        "namespaces": [],
+        "pid": 74,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "ecryptfs-kthread",
+        "namespaces": [],
+        "pid": 75,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-kthrotld",
+        "namespaces": [],
+        "pid": 76,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-acpi_thermal_pm",
+        "namespaces": [],
+        "pid": 77,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-nfit",
+        "namespaces": [],
+        "pid": 78,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "scsi_eh_0",
+        "namespaces": [],
+        "pid": 79,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "scsi_eh_1",
+        "namespaces": [],
+        "pid": 80,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-nvme-wq",
+        "namespaces": [],
+        "pid": 81,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-scsi_tmf_0",
+        "namespaces": [],
+        "pid": 82,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-scsi_tmf_1",
+        "namespaces": [],
+        "pid": 83,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-nvme-reset-wq",
+        "namespaces": [],
+        "pid": 84,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-nvme-delete-wq",
+        "namespaces": [],
+        "pid": 85,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-nvme-auth-wq",
+        "namespaces": [],
+        "pid": 86,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/u16:3-async",
+        "namespaces": [],
+        "pid": 87,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/0:2-events",
+        "namespaces": [],
+        "pid": 88,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/0:3-cgroup_offline",
+        "namespaces": [],
+        "pid": 89,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/u16:4-flush-8:0",
+        "namespaces": [],
+        "pid": 90,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/u16:5-events_power_efficient",
+        "namespaces": [],
+        "pid": 91,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/u16:6-mlx5_cmd_4c1f:00:02.0",
+        "namespaces": [],
+        "pid": 92,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "hv_balloon",
+        "namespaces": [],
+        "pid": 93,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-mld",
+        "namespaces": [],
+        "pid": 94,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-ipv6_addrconf",
+        "namespaces": [],
+        "pid": 95,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-kstrp",
+        "namespaces": [],
+        "pid": 96,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/u17:0",
+        "namespaces": [],
+        "pid": 98,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-charger_manager",
+        "namespaces": [],
+        "pid": 109,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "jbd2/sda1-8",
+        "namespaces": [],
+        "pid": 110,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-ext4-rsv-conversion",
+        "namespaces": [],
+        "pid": 111,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/0:1H-kblockd",
+        "namespaces": [],
+        "pid": 150,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "/usr/lib/systemd/systemd-journald",
+        "namespaces": [],
+        "pid": 164,
+        "ppid": 1
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-kmpathd",
+        "namespaces": [],
+        "pid": 179,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-kmpath_handlerd",
+        "namespaces": [],
+        "pid": 180,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/3:2-events",
+        "namespaces": [],
+        "pid": 181,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/1:2-events",
+        "namespaces": [],
+        "pid": 189,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "/usr/sbin/multipathd -d -s",
+        "namespaces": [],
+        "pid": 215,
+        "ppid": 1
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/0:4-events",
+        "namespaces": [],
+        "pid": 217,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "/usr/lib/systemd/systemd-resolved",
+        "namespaces": [],
+        "pid": 228,
+        "ppid": 1
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/1:1H-kblockd",
+        "namespaces": [],
+        "pid": 229,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "/usr/lib/systemd/systemd-udevd",
+        "namespaces": [],
+        "pid": 232,
+        "ppid": 1
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/2:2-memcg",
+        "namespaces": [],
+        "pid": 235,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "psimon",
+        "namespaces": [],
+        "pid": 239,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "card1-crtc0",
+        "namespaces": [],
+        "pid": 301,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "/usr/lib/linux-tools/7.0.0-1017-azure/hv_kvp_daemon -n",
+        "namespaces": [],
+        "pid": 402,
+        "ppid": 1
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/3:3-cgroup_bpf_destroy",
+        "namespaces": [],
+        "pid": 411,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/2:1H-kblockd",
+        "namespaces": [],
+        "pid": 423,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "jbd2/sda13-8",
+        "namespaces": [],
+        "pid": 424,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-ext4-rsv-conversion",
+        "namespaces": [],
+        "pid": 425,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-cfg80211",
+        "namespaces": [],
+        "pid": 689,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/2:3-events",
+        "namespaces": [],
+        "pid": 713,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "/usr/lib/systemd/systemd-networkd",
+        "namespaces": [],
+        "pid": 793,
+        "ppid": 1
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/3:1H-kblockd",
+        "namespaces": [],
+        "pid": 806,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "/bin/sh /usr/lib/systemd/scripts/chronyd-starter.sh -n -F 1",
+        "namespaces": [],
+        "pid": 1082,
+        "ppid": 1
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "@dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only",
+        "namespaces": [],
+        "pid": 1084,
+        "ppid": 1
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "/usr/lib/podman/netavark dhcp-proxy -a 30",
+        "namespaces": [],
+        "pid": 1095,
+        "ppid": 1
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "/usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers",
+        "namespaces": [],
+        "pid": 1100,
+        "ppid": 1
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "php-fpm: master process (/etc/php/8.5/fpm/php-fpm.conf)",
+        "namespaces": [],
+        "pid": 1103,
+        "ppid": 1
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "/usr/lib/polkit-1/polkitd --no-debug --log-level=notice",
+        "namespaces": [],
+        "pid": 1118,
+        "ppid": 1
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "/usr/lib/systemd/systemd-logind",
+        "namespaces": [],
+        "pid": 1160,
+        "ppid": 1
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "/usr/libexec/udisks2/udisksd",
+        "namespaces": [],
+        "pid": 1168,
+        "ppid": 1
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "/usr/bin/python3 -u /usr/sbin/waagent -daemon",
+        "namespaces": [],
+        "pid": 1183,
+        "ppid": 1
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups",
+        "namespaces": [],
+        "pid": 1207,
+        "ppid": 1
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/2:4",
+        "namespaces": [],
+        "pid": 1219,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "/usr/sbin/cron -f -P",
+        "namespaces": [],
+        "pid": 1222,
+        "ppid": 1
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "/usr/sbin/rsyslogd -n -iNONE",
+        "namespaces": [],
+        "pid": 1274,
+        "ppid": 1
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "/usr/sbin/agetty --noreset --noclear --issue-file=/etc/issue:/etc/issue.d:/run/issue.d:/usr/lib/issue.d --keep-baud 115200,57600,38400,9600 - vt220",
+        "namespaces": [],
+        "pid": 1278,
+        "ppid": 1
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "/usr/bin/containerd",
+        "namespaces": [],
+        "pid": 1282,
+        "ppid": 1
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "/usr/sbin/chronyd -n -F 1",
+        "namespaces": [],
+        "pid": 1298,
+        "ppid": 1082
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "/usr/sbin/agetty --noreset --noclear --issue-file=/etc/issue:/etc/issue.d:/run/issue.d:/usr/lib/issue.d - linux",
+        "namespaces": [],
+        "pid": 1299,
+        "ppid": 1
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "/usr/sbin/chronyd -n -F 1",
+        "namespaces": [],
+        "pid": 1300,
+        "ppid": 1298
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "/usr/sbin/ModemManager",
+        "namespaces": [],
+        "pid": 1332,
+        "ppid": 1
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "/usr/lib/systemd/systemd --user",
+        "namespaces": [],
+        "pid": 1336,
+        "ppid": 1
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "(sd-pam)",
+        "namespaces": [],
+        "pid": 1348,
+        "ppid": 1336
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "php-fpm: pool www",
+        "namespaces": [],
+        "pid": 1394,
+        "ppid": 1103
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "php-fpm: pool www",
+        "namespaces": [],
+        "pid": 1395,
+        "ppid": 1103
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock",
+        "namespaces": [],
+        "pid": 1467,
+        "ppid": 1
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "/usr/lib/systemd/systemd-timedated",
+        "namespaces": [],
+        "pid": 1551,
+        "ppid": 1
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "/usr/bin/python3 -u bin/WALinuxAgent-2.16.0.3-py3.12.egg -run-exthandlers",
+        "namespaces": [],
+        "pid": 1880,
+        "ppid": 1183
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-tls-strp",
+        "namespaces": [],
+        "pid": 2097,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-mlx5_cmd_4c1f:00:02.0",
+        "namespaces": [],
+        "pid": 2167,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-mlx5_health4c1f:00:02.0",
+        "namespaces": [],
+        "pid": 2169,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-mlx5_page_allocator",
+        "namespaces": [],
+        "pid": 2170,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-mlx5_events",
+        "namespaces": [],
+        "pid": 2171,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "psimon",
+        "namespaces": [],
+        "pid": 2172,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "/opt/hca/hosted-compute-agent",
+        "namespaces": [
+          {
+            "inode": 4026531837,
+            "type": "user"
+          },
+          {
+            "inode": 4026531832,
+            "type": "mnt"
+          },
+          {
+            "inode": 4026531835,
+            "type": "cgroup"
+          },
+          {
+            "inode": 4026531834,
+            "type": "time"
+          },
+          {
+            "inode": 4026531839,
+            "type": "ipc"
+          },
+          {
+            "inode": 4026531836,
+            "type": "pid"
+          },
+          {
+            "inode": 4026531834,
+            "type": "time"
+          },
+          {
+            "inode": 4026531833,
+            "type": "net"
+          },
+          {
+            "inode": 4026531838,
+            "type": "uts"
+          },
+          {
+            "inode": 4026531836,
+            "type": "pid"
+          }
+        ],
+        "pid": 2175,
+        "ppid": 1
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "ptp1",
+        "namespaces": [],
+        "pid": 2195,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-mlx5_fc",
+        "namespaces": [],
+        "pid": 2196,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-mlx5_hv_vhca",
+        "namespaces": [],
+        "pid": 2197,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "sudo -n PROVJOBD_E2E=1 /tmp/provjobd3226394989",
+        "namespaces": [],
+        "pid": 2198,
+        "ppid": 2175
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-mlx5e",
+        "namespaces": [],
+        "pid": 2202,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "/tmp/provjobd3226394989",
+        "namespaces": [],
+        "pid": 2203,
+        "ppid": 2198
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-mlx5e_arfs",
+        "namespaces": [],
+        "pid": 2214,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-ib-comp-wq",
+        "namespaces": [],
+        "pid": 2239,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-ib-comp-unb-wq",
+        "namespaces": [],
+        "pid": 2240,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-ib_mcast",
+        "namespaces": [],
+        "pid": 2241,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-ib_nl_sa_wq",
+        "namespaces": [],
+        "pid": 2242,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "kworker/R-mkey_cache",
+        "namespaces": [],
+        "pid": 2250,
+        "ppid": 2
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "/home/runner/actions-runner/cached/2.338.0/bin/Runner.Listener run",
+        "namespaces": [
+          {
+            "inode": 4026531835,
+            "type": "cgroup"
+          },
+          {
+            "inode": 4026531834,
+            "type": "time"
+          },
+          {
+            "inode": 4026531833,
+            "type": "net"
+          },
+          {
+            "inode": 4026531836,
+            "type": "pid"
+          },
+          {
+            "inode": 4026531837,
+            "type": "user"
+          },
+          {
+            "inode": 4026531832,
+            "type": "mnt"
+          },
+          {
+            "inode": 4026531834,
+            "type": "time"
+          },
+          {
+            "inode": 4026531838,
+            "type": "uts"
+          },
+          {
+            "inode": 4026531839,
+            "type": "ipc"
+          },
+          {
+            "inode": 4026531836,
+            "type": "pid"
+          }
+        ],
+        "pid": 2252,
+        "ppid": 2175
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "/home/runner/actions-runner/cached/2.338.0/bin/Runner.Worker spawnclient 142 145",
+        "namespaces": [
+          {
+            "inode": 4026531834,
+            "type": "time"
+          },
+          {
+            "inode": 4026531834,
+            "type": "time"
+          },
+          {
+            "inode": 4026531838,
+            "type": "uts"
+          },
+          {
+            "inode": 4026531839,
+            "type": "ipc"
+          },
+          {
+            "inode": 4026531836,
+            "type": "pid"
+          },
+          {
+            "inode": 4026531837,
+            "type": "user"
+          },
+          {
+            "inode": 4026531832,
+            "type": "mnt"
+          },
+          {
+            "inode": 4026531835,
+            "type": "cgroup"
+          },
+          {
+            "inode": 4026531833,
+            "type": "net"
+          },
+          {
+            "inode": 4026531836,
+            "type": "pid"
+          }
+        ],
+        "pid": 2271,
+        "ppid": 2252
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "(udev-worker)",
+        "namespaces": [],
+        "pid": 2431,
+        "ppid": 232
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "dockerd-sandbox-probe-decoy 600",
+        "namespaces": [
+          {
+            "inode": 4026531834,
+            "type": "time"
+          },
+          {
+            "inode": 4026531838,
+            "type": "uts"
+          },
+          {
+            "inode": 4026531839,
+            "type": "ipc"
+          },
+          {
+            "inode": 4026531836,
+            "type": "pid"
+          },
+          {
+            "inode": 4026531837,
+            "type": "user"
+          },
+          {
+            "inode": 4026531832,
+            "type": "mnt"
+          },
+          {
+            "inode": 4026531834,
+            "type": "time"
+          },
+          {
+            "inode": 4026531833,
+            "type": "net"
+          },
+          {
+            "inode": 4026531836,
+            "type": "pid"
+          },
+          {
+            "inode": 4026531835,
+            "type": "cgroup"
+          }
+        ],
+        "pid": 2503,
+        "ppid": 1
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "ssh-agent-sandbox-probe-decoy 600",
+        "namespaces": [
+          {
+            "inode": 4026531833,
+            "type": "net"
+          },
+          {
+            "inode": 4026531839,
+            "type": "ipc"
+          },
+          {
+            "inode": 4026531836,
+            "type": "pid"
+          },
+          {
+            "inode": 4026531837,
+            "type": "user"
+          },
+          {
+            "inode": 4026531835,
+            "type": "cgroup"
+          },
+          {
+            "inode": 4026531834,
+            "type": "time"
+          },
+          {
+            "inode": 4026531838,
+            "type": "uts"
+          },
+          {
+            "inode": 4026531836,
+            "type": "pid"
+          },
+          {
+            "inode": 4026531832,
+            "type": "mnt"
+          },
+          {
+            "inode": 4026531834,
+            "type": "time"
+          }
+        ],
+        "pid": 2504,
+        "ppid": 1
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "gpg-agent-sandbox-probe-decoy 600",
+        "namespaces": [
+          {
+            "inode": 4026531838,
+            "type": "uts"
+          },
+          {
+            "inode": 4026531837,
+            "type": "user"
+          },
+          {
+            "inode": 4026531832,
+            "type": "mnt"
+          },
+          {
+            "inode": 4026531835,
+            "type": "cgroup"
+          },
+          {
+            "inode": 4026531834,
+            "type": "time"
+          },
+          {
+            "inode": 4026531834,
+            "type": "time"
+          },
+          {
+            "inode": 4026531839,
+            "type": "ipc"
+          },
+          {
+            "inode": 4026531836,
+            "type": "pid"
+          },
+          {
+            "inode": 4026531836,
+            "type": "pid"
+          },
+          {
+            "inode": 4026531833,
+            "type": "net"
+          }
+        ],
+        "pid": 2505,
+        "ppid": 1
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "/usr/bin/bash --noprofile --norc -e -o pipefail /home/runner/work/_temp/f8bd4bbd-3272-4706-bf0b-50be3a8ae8d4.sh",
+        "namespaces": [
+          {
+            "inode": 4026531836,
+            "type": "pid"
+          },
+          {
+            "inode": 4026531837,
+            "type": "user"
+          },
+          {
+            "inode": 4026531835,
+            "type": "cgroup"
+          },
+          {
+            "inode": 4026531834,
+            "type": "time"
+          },
+          {
+            "inode": 4026531833,
+            "type": "net"
+          },
+          {
+            "inode": 4026531839,
+            "type": "ipc"
+          },
+          {
+            "inode": 4026531832,
+            "type": "mnt"
+          },
+          {
+            "inode": 4026531834,
+            "type": "time"
+          },
+          {
+            "inode": 4026531838,
+            "type": "uts"
+          },
+          {
+            "inode": 4026531836,
+            "type": "pid"
+          }
+        ],
+        "pid": 2506,
+        "ppid": 2271
+      }
+    },
+    {
+      "findingType": "process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Running processes",
+      "value": {
+        "command": "./sandbox-probe scan --tasksets baseline --tags os=linux,harness=direct --output_path reports/linux-direct.json",
+        "namespaces": [
+          {
+            "inode": 4026531836,
+            "type": "pid"
+          },
+          {
+            "inode": 4026531836,
+            "type": "pid"
+          },
+          {
+            "inode": 4026531832,
+            "type": "mnt"
+          },
+          {
+            "inode": 4026531834,
+            "type": "time"
+          },
+          {
+            "inode": 4026531834,
+            "type": "time"
+          },
+          {
+            "inode": 4026531833,
+            "type": "net"
+          },
+          {
+            "inode": 4026531838,
+            "type": "uts"
+          },
+          {
+            "inode": 4026531837,
+            "type": "user"
+          },
+          {
+            "inode": 4026531835,
+            "type": "cgroup"
+          },
+          {
+            "inode": 4026531839,
+            "type": "ipc"
+          }
+        ],
+        "pid": 2507,
+        "ppid": 2506
+      }
+    },
+    {
+      "findingType": "parent_process_detection",
+      "task": "baseline_process_scanner",
+      "description": "Parent process",
+      "value": {
+        "command": "/usr/bin/bash --noprofile --norc -e -o pipefail /home/runner/work/_temp/f8bd4bbd-3272-4706-bf0b-50be3a8ae8d4.sh",
+        "namespaces": [
+          {
+            "inode": 4026531834,
+            "type": "time"
+          },
+          {
+            "inode": 4026531838,
+            "type": "uts"
+          },
+          {
+            "inode": 4026531839,
+            "type": "ipc"
+          },
+          {
+            "inode": 4026531836,
+            "type": "pid"
+          },
+          {
+            "inode": 4026531837,
+            "type": "user"
+          },
+          {
+            "inode": 4026531835,
+            "type": "cgroup"
+          },
+          {
+            "inode": 4026531833,
+            "type": "net"
+          },
+          {
+            "inode": 4026531836,
+            "type": "pid"
+          },
+          {
+            "inode": 4026531832,
+            "type": "mnt"
+          },
+          {
+            "inode": 4026531834,
+            "type": "time"
+          }
+        ],
+        "pid": 2506,
+        "ppid": 2271
+      }
+    },
+    {
+      "findingType": "user_context_detection",
+      "task": "baseline_user_context",
+      "description": "User context information",
+      "value": {
+        "egid": 1001,
+        "euid": 1001,
+        "gid": 1001,
+        "groups": [
+          4,
+          100,
+          113,
+          999,
+          1001
+        ],
+        "uid": 1001
+      }
+    },
+    {
+      "findingType": "hostname_detection",
+      "task": "baseline_hostname",
+      "description": "Hostname",
+      "value": "runnervmr9t6g"
+    },
+    {
+      "findingType": "environment_detection",
+      "task": "baseline_environment",
+      "description": "Host kernel and OS release",
+      "value": {
+        "kernel_release": "7.0.0-1017-azure",
+        "kernel_version": "Linux version 7.0.0-1017-azure (buildd@lcy02-amd64-092) (x86_64-linux-gnu-gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0, GNU ld (GNU Binutils for Ubuntu) 2.46) #17-Ubuntu SMP PREEMPT Thu Sep 24 15:54:51 UTC 2026",
+        "os_release": "Ubuntu 26.04.1 LTS"
+      }
+    },
+    {
+      "findingType": "sandbox_detection",
+      "task": "baseline_sandbox_detector",
+      "description": "Container/wrapper runtime",
+      "value": "unknown"
+    },
+    {
+      "findingType": "mounted_volumes_detections",
+      "task": "baseline_mount_scanner",
+      "description": "Host-mounted volumes",
+      "value": [
+        "/dev/root -> / (ext4, root=/)",
+        "devtmpfs -> /dev (devtmpfs, root=/)",
+        "tmpfs -> /dev/shm (tmpfs, root=/)",
+        "tmpfs -> /run (tmpfs, root=/)",
+        "none -> /sys/fs/pstore (pstore, root=/)",
+        "efivarfs -> /sys/firmware/efi/efivars (efivarfs, root=/)",
+        "systemd-1 -> /proc/sys/fs/binfmt_misc (autofs, root=/)",
+        "hugetlbfs -> /dev/hugepages (hugetlbfs, root=/)",
+        "tmpfs -> /tmp (tmpfs, root=/)",
+        "none -> /run/credentials/systemd-journald.service (tmpfs, root=/)",
+        "fusectl -> /sys/fs/fuse/connections (fusectl, root=/)",
+        "none -> /run/credentials/systemd-resolved.service (tmpfs, root=/)",
+        "/dev/sda13 -> /boot (ext4, root=/)",
+        "/dev/sda15 -> /boot/efi (vfat, root=/)",
+        "binfmt_misc -> /proc/sys/fs/binfmt_misc (binfmt_misc, root=/)",
+        "none -> /run/credentials/systemd-networkd.service (tmpfs, root=/)",
+        "tmpfs -> /run/user/1001 (tmpfs, root=/)",
+        "none -> /run/credentials/getty@tty1.service (tmpfs, root=/)",
+        "none -> /run/credentials/serial-getty@ttyS0.service (tmpfs, root=/)"
+      ]
+    }
+  ]
+}
