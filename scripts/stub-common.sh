@@ -76,3 +76,24 @@ stub_finish() {
   fi
   echo "$1 wrote ${OUT}"
 }
+
+# stub_host_refused_sandbox <log-file> -> 0 when the AGENT ITSELF said the host cannot sandbox.
+#
+# A sandbox row that reports no enforcement has two very different causes, and the report alone
+# cannot tell them apart: the agent tried and the host refused, or the agent silently stopped
+# sandboxing. Only the first is a platform fact. Copilot states it outright — "Sandboxing is
+# disabled for this session because this host does not support it ... requires Windows
+# BaseContainer" — so the launcher records that sentence and the assert step reads it, leaving a
+# silent non-engagement to fail the way it should.
+stub_host_refused_sandbox() {
+  grep -qiE 'sandboxing is disabled for this session because this host does not support it|command sandboxing requires windows basecontainer' "${1:-/dev/null}" 2>/dev/null
+}
+
+# stub_mark_host_refused_sandbox <log-file> <report-path> <label> -> write the marker beside the
+# report when the agent refused on host grounds, so the workflow can distinguish it.
+stub_mark_host_refused_sandbox() {
+  stub_host_refused_sandbox "$1" || return 1
+  : > "${2}.host-refused-sandbox"
+  echo "::warning::${3}: the agent reports this host cannot sandbox; recorded as unenforced"
+  return 0
+}

@@ -77,10 +77,32 @@ echo "::group::copilot (stubbed model, sandbox=${COPILOT_SANDBOX})"
 echo "COPILOT_HOME=$COPILOT_HOME"; cat "$COPILOT_HOME/settings.json"
 # --allow-all-tools is required for non-interactive mode. --no-remote-export keeps the session off
 # GitHub, which BYOK has no token for anyway. Nonzero exit is tolerated; the report is the signal.
+# Tee rather than pipe: Copilot announces a refusal to sandbox on its own output, and that
+# sentence is the only thing that tells a host limitation apart from a silent regression.
+COPILOT_OUT="$(mktemp)"; STUB_SCRATCH+=("$COPILOT_OUT")
+# This row installs Copilot unpinned, so its flags move under us: 1.0.102 accepted --no-remote and
+# a later build removed it ("--no-remote was removed"), which aborts the run before the sandbox is
+# ever exercised and reads as a sandbox failure. Keep only the flags THIS build advertises. The
+# required ones are not optional and stay unconditional, so their removal still fails loudly
+# rather than silently changing what the row measures.
+COPILOT_HELP="$(copilot --help 2>&1 || true)"
+COPILOT_OPTIONAL=()
+for flag in --no-auto-update --no-remote --no-remote-export --no-color; do
+  # Boundary-matched: --no-remote is a prefix of --no-remote-export, so a substring test would
+  # re-add the very flag whose removal broke this row.
+  if printf '%s' "$COPILOT_HELP" | grep -qE -- "(^|[^-[:alnum:]])${flag}([^-[:alnum:]]|$)"; then
+    COPILOT_OPTIONAL+=("$flag")
+  fi
+done
+echo "copilot optional flags accepted: ${COPILOT_OPTIONAL[*]:-none}"
 copilot --experimental \
   --allow-all-tools --allow-all-paths --allow-all-urls \
-  --no-auto-update --no-remote --no-remote-export --no-color \
-  -p "Run the sandbox probe and then stop." </dev/null || true
+  "${COPILOT_OPTIONAL[@]}" \
+  -p "Run the sandbox probe and then stop." </dev/null 2>&1 | tee "$COPILOT_OUT" || true
 echo "::endgroup::"
+
+if [ "$COPILOT_SANDBOX" = "on" ]; then
+  stub_mark_host_refused_sandbox "$COPILOT_OUT" "$OUT" "copilot" || true
+fi
 
 stub_finish "copilot(stub)"

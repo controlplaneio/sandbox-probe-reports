@@ -120,7 +120,9 @@ jobs:
           - { os: linux, runner: ubuntu-latest, arch: linux-amd64,  ext: "", family: claude, harness: claude,         sandbox: "off" }
           # spec #6: the wrapper now resolves here (it read `unknown` before), so this row asserts the
           # name rather than falling back to accepting the kernel mechanisms it adds.
-          - { os: linux, runner: ubuntu-latest, arch: linux-amd64,  ext: "", family: claude, harness: claude-sandbox, sandbox: "on", expect: '["bubblewrap"]' }
+          # Pinned to ubuntu-24.04 for the reason given on the srt row below: Claude Code's
+          # sandbox is srt, and apply-seccomp cannot make its nested namespace on ubuntu-26.04.
+          - { os: linux, runner: ubuntu-24.04 , arch: linux-amd64,  ext: "", family: claude, harness: claude-sandbox, sandbox: "on", expect: '["bubblewrap"]' }
           - { os: macos, runner: macos-latest,  arch: darwin-arm64, ext: "", family: claude, harness: claude,         sandbox: "off" }
           - { os: macos, runner: macos-latest,  arch: darwin-arm64, ext: "", family: claude, harness: claude-sandbox, sandbox: "on", expect: '["seatbelt"]' }
           # codex — real binary, model stubbed; as-is vs its workspace-write sandbox (bwrap on Linux,
@@ -160,6 +162,16 @@ jobs:
           # ["unknown","app-container"], and `assert sandbox engaged` passed on its own merits
           # rather than being excused by continue-on-error. The AppContainer hypothesis was read
           # out of MXC's source; this row is the observation that confirms it.
+          #
+          # 2026-10-22, run 39766850096: it no longer engages here. Copilot 1.0.102 on image
+          # windows-2025-vs2026 prints "Sandboxing is disabled for this session because this host
+          # does not support it ... Command sandboxing requires Windows BaseContainer" and runs
+          # unsandboxed, so the probe honestly reports []. Linux and macOS still engage on the same
+          # version, so this is the hosted Windows image, not the settings.json route and not the
+          # probe: codex reads restricted-token on the same runner. The launcher now records that
+          # sentence and the assert step reads it, which keeps this row blocking for a SILENT
+          # failure while letting a stated host limitation through. Getting app-container back
+          # needs a host with BaseContainer, which means a self-hosted Windows 11 runner.
           - { os: windows, runner: windows-latest, arch: windows-amd64, ext: ".exe", family: copilot, harness: copilot-sandbox, sandbox: "on", expect: '["app-container"]' }
           # Windows: the sandbox is a restricted token plus synthetic SIDs — no Hyper-V, no Pro
           # edition, so a windows-latest runner can host it. Measured 2026-08-24 on Codex 0.149.1,
@@ -254,7 +266,16 @@ jobs:
           # same shape as upstream sandbox-probe#38. srt does engage a sandbox, provably;
           # the probe simply cannot name it. Accept the kernel-enforcement signals, as
           # codex-sandbox already does on this runner.
-          - { os: linux, runner: ubuntu-latest, arch: linux-amd64,  ext: "", family: sandbox, harness: srt,      runtime: srt,      expect: '["bubblewrap","user-namespace","seccomp-filter","no-new-privs"]' }
+          # Pinned to ubuntu-24.04, not ubuntu-latest. Claude Code's sandbox and srt both run
+          # srt's apply-seccomp, which makes a user namespace inside bubblewrap's and writes
+          # setgroups there. On ubuntu-26.04 (kernel 7.0.0-1017-azure) that write is refused and
+          # the row produces no report at all. Measured, not guessed: both AppArmor knobs are
+          # cleared and the host then reports nested userns OK with a full capability set; srt
+          # 0.0.80 fails there and runs the probe to completion on a 7.1.3 kernel; bubblewrap
+          # 0.11.1 and 0.12.0 both work locally; the job is not already in a user namespace.
+          # The image is the only variable left, and 24.04 passes. Revisit when srt or the
+          # 26.04 image moves; dropping the pin is how we find out it is fixed.
+          - { os: linux, runner: ubuntu-24.04 , arch: linux-amd64,  ext: "", family: sandbox, harness: srt,      runtime: srt,      expect: '["bubblewrap","user-namespace","seccomp-filter","no-new-privs"]' }
           - { os: macos, runner: macos-latest,  arch: darwin-arm64, ext: "", family: sandbox, harness: srt,      runtime: srt,      expect: '["seatbelt"]' }
           - { os: linux, runner: ubuntu-latest, arch: linux-amd64,  ext: "", family: sandbox, harness: firejail, runtime: firejail, expect: '["firejail"]' }
           - { os: linux, runner: ubuntu-latest, arch: linux-amd64,  ext: "", family: sandbox, harness: nono,     runtime: nono,     expect: '["landlock","seccomp-notify","seccomp-filter","no-new-privs"]' }
@@ -293,10 +314,7 @@ jobs:
         shell: bash
         run: |
           sudo apt-get update || true; sudo apt-get install -y bubblewrap socat
-          # Ubuntu 24.04+ blocks unprivileged user namespaces by default; bwrap needs them.
-          if [ "$(sysctl -n kernel.apparmor_restrict_unprivileged_userns 2>/dev/null || echo 0)" = "1" ]; then
-            sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
-          fi
+          ./scripts/linux-allow-capability-bearing-userns.sh
       - if: matrix.family == 'claude'
         run: npm install -g @anthropic-ai/claude-code && claude --version
         shell: bash
@@ -379,9 +397,7 @@ jobs:
           npm install -g @anthropic-ai/sandbox-runtime && srt --version
           if [ "$RUNNER_OS" = "Linux" ]; then
             sudo apt-get update || true; sudo apt-get install -y bubblewrap socat ripgrep
-            if [ "$(sysctl -n kernel.apparmor_restrict_unprivileged_userns 2>/dev/null || echo 0)" = "1" ]; then
-              sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
-            fi
+            ./scripts/linux-allow-capability-bearing-userns.sh
           else
             brew install ripgrep || true
           fi
@@ -394,10 +410,8 @@ jobs:
           if [ "$RUNNER_OS" = "Linux" ]; then
             curl -fsSL https://nono.sh/install.sh | sh
             echo "$HOME/.local/bin" >> "$GITHUB_PATH"
-            # nono's seccomp-notify supervisor may need unprivileged user namespaces (gated on 24.04).
-            if [ "$(sysctl -n kernel.apparmor_restrict_unprivileged_userns 2>/dev/null || echo 0)" = "1" ]; then
-              sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
-            fi
+            # nono's seccomp-notify supervisor may need unprivileged user namespaces too.
+            ./scripts/linux-allow-capability-bearing-userns.sh
           else
             brew install nono
           fi
@@ -549,6 +563,14 @@ jobs:
         env:
           EXPECT: ${{ matrix.expect }}
         run: |
+          # A launcher writes this marker only when the agent itself said the host cannot
+          # sandbox. That is a fact about the runner, not a regression, and the report still
+          # publishes the unenforced result. A sandbox that stops engaging WITHOUT the agent
+          # saying so leaves no marker and still fails here, which is the case worth catching.
+          if [ -f "${REPORT}.host-refused-sandbox" ]; then
+            echo "::warning::${REPORT}: agent reports the host cannot sandbox; not asserting $EXPECT"
+            exit 0
+          fi
           echo "sandbox_detection accepted in $EXPECT for $REPORT"
           jq --argjson ok "$EXPECT" -e 'any(.findings[];
             .findingType == "sandbox_detection"
@@ -605,10 +627,8 @@ jobs:
         run: |
           curl -fsSL https://nono.sh/install.sh | sh
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
-          # nono's seccomp-notify supervisor may need unprivileged user namespaces (gated on 24.04).
-          if [ "$(sysctl -n kernel.apparmor_restrict_unprivileged_userns 2>/dev/null || echo 0)" = "1" ]; then
-            sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
-          fi
+          # nono's seccomp-notify supervisor may need unprivileged user namespaces too.
+          ./scripts/linux-allow-capability-bearing-userns.sh
 
       # The one integration check the spec asks for, and the reason this job is gated: the failure
       # mode is silent mutation of a real machine, so cleanup-after-a-crash is *exercised*, not
